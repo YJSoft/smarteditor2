@@ -27,10 +27,10 @@ if (!nhn.husky){nhn.husky = {};}
 		_aHuskyCores = [],	// HuskyCore instance list
 		_htLoadedFile = {};	// lazy-loaded file list
 
-	nhn.husky.HuskyCore = jindo.$Class({
+	nhn.husky.HuskyCore = {
 		name : "HuskyCore",
 		aCallerStack : null,
-		bMobile : jindo.$Agent().navigator().mobile || jindo.$Agent().navigator().msafari, 
+		bMobile : /Mobi/.test(navigator.userAgent), 
 
 		$init : function(htOptions){
 			this.htOptions = htOptions||{};
@@ -56,7 +56,7 @@ if (!nhn.husky){nhn.husky = {};}
 			
 			this.aCallerStack = [];
 			
-			this._fnWaitForPluginReady = jindo.$Fn(this._waitForPluginReady, this).bind();
+			this._fnWaitForPluginReady = $.proxy(this._waitForPluginReady, this);
 			
 			// Register the core as a plugin so it can receive messages
 			this.registerPlugin(this);
@@ -79,7 +79,7 @@ if (!nhn.husky){nhn.husky = {};}
 		},
 	
 		delayedExec : function(msg, args, nDelay, oEvent){
-			var fExec = jindo.$Fn(this.exec, this).bind(msg, args, oEvent);
+			var fExec = $.proxy(this.exec, this, msg, args, oEvent);
 			setTimeout(fExec, nDelay);
 		},
 	
@@ -150,7 +150,7 @@ if (!nhn.husky){nhn.husky = {};}
 	
 		registerBrowserEvent : function(obj, sEvent, sMessage, aParams, nDelay){
 			aParams = aParams || [];
-			var func = (nDelay)?jindo.$Fn(this.delayedExec, this).bind(sMessage, aParams, nDelay):jindo.$Fn(this.exec, this).bind(sMessage, aParams);
+			var func = (nDelay)?$.proxy(this.delayedExec, this, sMessage, aParams, nDelay):$.proxy(this.exec, this, sMessage, aParams);
 			return jindo.$Fn(func, this).attach(obj, sEvent);
 		},
 	
@@ -367,7 +367,7 @@ if (!nhn.husky){nhn.husky = {};}
 				}
 			}
 		}
-	});
+	};
 	
 	/**
 	 * Lazy로딩완료된 파일목록
@@ -3043,7 +3043,7 @@ nhn.husky.CorePlugin = jindo.$Class({
 		for(var x in oPlugin){
 			// 자식 인스턴스에 parent를 override하는 함수가 없다면 parent 인스턴스에 함수 복사 해 줌. 이때 함수만 복사하고, 나머지 속성들은 현재 인스턴스에 존재 하지 않을 경우에만 복사.
 			if(oThisRef.$this && (!oThisRef[x] || (typeof oPlugin[x] === "function" && x != "constructor"))){
-				oThisRef[x] = jindo.$Fn(oPlugin[x], oPluginRef).bind();
+				oThisRef[x] = $.proxy(oPlugin[x], oPluginRef);
 			}
 
 			// 현재 인스턴스에 함수 복사 해 줌. 이때 함수만 복사하고, 나머지 속성들은 현재 인스턴스에 존재 하지 않을 경우에만 복사
@@ -3107,8 +3107,8 @@ nhn.husky.HuskyRangeManager = jindo.$Class({
 			nhn.CurrentSelection.setWindow(this.oWindow);
 		}
 
-		this.oApp.exec("ADD_APP_PROPERTY", ["getSelection", jindo.$Fn(this.getSelection, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEmptySelection", jindo.$Fn(this.getEmptySelection, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getSelection", $.proxy(this.getSelection, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEmptySelection", $.proxy(this.getEmptySelection, this)]);
 	},
 
 	$ON_SET_EDITING_WINDOW : function(oWindow){
@@ -3191,11 +3191,11 @@ nhn.husky.SE2M_Toolbar = jindo.$Class({
 			this._elAlertTxts.innerHTML = sMsgHTML || "";
 
 			// 각 버튼에 클릭이벤트 핸들러를 달아준다.
-			this._elAlertOk.onclick = jindo.$Fn(this._hideAlert, this).bind(htOption.fOkCallback);
-			this._elAlertClose.onclick = jindo.$Fn(this._hideAlert, this).bind(htOption.fCloseCallback);
+			this._elAlertOk.onclick = $.proxy(this._hideAlert, this, htOption.fOkCallback);
+			this._elAlertClose.onclick = $.proxy(this._hideAlert, this, htOption.fCloseCallback);
 			// 취소 콜백함수가 없는 경우는 버튼을 보여주지 않는다.
 			if(htOption.fCancelCallback){
-				this._elAlertCancel.onclick = jindo.$Fn(this._hideAlert, this).bind(htOption.fCancelCallback);
+				this._elAlertCancel.onclick = $.proxy(this._hideAlert, this, htOption.fCancelCallback);
 				this._elAlertCancel.style.display = "";
 			}else{
 				this._elAlertCancel.style.display = "none";
@@ -3276,7 +3276,7 @@ nhn.husky.SE2M_Toolbar = jindo.$Class({
 		}
 		this.oApp.registerBrowserEvent(this.toolbarArea, "mousedown", "EVENT_TOOLBAR_MOUSEDOWN");
 		
-		this.oApp.exec("ADD_APP_PROPERTY", ["getToolbarButtonByUIName", jindo.$Fn(this.getToolbarButtonByUIName, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getToolbarButtonByUIName", $.proxy(this.getToolbarButtonByUIName, this)]);
 		
 		// [SMARTEDITORSUS-1679] 초기 disabled 처리가 필요한 버튼은 비활성화
 		if(this._htOptions.aDisabled){
@@ -3854,14 +3854,14 @@ nhn.husky.SE_EditingAreaManager = jindo.$Class({
 		this.oApp.exec("ADD_APP_PROPERTY", ["version", nhn.husky.SE_EditingAreaManager.version]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["elEditingAreaContainer", this.elEditingAreaContainer]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["welEditingAreaContainer", jindo.$Element(this.elEditingAreaContainer)]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaHeight", jindo.$Fn(this.getEditingAreaHeight, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaWidth", jindo.$Fn(this.getEditingAreaWidth, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getRawContents", jindo.$Fn(this.getRawContents, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getContents", jindo.$Fn(this.getContents, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getIR", jindo.$Fn(this.getIR, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaHeight", $.proxy(this.getEditingAreaHeight, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaWidth", $.proxy(this.getEditingAreaWidth, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getRawContents", $.proxy(this.getRawContents, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getContents", $.proxy(this.getContents, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getIR", $.proxy(this.getIR, this, )]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["setContents", this.setContents]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["setIR", this.setIR]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingMode", jindo.$Fn(this.getEditingMode, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingMode", $.proxy(this.getEditingMode, this)]);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -4561,7 +4561,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = jindo.$Class({
 		
 		var sIFrameSrc = this.sIFrameSrc,
 			iframe = this.iframe,
-			fHandlerSuccess = jindo.$Fn(this.initIframe, this).bind(),
+			fHandlerSuccess = $.proxy(this.initIframe, this),
 			fHandlerFail =jindo.$Fn(function(){this.iframe.src = sIFrameSrc;}, this).bind();
 			
 		if(!oAgent.ie || (oAgent.version >=9 && !!document.addEventListener)){
@@ -4578,11 +4578,11 @@ nhn.husky.SE_EditingArea_WYSIWYG = jindo.$Class({
 	$BEFORE_MSG_APP_READY : function(){
 		this.oEditingArea = this.iframe.contentWindow.document;
 		this.oApp.exec("REGISTER_EDITING_AREA", [this]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGWindow", jindo.$Fn(this.getWindow, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGDocument", jindo.$Fn(this.getDocument, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["isWYSIWYGEnabled", jindo.$Fn(this.isWYSIWYGEnabled, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getRawHTMLContents", jindo.$Fn(this.getRawHTMLContents, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["setRawHTMLContents", jindo.$Fn(this.setRawHTMLContents, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGWindow", $.proxy(this.getWindow, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGDocument", $.proxy(this.getDocument, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["isWYSIWYGEnabled", $.proxy(this.isWYSIWYGEnabled, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getRawHTMLContents", $.proxy(this.getRawHTMLContents, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setRawHTMLContents", $.proxy(this.setRawHTMLContents, this)]);
 		
 		if (!!this.isWYSIWYGEnabled()) {
 			this.oApp.exec('ENABLE_WYSIWYG_RULER');
@@ -4646,8 +4646,8 @@ nhn.husky.SE_EditingArea_WYSIWYG = jindo.$Class({
 		
 		// DTD가 quirks가 아닐 경우 body 높이 100%가 제대로 동작하지 않아서 타임아웃을 돌며 높이를 수동으로 계속 할당 해 줌 
 		// body 높이가 제대로 설정 되지 않을 경우, 보기에는 이상없어 보이나 마우스로 텍스트 선택이 잘 안된다든지 하는 이슈가 있음
-		this.fnSetBodyHeight = jindo.$Fn(this._setBodyHeight, this).bind();
-		this.fnCheckBodyChange = jindo.$Fn(this._checkBodyChange, this).bind();
+		this.fnSetBodyHeight = $.proxy(this._setBodyHeight, this);
+		this.fnCheckBodyChange = $.proxy(this._checkBodyChange, this);
 
 		this.fnSetBodyHeight();
 		this._nContainerHeight = this.oApp.getEditingAreaHeight();	// 편집영역이 리사이즈되었는지 체크하기 위해 초기값 할당
@@ -4656,7 +4656,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = jindo.$Class({
 	},
 
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", jindo.$Fn(this._dbToIrDOM, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", $.proxy(this._dbToIrDOM, this)]);
 	},
 
 	/**
@@ -5749,7 +5749,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = jindo.$Class({
 			this.status = nhn.husky.PLUGIN_STATUS.READY;
 		} catch(e) {
 			if(this._nIFrameReadyCount-- > 0){
-				setTimeout(jindo.$Fn(this.initIframe, this).bind(), 100);
+				setTimeout($.proxy(this.initIframe, this), 100);
 			}else{
 				throw("iframe for WYSIWYG editing mode can't be initialized. Please check if the iframe document exists and is also accessable(cross-domain issues). ");
 			}
@@ -5977,7 +5977,7 @@ nhn.husky.SE_EditingArea_HTMLSrc = jindo.$Class({
 	startAutoResize : function(){
 		var htOption = {
 			nMinHeight : this.nMinHeight,
-			wfnCallback : jindo.$Fn(this.oApp.checkResizeGripPosition, this).bind()
+			wfnCallback : $.proxy(this.oApp.checkResizeGripPosition, this)
 		};
 		//[SMARTEDITORSUS-941][iOS5대응]아이패드의 자동 확장 기능이 동작하지 않을 때 에디터 창보다 긴 내용을 작성하면 에디터를 뚫고 나오는 현상 
 		//원인 : 자동확장 기능이 정지 될 경우 iframe에 스크롤이 생기지 않고, 창을 뚫고 나옴
@@ -6151,7 +6151,7 @@ nhn.husky.SE_EditingArea_TEXT = jindo.$Class({
 	$BEFORE_MSG_APP_READY : function() {
 		this.oNavigator = jindo.$Agent().navigator();
 		this.oApp.exec("REGISTER_EDITING_AREA", [this]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getTextAreaContents", jindo.$Fn(this.getRawContents, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getTextAreaContents", $.proxy(this.getRawContents, this)]);
 	},
 	
 	$ON_MSG_APP_READY : function() {
@@ -6161,8 +6161,8 @@ nhn.husky.SE_EditingArea_TEXT = jindo.$Class({
 	},
 	
 	$ON_REGISTER_CONVERTERS : function() {
-		this.oApp.exec("ADD_CONVERTER", ["IR_TO_TEXT", jindo.$Fn(this.irToText, this).bind()]);
-		this.oApp.exec("ADD_CONVERTER", ["TEXT_TO_IR", jindo.$Fn(this.textToIr, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER", ["IR_TO_TEXT", $.proxy(this.irToText, this)]);
+		this.oApp.exec("ADD_CONVERTER", ["TEXT_TO_IR", $.proxy(this.textToIr, this)]);
 	},
 	
 	$ON_CHANGE_EDITING_MODE : function(sMode) {
@@ -6303,7 +6303,7 @@ nhn.husky.SE_EditingArea_TEXT = jindo.$Class({
 	startAutoResize : function(){
 		var htOption = {
 			nMinHeight : this.nMinHeight,
-			wfnCallback : jindo.$Fn(this.oApp.checkResizeGripPosition, this).bind()
+			wfnCallback : $.proxy(this.oApp.checkResizeGripPosition, this)
 		};
 		
 		//[SMARTEDITORSUS-941][iOS5대응]아이패드의 자동 확장 기능이 동작하지 않을 때 에디터 창보다 긴 내용을 작성하면 에디터를 뚫고 나오는 현상 
@@ -6400,7 +6400,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = jindo.$Class({
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["isUseVerticalResizer", jindo.$Fn(this.isUseVerticalResizer, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["isUseVerticalResizer", $.proxy(this.isUseVerticalResizer, this)]);
 	},
 	
 	$ON_MSG_APP_READY : function(){
@@ -6416,7 +6416,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = jindo.$Class({
 			if(this.isUseVerticalResizer()){
 				this.oResizeGrip.style.display = 'block';
 				if(!!this.welNoticeLayer && !Number(jindo.$Cookie().get(this.sCookieNotice))){
-					this.welNoticeLayer.delegate("click", "BUTTON.bt_clse", jindo.$Fn(this._closeNotice, this).bind());
+					this.welNoticeLayer.delegate("click", "BUTTON.bt_clse", $.proxy(this._closeNotice, this));
 					this.welNoticeLayer.show();
 				}
 				this.$FnMouseDown = jindo.$Fn(this._mousedown, this);
@@ -6437,7 +6437,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = jindo.$Class({
 			}
 		}
 		
-		this.oApp.exec("ADD_APP_PROPERTY", ["checkResizeGripPosition", jindo.$Fn(this.checkResizeGripPosition, this).bind()]);	// [SMARTEDITORSUS-677]
+		this.oApp.exec("ADD_APP_PROPERTY", ["checkResizeGripPosition", $.proxy(this.checkResizeGripPosition, this)]);	// [SMARTEDITORSUS-677]
 		
 		if(!!this.oApp.getEditingAreaHeight){
 			this.nEditingAreaMinHeight = this.oApp.getEditingAreaHeight();	// [SMARTEDITORSUS-677] 편집 영역의 최소 높이를 가져와 Gap 처리 시 사용
@@ -6625,7 +6625,7 @@ nhn.husky.SE_WYSIWYGEnterKey = jindo.$Class({
 	 * [SMARTEDITORSUS-950] 에디터 적용 페이지의 Compatible meta IE=edge 설정 시 줄간격 벌어짐 이슈 (<BR>)
 	 */
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER", ["IR_TO_DB", jindo.$Fn(this.onIrToDB, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER", ["IR_TO_DB", $.proxy(this.onIrToDB, this)]);
 	},
 	
 	/**
@@ -6885,13 +6885,13 @@ nhn.husky.SE_WYSIWYGEnterKey = jindo.$Class({
 			
 			// [SMARTEDITORSUS-26] Enter 후에 밑줄/취소선이 복사되지 않는 문제를 처리 (브라우저 Enter 처리 후 실행되도록 setTimeout 사용)
 			if(bAddUnderline || bAddLineThrough){
-				setTimeout(jindo.$Fn(this._addTextDecorationTag, this).bind(bAddUnderline, bAddLineThrough), 0);
+				setTimeout($.proxy(this._addTextDecorationTag, this, bAddUnderline, bAddLineThrough), 0);
 				
 				return;
 			}
 
 			// [SMARTEDITORSUS-180] 빈 SPAN 태그에 의해 엔터 후 엔터가 되지 않은 것으로 보이는 문제 (브라우저 Enter 처리 후 실행되도록 setTimeout 사용)
-			setTimeout(jindo.$Fn(this._addExtraCursorHolder, this).bind(elParentNode), 0);
+			setTimeout($.proxy(this._addExtraCursorHolder, this, elParentNode), 0);
 		}else{
 			var elParentNode = elBookmark.parentNode,
 				oNextSibling = this._getValidNextSibling(elBookmark);
@@ -7275,7 +7275,7 @@ nhn.husky.SE2M_EditingModeChanger = jindo.$Class({
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["isUseModeChanger", jindo.$Fn(this.isUseModeChanger, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["isUseModeChanger", $.proxy(this.isUseModeChanger, this)]);
 	},
 	
 	$ON_MSG_APP_READY : function(){
@@ -7823,9 +7823,9 @@ nhn.husky.SE2M_ExecCommand = jindo.$Class({
 
 		if( bSelectedBlock){
 			if(sCommand == "indent"){
-				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, jindo.$Fn(this._indentMargin, this).bind()]);
+				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, $.proxy(this._indentMargin, this)]);
 			}else if(sCommand == "outdent"){
-				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, jindo.$Fn(this._outdentMargin, this).bind()]);
+				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, $.proxy(this._outdentMargin, this)]);
 			}else{ 
 				this._setBlockExecCommand(sCommand, bUserInterface, vValue);
 			}
@@ -7839,9 +7839,9 @@ nhn.husky.SE2M_ExecCommand = jindo.$Class({
 				var sBookmark = oSelection.placeStringBookmark();				
 
 				if(sCommand === "indent"){
-					this.oApp.exec("SET_LINE_STYLE", [null, jindo.$Fn(this._indentMargin, this).bind(), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
+					this.oApp.exec("SET_LINE_STYLE", [null, $.proxy(this._indentMargin, this), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
 				}else{
-					this.oApp.exec("SET_LINE_STYLE", [null, jindo.$Fn(this._outdentMargin, this).bind(), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
+					this.oApp.exec("SET_LINE_STYLE", [null, $.proxy(this._outdentMargin, this), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
 				}
 		
 				oSelection.moveToStringBookmark(sBookmark);
@@ -8759,7 +8759,7 @@ nhn.husky.SE_WYSIWYGStyleGetter = jindo.$Class({
 	
 	$ON_MSG_APP_READY : function(){
 		this.oDocument = this.oApp.getWYSIWYGDocument();
-		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", jindo.$Fn(this.getCurrentStyle, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", $.proxy(this.getCurrentStyle, this)]);
 		
 		if(jindo.$Agent().navigator().safari || jindo.$Agent().navigator().chrome || jindo.$Agent().navigator().ie){
 			this.oStyleMap.textAlign = {
@@ -9197,7 +9197,7 @@ nhn.husky.SE2M_LineStyler = jindo.$Class({
 	name : "SE2M_LineStyler",
 	
 	$BEFORE_MSG_APP_READY : function() {
-		this.oApp.exec("ADD_APP_PROPERTY", ["getLineStyle", jindo.$Fn(this.getLineStyle, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getLineStyle", $.proxy(this.getLineStyle, this)]);
   	},
 
 	$ON_SET_LINE_STYLE : function(sStyleName, styleValue, htOptions){
@@ -9864,7 +9864,7 @@ nhn.husky.SE2M_LineHeightWithLayerUI = jindo.$Class({
 	_ajaxRecentColor : function(fCallback){
 		jindo.$Ajax(this.URL_COLOR_LIST, {
 			type : "jsonp",
-			onload : jindo.$Fn(fCallback, this).bind()
+			onload : $.proxy(fCallback, this)
 		}).request();
 	},
 
@@ -9917,7 +9917,7 @@ nhn.husky.SE2M_FontColor = jindo.$Class({
 	},
 
 	$BEFORE_MSG_APP_READY : function() {
-		this.oApp.exec("ADD_APP_PROPERTY", ["getLastUsedFontColor", jindo.$Fn(this.getLastUsedFontColor, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getLastUsedFontColor", $.proxy(this.getLastUsedFontColor, this)]);
   	},
     	
 	$ON_MSG_APP_READY : function(){
@@ -9961,7 +9961,7 @@ nhn.husky.SE2M_BGColor = jindo.$Class({
 	},
 	
 	$BEFORE_MSG_APP_READY : function() {
-		this.oApp.exec("ADD_APP_PROPERTY", ["getLastUsedBackgroundColor", jindo.$Fn(this.getLastUsedBGColor, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getLastUsedBackgroundColor", $.proxy(this.getLastUsedBGColor, this)]);
   	},
 	
 	$ON_MSG_APP_READY : function(){
@@ -10046,7 +10046,7 @@ nhn.husky.SE2M_Hyperlink = jindo.$Class({
 	},
 	
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", jindo.$Fn(this.irToDb, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", $.proxy(this.irToDb, this)]);
 	},
 	
 	$LOCAL_BEFORE_FIRST : function(sMsg){
@@ -10272,12 +10272,12 @@ nhn.husky.SE2M_FontNameWithLayerUI = jindo.$Class({
 	$ON_MSG_APP_READY : function(){
 		this.bDoNotRecordUndo = false;
 
-		this.oApp.exec("ADD_APP_PROPERTY", ["addFont", jindo.$Fn(this.addFont, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["addFontInUse", jindo.$Fn(this.addFontInUse, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addFont", $.proxy(this.addFont, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addFontInUse", $.proxy(this.addFontInUse, this)]);
 		// 블로그등 팩토리 폰트 포함 용
-		this.oApp.exec("ADD_APP_PROPERTY", ["setMainFont", jindo.$Fn(this.setMainFont, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setMainFont", $.proxy(this.setMainFont, this)]);
 		// 메일등 단순 폰트 지정 용
-		this.oApp.exec("ADD_APP_PROPERTY", ["setDefaultFont", jindo.$Fn(this.setDefaultFont, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setDefaultFont", $.proxy(this.setDefaultFont, this)]);
 		
 		this.oApp.exec("REGISTER_UI_EVENT", ["fontName", "click", "SE2M_TOGGLE_FONTNAME_LAYER"]);
 
@@ -11373,8 +11373,8 @@ nhn.husky.SE2M_Accessibility = jindo.$Class({
 	},
 	
 	$LOCAL_BEFORE_FIRST : function(sMsg){
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("CLOSE_HELP_POPUP", [this.oCloseButton]), this).attach(this.oCloseButton, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("CLOSE_HELP_POPUP", [this.oCloseButton2]), this).attach(this.oCloseButton2, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "CLOSE_HELP_POPUP", [this.oCloseButton]), this).attach(this.oCloseButton, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "CLOSE_HELP_POPUP", [this.oCloseButton2]), this).attach(this.oCloseButton2, "click");
 	
 		//레이어의 이동 범위 설정.
 		var elIframe = this.oApp.getWYSIWYGWindow().frameElement;
@@ -12050,8 +12050,8 @@ nhn.husky.SE2M_TableCreator = jindo.$Class({
 	// [SMARTEDITORSUS-365] 테이블퀵에디터 > 속성 직접입력 > 테두리 스타일
 	//		- 테두리 없음을 선택하는 경우 본문에 삽입하는 표에 가이드 라인을 표시해 줍니다. 보기 시에는 테두리가 보이지 않습니다.
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", jindo.$Fn(this.irToDbDOM, this).bind()]);
-		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", jindo.$Fn(this.dbToIrDOM, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", $.proxy(this.irToDbDOM, this)]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", $.proxy(this.dbToIrDOM, this)]);
 	},
 	
 	irToDbDOM : function(oTmpNode){
@@ -12922,7 +12922,7 @@ Shortcut.Data = jindo.$Class({
 	$init:function(sId,sKey,oElement){
 		this.id = sId;
 		this.element = oElement;
-		this.func = jindo.$Fn(this.fire,this).bind();
+		this.func = $.proxy(this.fire,this);
 		
 		Shortcut.Helper.bind(this.func,oElement,"attach");
 		this.keys = {};
@@ -13243,7 +13243,7 @@ nhn.husky.Hotkey = jindo.$Class({
 	$ON_ADD_HOTKEY : function(sHotkey, sCMD, aArgs, elTarget){
 		if(!aArgs){aArgs = [];}
 		
-		var func = jindo.$Fn(this.oApp.exec, this.oApp).bind(sCMD, aArgs);
+		var func = $.proxy(this.oApp.exec, this.oApp, sCMD, aArgs);
 		this.oShortcut(sHotkey, elTarget).addEvent(func);		
 	}
 });
@@ -13373,11 +13373,11 @@ nhn.husky.SE_UndoRedo = jindo.$Class({
 	
 	$BEFORE_MSG_APP_READY : function(){
 		this._historyLength = 0;
-		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoHistory", jindo.$Fn(this._getUndoHistory, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoStateIdx", jindo.$Fn(this._getUndoStateIdx, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["saveSnapShot", jindo.$Fn(this._saveSnapShot, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getLastKey", jindo.$Fn(this._getLastKey, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["setLastKey", jindo.$Fn(this._setLastKey, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoHistory", $.proxy(this._getUndoHistory, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoStateIdx", $.proxy(this._getUndoStateIdx, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["saveSnapShot", $.proxy(this._saveSnapShot, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getLastKey", $.proxy(this._getLastKey, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setLastKey", $.proxy(this._setLastKey, this)]);
 
 		this._saveSnapShot();
 		
@@ -14085,9 +14085,9 @@ nhn.husky.StringConverterManager = jindo.$Class({
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["applyConverter", jindo.$Fn(this.applyConverter, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter", jindo.$Fn(this.addConverter, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter_DOM", jindo.$Fn(this.addConverter_DOM, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["applyConverter", $.proxy(this.applyConverter, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter", $.proxy(this.addConverter, this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter_DOM", $.proxy(this.addConverter_DOM, this)]);
 	},
 	
 	applyConverter : function(sRuleName, sContents, oDocument){
@@ -14231,7 +14231,7 @@ nhn.husky.MessageManager = jindo.$Class({
 	},
 
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["$MSG", jindo.$Fn(this.getMessage, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["$MSG", $.proxy(this.getMessage, this)]);
 	},
 
 	/**
@@ -14304,7 +14304,7 @@ nhn.husky.LazyLoader = jindo.$Class({
 
 		htCurMsgInfo.bLoadingStatus = 1;
 		(new jindo.$Ajax(htCurMsgInfo.sURL, {
-			onload : jindo.$Fn(this._onload, this).bind(sMsg, aParams)
+			onload : $.proxy(this._onload, this, sMsg, aParams)
 		})).request();
 
 		return true;
@@ -15860,7 +15860,7 @@ nhn.husky.SE2B_CSSLoader = jindo.$Class({
 
 		var fnCallback = null;
 		if(sMsg){
-			fnCallback = jindo.$Fn(this.oApp.exec, this.oApp).bind(sMsg, oArgs);
+			fnCallback = $.proxy(this.oApp.exec, this.oApp, sMsg, oArgs);
 		}
 		
 		//nhn.husky.SE2M_Utils.loadCSS("css/smart_editor2.css");
@@ -16178,19 +16178,19 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		this.oFindReplace = new nhn.FindReplace(this.oEditingWindow);
 
 		for(var i=0; i<this.aCloseButtons.length; i++){
-			// var func = jindo.$Fn(this.oApp.exec, this.oApp).bind("HIDE_DIALOG_LAYER", [this.elDropdownLayer]);
-			var func = jindo.$Fn(this.oApp.exec, this.oApp).bind("HIDE_FIND_REPLACE_LAYER", [this.elDropdownLayer]);
+			// var func = $.proxy(this.oApp.exec, this.oApp, "HIDE_DIALOG_LAYER", [this.elDropdownLayer]);
+			var func = $.proxy(this.oApp.exec, this.oApp, "HIDE_FIND_REPLACE_LAYER", [this.elDropdownLayer]);
 			jindo.$Fn(func, this).attach(this.aCloseButtons[i], "click");
 		}
 		
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("SHOW_FIND", []), this).attach(this.oFindTab, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("SHOW_REPLACE", []), this).attach(this.oReplaceTab, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "SHOW_FIND", []), this).attach(this.oFindTab, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "SHOW_REPLACE", []), this).attach(this.oReplaceTab, "click");
 		
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("FIND", []), this).attach(this.oFindNextButton, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("FIND", []), this).attach(this.oReplaceFindNextButton, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "FIND", []), this).attach(this.oFindNextButton, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "FIND", []), this).attach(this.oReplaceFindNextButton, "click");
 		
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("REPLACE", []), this).attach(this.oReplaceButton, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("REPLACE_ALL", []), this).attach(this.oReplaceAllButton, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "REPLACE", []), this).attach(this.oReplaceButton, "click");
+		jindo.$Fn($.proxy(this.oApp.exec, this.oApp, "REPLACE_ALL", []), this).attach(this.oReplaceAllButton, "click");
 		
 		this.oFindInput_Keyword.value = "";
 		this.oReplaceInput_Original.value = "";
@@ -16236,8 +16236,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		
 		this.oApp.exec("SHOW_DIALOG_LAYER", [this.elDropdownLayer, {
 			elHandle: this.elTitle,
-			fnOnDragStart : jindo.$Fn(this.oApp.exec, this.oApp).bind("SHOW_EDITING_AREA_COVER"),
-			fnOnDragEnd : jindo.$Fn(this.oApp.exec, this.oApp).bind("HIDE_EDITING_AREA_COVER"),
+			fnOnDragStart : $.proxy(this.oApp.exec, this.oApp, "SHOW_EDITING_AREA_COVER"),
+			fnOnDragEnd : $.proxy(this.oApp.exec, this.oApp, "HIDE_EDITING_AREA_COVER"),
 			nMinX : this.htTopLeftCorner.x,
 			nMinY : this.nDefaultTop,
 			nMaxX : this.htTopLeftCorner.x + this.oApp.getEditingAreaWidth() - this.nLayerWidth,
@@ -16751,13 +16751,13 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_SCharacter, {
 		this.charSet[4] = unescape('0391 0392 0393 0394 0395 0396 0397 0398 0399 039A 039B 039C 039D 039E 039F 03A0 03A1 03A3 03A4 03A5 03A6 03A7 03A8 03A9 03B1 03B2 03B3 03B4 03B5 03B6 03B7 03B8 03B9 03BA 03BB 03BC 03BD 03BE 03BF 03C0 03C1 03C3 03C4 03C5 03C6 03C7 03C8 03C9 %C6 %D0 0126 0132 013F 0141 %D8 0152 %DE 0166 014A %E6 0111 %F0 0127 I 0133 0138 0140 0142 0142 0153 %DF %FE 0167 014B 0149 0411 0413 0414 0401 0416 0417 0418 0419 041B 041F 0426 0427 0428 0429 042A 042B 042C 042D 042E 042F 0431 0432 0433 0434 0451 0436 0437 0438 0439 043B 043F 0444 0446 0447 0448 0449 044A 044B 044C 044D 044E 044F').replace(/(\S{4})/g, function(a){return "%u"+a;}).split(' ');
 		this.charSet[5] = unescape('3041 3042 3043 3044 3045 3046 3047 3048 3049 304A 304B 304C 304D 304E 304F 3050 3051 3052 3053 3054 3055 3056 3057 3058 3059 305A 305B 305C 305D 305E 305F 3060 3061 3062 3063 3064 3065 3066 3067 3068 3069 306A 306B 306C 306D 306E 306F 3070 3071 3072 3073 3074 3075 3076 3077 3078 3079 307A 307B 307C 307D 307E 307F 3080 3081 3082 3083 3084 3085 3086 3087 3088 3089 308A 308B 308C 308D 308E 308F 3090 3091 3092 3093 30A1 30A2 30A3 30A4 30A5 30A6 30A7 30A8 30A9 30AA 30AB 30AC 30AD 30AE 30AF 30B0 30B1 30B2 30B3 30B4 30B5 30B6 30B7 30B8 30B9 30BA 30BB 30BC 30BD 30BE 30BF 30C0 30C1 30C2 30C3 30C4 30C5 30C6 30C7 30C8 30C9 30CA 30CB 30CC 30CD 30CE 30CF 30D0 30D1 30D2 30D3 30D4 30D5 30D6 30D7 30D8 30D9 30DA 30DB 30DC 30DD 30DE 30DF 30E0 30E1 30E2 30E3 30E4 30E5 30E6 30E7 30E8 30E9 30EA 30EB 30EC 30ED 30EE 30EF 30F0 30F1 30F2 30F3 30F4 30F5 30F6').replace(/(\S{4})/g, function(a){return "%u"+a;}).split(' ');
 		
-		var funcInsert = jindo.$Fn(this.oApp.exec, this.oApp).bind("INSERT_SCHARACTERS", [this.oTextField.value]);
+		var funcInsert = $.proxy(this.oApp.exec, this.oApp, "INSERT_SCHARACTERS", [this.oTextField.value]);
 		jindo.$Fn(funcInsert, this).attach(this.oInsertButton, "click");
 
 		this.oApp.exec("SET_SCHARACTER_LIST", [this.charSet]);
 
 		for(var i=0; i<this.aLabel.length; i++){
-			var func = jindo.$Fn(this.oApp.exec, this.oApp).bind("CHANGE_SCHARACTER_SET", [i]);
+			var func = $.proxy(this.oApp.exec, this.oApp, "CHANGE_SCHARACTER_SET", [i]);
 			jindo.$Fn(func, this).attach(this.aLabel[i].firstChild, "mousedown");
 		}
 
@@ -17693,7 +17693,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		this._wfnOnMouseDownResizeCover.attach(this.elResizeCover, "mousedown");
 		
 		if((htBrowser.ie) && (htBrowser.version > 8)){
-			this._wfnOnResizeEndTable = jindo.$Fn(this._fnOnResizeEndTable, this).bind();
+			this._wfnOnResizeEndTable = $.proxy(this._fnOnResizeEndTable, this);
 		}
 		
 //		this.oApp.registerBrowserEvent(doc, "click", "EVENT_EDITING_AREA_CLICK");
@@ -19155,7 +19155,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	 * [SMARTEDITORSUS-2136] [IE 8-] resizeend 이벤트 handler
 	 * */
 	_getTableResizeEndHandler : function(elTable){
-		return jindo.$Fn(this._markResizedMetric, this).bind(elTable);
+		return $.proxy(this._markResizedMetric, this, elTable);
 	},
 	
 	/**
@@ -21002,8 +21002,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 			}
 		});
 		
-		var imgFn = jindo.$Fn(this.toggle,this).bind("img");
-		var tableFn = jindo.$Fn(this.toggle,this).bind("table");
+		var imgFn = $.proxy(this.toggle,this, "img");
+		var tableFn = $.proxy(this.toggle,this, "table");
 		
 		jindo.$Fn(imgFn,this).attach(jindo.$$.getSingle(".q_open_img_fold", this.oApp.htOptions.elAppContainer),"click");
 		jindo.$Fn(imgFn,this).attach(jindo.$$.getSingle(".q_open_img_full", this.oApp.htOptions.elAppContainer),"click");
@@ -22388,9 +22388,9 @@ nhn.DraggableLayer = jindo.$Class({
 		elLayer.style.top = htXY.y+"px";
 		elLayer.style.left = htXY.x+"px";
 
-		this.$FnMouseDown = jindo.$Fn(jindo.$Fn(this._mousedown, this).bind(elLayer), this);
-		this.$FnMouseMove = jindo.$Fn(jindo.$Fn(this._mousemove, this).bind(elLayer), this);
-		this.$FnMouseUp = jindo.$Fn(jindo.$Fn(this._mouseup, this).bind(elLayer), this);
+		this.$FnMouseDown = jindo.$Fn($.proxy(this._mousedown, this, elLayer), this);
+		this.$FnMouseMove = jindo.$Fn($.proxy(this._mousemove, this, elLayer), this);
+		this.$FnMouseUp = jindo.$Fn($.proxy(this._mouseup, this, elLayer), this);
 
 		this.$FnMouseDown.attach(this.elHandle, "mousedown");
 		this.elHandle.ondragstart = new Function('return false');
