@@ -32,11 +32,7 @@ WYSIWYG 모드 및 HTML 편집 모드와 TEXT 모드를 제공하고, 자유로�
 ## Third-party libraries
 The following third-party libraries are used :
  * jQuery 3.7.1 - https://github.com/jquery/jquery
-   : target runtime for the Jindo migration
- * Jindo - https://github.com/naver/jindojs-jindo  
-   : legacy DOM/Event/OOP dependency being removed
- * Jindo Component - https://github.com/naver/jindojs-jc  
-   : legacy UI dependency being removed (DragArea, LayerManager, LazyLoading)
+   : bundled runtime dependency for the editor iframe. 신규 코드는 jQuery 4 전환을 고려한 공개 API만 사용하며, 향후 Migrate 검증 후 기준 버전을 올린다.
 
 ## Read More
  * [CHANGELOG](CHANGELOG.md)

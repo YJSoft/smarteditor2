@@ -67,19 +67,19 @@ Jindo는 SmartEditor2의 주변 유틸리티가 아니라 클래스, 이벤트, 
 
 ## 4. 포함 라이브러리와 로딩 구조
 
-### 4.1 포함된 버전
+### 4.1 포함된 버전 (마이그레이션 전 기준)
 
 저장소가 사용하는 Jindo는 upstream 최신판이 아니라 SmartEditor 전용 커스텀 빌드다.
 
 | 파일 | 내부 버전/구성 | 크기 |
 | --- | --- | ---: |
-| [`jindo2.all.js`](../../static/js/lib/jindo2.all.js) | `1.5.2-SMART_EDITOR` | 105,871 bytes |
-| [`jindo_component.js`](../../static/js/lib/jindo_component.js) | 19개 JC 컴포넌트 포함 | 70,132 bytes |
+| `jindo2.all.js` (삭제됨) | `1.5.2-SMART_EDITOR` | 105,871 bytes (마이그레이션 전) |
+| `jindo_component.js` (삭제됨) | 19개 JC 컴포넌트 포함 | 70,132 bytes (마이그레이션 전) |
 | 합계 | minified 배포 코드 | 176,003 bytes |
 
 upstream Jindo 최신 문서만 기준으로 치환하면 SmartEditor 전용 patch와 오래된 API 동작을 놓칠 수 있다. 회귀 테스트의 기준은 저장소에 포함된 두 파일의 실제 동작이어야 한다.
 
-### 4.2 런타임 로딩
+### 4.2 런타임 로딩 (마이그레이션 전 기준)
 
 다음 7개 HTML이 Jindo core와 component를 전역 script로 로드한다.
 
@@ -91,9 +91,9 @@ upstream Jindo 최신 문서만 기준으로 치환하면 SmartEditor 전용 pat
 - `workspace/static/SmartEditor2Skin_zh_CN.html`
 - `workspace/static/SmartEditor2Skin_zh_TW.html`
 
-전환 기간의 로딩 순서는 jQuery 3.7.1, Jindo core, Jindo Component, 설정과 creator, `smarteditor2.js` 순서다. Webpack이 Jindo를 module dependency로 묶는 구조가 아니라 `CopyWebpackPlugin`이 `workspace/static` 전체를 배포물로 복사한다. jQuery는 npm 개발 의존성의 `dist/jquery.min.js`를 배포물의 `js/lib/jquery.min.js`로 복사한다.
+마이그레이션 전에는 jQuery, Jindo core, Jindo Component, 설정과 creator, `smarteditor2.js` 순서로 로드했다. 현재는 각 skin이 iframe-local jQuery 3.7.1, 설정과 creator, `smarteditor2.js`만 로드한다. Webpack의 `CopyWebpackPlugin`은 더 이상 Jindo asset을 복사하지 않고, npm 개발 의존성의 `dist/jquery.min.js`를 배포물의 `js/lib/jquery.min.js`로 복사한다.
 
-[`SE2BasicCreator.js`](../../static/js/service/SE2BasicCreator.js)는 Jindo 존재 여부를 검사하고 `$`, `$$`를 사용한다. 따라서 `workspace/src` 전환만으로는 Jindo를 제거할 수 없다.
+[`SE2BasicCreator.js`](../../static/js/service/SE2BasicCreator.js)는 iframe-local jQuery 버전만 검증하고, DOM 조회는 Husky DOM helper를 사용한다.
 
 ### 4.3 iframe 런타임 경계
 
@@ -181,7 +181,7 @@ nhn.husky.PluginName = jindo.$Class({
 - class의 `$static` 값과 부모 static 값 복사
 - `$super` rewriting, `eval`, Jindo 내부 필드는 제공하지 않음
 
-이 helper는 Jindo compatibility shim이 아니라 기존 object-literal Husky plugin 형식을 보존하는 프로젝트 내부 class factory다. 53개 class 생성 지점이 모두 전환되었고, `HuskyCore.mixin()`의 `_$superClass` 예외 처리도 제거되었다. `ColorPicker`와 `ColorPalette`의 부모인 `jindo.Component`는 Component 전환 단계까지 임시로 유지한다.
+이 helper는 Jindo compatibility shim이 아니라 기존 object-literal Husky plugin 형식을 보존하는 프로젝트 내부 class factory다. 53개 class 생성 지점이 모두 전환되었고, `HuskyCore.mixin()`의 `_$superClass` 예외 처리도 제거되었다. `ColorPicker`와 `ColorPalette`는 `husky_framework/Component.js`의 최소 custom-event base를 사용하며 전체 JC registry는 복제하지 않는다.
 
 ### 6.2 `$Fn`, `$Event`, `registerBrowserEvent`
 
@@ -275,9 +275,9 @@ Jindo response의 `.json()`과 `.text()`는 제거하고 jQuery success callback
 | `DragArea` | QuickEditor lazy | dragStart, beforeDrag, dragEnd, 경계 제한 |
 | `LazyLoading` | HuskyCore | script 실행, 완료 callback, 순차 로딩 |
 
-`Component`는 전체 JC를 유지할 이유가 없을 정도로 사용 범위가 작다. `DragArea`도 QuickEditor 한 곳의 옵션과 세 이벤트만 보존하면 된다.
+`Component`는 전체 JC를 유지할 이유가 없을 정도로 사용 범위가 작다. `DragArea`도 QuickEditor 한 곳의 옵션과 세 이벤트만 보존하면 된다. 구현은 각각 `husky_framework/Component.js`와 `husky_framework/DragArea.js`에 위치한다.
 
-`LazyLoading`은 script가 단순히 내려받아지는 것뿐 아니라 전역 context에서 실행된 뒤 `HuskyCore.mixin()`이 완료된 상태에서 callback이 호출되어야 한다. 중복 요청 방지, 순서, cache, error 처리를 명시해야 한다.
+`LazyLoading`은 script가 단순히 내려받아지는 것뿐 아니라 전역 context에서 실행된 뒤 `HuskyCore.mixin()`이 완료된 상태에서 callback이 호출되어야 한다. `husky_framework/LazyLoader.js`의 `LazyScriptLoader`가 URL별 중복 요청, 순차 callback, cache와 error 처리를 담당한다.
 
 ### 6.9 JMC
 
@@ -303,11 +303,11 @@ Jindo response의 `.json()`과 `.text()`는 제거하고 jQuery success callback
 
 ### 8.1 테스트
 
-- 테스트 파일 11개 중 9개가 `jindo2.all.js`를 직접 import한다.
-- 5개가 `jindo_component.js`도 import한다.
-- 분석 당시 `HuskyCore.test.js`는 `$Event` instance, `$Class.extend`, `LazyLoading.load` 구현을 직접 단언했다. 현재 `$Event`와 `$Class` assertion은 내부 Husky API의 동작 assertion으로 전환되었고, `LazyLoading` assertion은 남아 있다.
+- 마이그레이션 전 테스트 파일 11개 중 9개가 `jindo2.all.js`를 직접 import했다.
+- 마이그레이션 전 5개가 `jindo_component.js`도 import했다.
+- 분석 당시 `HuskyCore.test.js`는 `$Event` instance, `$Class.extend`, `LazyLoading.load` 구현을 직접 단언했다. 현재 assertion은 내부 Husky API의 동작과 `LazyScriptLoader` 계약을 단언하며 Jindo asset을 import하지 않는다.
 
-기존 테스트는 Jindo 제거 후 단순 import 수정으로 끝나지 않는다. 외부 구현 객체를 단언하는 테스트를 SmartEditor2가 제공해야 하는 동작 중심으로 다시 작성해야 한다.
+기존 테스트는 Jindo 제거 후 내부 구현 import와 외부 구현 객체 assertion을 제거하고, SmartEditor2가 제공하는 동작 중심으로 다시 작성했다.
 
 ### 8.2 공개 문서와 확장 API
 

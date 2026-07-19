@@ -1,4 +1,3 @@
-import "@static/js/lib/jindo2.all";
 import "@src/husky_framework/HuskyCore";
 import "@src/husky_framework/HuskyRange";
 import "@src/husky_framework/hp_CorePlugin";

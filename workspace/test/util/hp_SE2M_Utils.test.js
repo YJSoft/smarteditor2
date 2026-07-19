@@ -1,4 +1,3 @@
-import "@static/js/lib/jindo2.all";
 import "@src/util/hp_SE2M_Utils";
 
 describe("StringBuffer", () => {

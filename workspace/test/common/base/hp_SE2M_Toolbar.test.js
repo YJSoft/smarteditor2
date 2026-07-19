@@ -1,4 +1,3 @@
-import "@static/js/lib/jindo2.all";
 import "@src/husky_framework/HuskyCore";
 import "@src/husky_framework/hp_CorePlugin";
 import "@src/common/base/hp_SE2M_Toolbar";

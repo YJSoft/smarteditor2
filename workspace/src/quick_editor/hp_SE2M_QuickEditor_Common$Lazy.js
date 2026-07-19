@@ -1,3 +1,5 @@
+import "../husky_framework/DragArea";
+
 /*
 Copyright (C) NAVER corp.  
 
@@ -101,7 +103,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 		
 		var that = this;
 		
-		new jindo.DragArea(this._qe_wrap, {
+		new nhn.husky.DragArea(this._qe_wrap, {
 			sClassName : 'q_dragable',   
 			bFlowOut : false,
 			nThreshold : 1

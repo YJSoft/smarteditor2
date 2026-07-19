@@ -1,5 +1,3 @@
-import "@static/js/lib/jindo2.all";
-import "@static/js/lib/jindo_component";
 import "@src/bundle/husky-range";
 
 describe("husky-range bundle", () => {

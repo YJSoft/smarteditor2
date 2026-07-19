@@ -1,3 +1,5 @@
+import "../../husky_framework/Component";
+
 /*
 Copyright (C) NAVER corp.  
 
@@ -373,5 +375,5 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 		
 		this._redrawRecentColorElement();
 	}
-}).extend(jindo.Component);
+}).extend(nhn.husky.Component);
 //}

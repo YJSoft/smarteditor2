@@ -1,4 +1,3 @@
-import "@static/js/lib/jindo2.all";
 import "@src/shortcut/shortcut";
 
 describe("Shortcut native collection migration", () => {

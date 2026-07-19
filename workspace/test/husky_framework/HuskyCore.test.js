@@ -1,5 +1,3 @@
-import "@static/js/lib/jindo2.all";
-import "@static/js/lib/jindo_component";
 import "@src/husky_framework/HuskyCore";
 import { simulateEvent } from "@test/__helpers__/event";
 
@@ -645,19 +643,19 @@ describe("HuskyCore", () => {
 
         it("registerLazyMessage > 메시지가 발행될때 특정 파일을 레이지로딩되도록 등록할 수 있다.", () => {
             // given
-            jest.spyOn(jindo.LazyLoading, "load");
+            jest.spyOn(nhn.husky.LazyScriptLoader, "load");
 
             // when
             core.registerLazyMessage(["MSG_CUSTOM"], ["lazy.js"]);
             core.exec("MSG_CUSTOM");
 
             // then
-            expect(jindo.LazyLoading.load).toHaveBeenCalled();
+            expect(nhn.husky.LazyScriptLoader.load).toHaveBeenCalled();
         });
 
         it("addLoadedFile > 이미 로딩된 파일명을 저장하여 재로딩하지 않도록 한다.", () => {
             // given
-            jest.spyOn(jindo.LazyLoading, "load");
+            jest.spyOn(nhn.husky.LazyScriptLoader, "load");
             nhn.husky.HuskyCore.addLoadedFile("lazy.js");
 
             // when
@@ -665,12 +663,12 @@ describe("HuskyCore", () => {
             core.exec("MSG_CUSTOM");
 
             // then
-            expect(jindo.LazyLoading.load).not.toHaveBeenCalled();
+            expect(nhn.husky.LazyScriptLoader.load).not.toHaveBeenCalled();
         });
 
         it("mixin > 레이지로딩된 모듈이 기존 플러그인을 mixin 하면 메시지를 구독할 수 있다.", () => {
             // given
-            jest.spyOn(jindo.LazyLoading, "load").mockImplementation((path, callback) => {
+            jest.spyOn(nhn.husky.LazyScriptLoader, "load").mockImplementation((path, callback) => {
                 nhn.husky.HuskyCore.mixin(CustomPlugin, {
                     "$ON_MSG_CUSTOM": jest.fn()
                 });
@@ -689,7 +687,7 @@ describe("HuskyCore", () => {
             // given
             const spy = jest.fn();
             CustomPlugin.prototype.$ON_MSG_CUSTOM = spy;
-            jest.spyOn(jindo.LazyLoading, "load").mockImplementation((path, callback) => {
+            jest.spyOn(nhn.husky.LazyScriptLoader, "load").mockImplementation((path, callback) => {
                 nhn.husky.HuskyCore.mixin(CustomPlugin, {
                     "$ON_MSG_CUSTOM": jest.fn()
                 });
@@ -709,7 +707,7 @@ describe("HuskyCore", () => {
             // given
             const spy = jest.fn();
             CustomPlugin.prototype.$ON_MSG_CUSTOM = spy;
-            jest.spyOn(jindo.LazyLoading, "load").mockImplementation((path, callback) => {
+            jest.spyOn(nhn.husky.LazyScriptLoader, "load").mockImplementation((path, callback) => {
                 nhn.husky.HuskyCore.mixin(CustomPlugin, {
                     "$ON_MSG_CUSTOM": jest.fn()
                 }, true);
@@ -731,7 +729,7 @@ describe("HuskyCore", () => {
             const ChildClass = nhn.husky.createClass({}).extend(ParentClass);
             const inheritedPlugin = new ChildClass();
             core.registerPlugin(inheritedPlugin);
-            jest.spyOn(jindo.LazyLoading, "load").mockImplementation((path, callback) => {
+            jest.spyOn(nhn.husky.LazyScriptLoader, "load").mockImplementation((path, callback) => {
                 nhn.husky.HuskyCore.mixin(ParentClass, {
                     "$ON_MSG_CUSTOM": jest.fn()
                 });

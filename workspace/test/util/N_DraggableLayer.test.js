@@ -1,4 +1,3 @@
-import "@static/js/lib/jindo2.all";
 import "@src/husky_framework/HuskyCore";
 import "@src/util/N_DraggableLayer";
 

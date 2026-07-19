@@ -25,13 +25,6 @@ window.createSEditor2 = function(elIRField, htParams, elSeAppContainer){
 		return null;
 	}
 
-	if(!window.$Jindo){
-		if(window.console && typeof window.console.error === "function"){
-			window.console.error("Jindo is still required while the migration is in progress.");
-		}
-		return null;
-	}
-
 	var elAppContainer = (elSeAppContainer || document.getElementById("smart_editor2"));
 	var elEditingArea = nhn.husky.DOM.querySingle("DIV.husky_seditor_editing_area_container", elAppContainer);
 	var oWYSIWYGIFrame = nhn.husky.DOM.querySingle("IFRAME.se2_input_wysiwyg", elEditingArea);

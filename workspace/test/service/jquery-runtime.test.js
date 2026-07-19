@@ -17,12 +17,17 @@ describe("jQuery runtime", () => {
         expect(jQuery.fn.jquery).toBe("3.7.1");
     });
 
-    it.each(skinFiles)("loads jQuery before Jindo during migration: %s", (skinFile) => {
+    it.each(skinFiles)("loads the iframe-local jQuery runtime without legacy Jindo assets: %s", (skinFile) => {
         const html = fs.readFileSync(path.join(process.cwd(), "workspace/static", skinFile), "utf8");
         const jQueryIndex = html.indexOf("./js/lib/jquery.min.js");
-        const jindoIndex = html.indexOf("./js/lib/jindo2.all.js");
 
         expect(jQueryIndex).toBeGreaterThan(-1);
-        expect(jindoIndex).toBeGreaterThan(jQueryIndex);
+        expect(html).not.toContain("jindo2.all.js");
+        expect(html).not.toContain("jindo_component.js");
+    });
+
+    it("does not ship the removed Jindo runtime assets", () => {
+        expect(fs.existsSync(path.join(process.cwd(), "workspace/static/js/lib/jindo2.all.js"))).toBe(false);
+        expect(fs.existsSync(path.join(process.cwd(), "workspace/static/js/lib/jindo_component.js"))).toBe(false);
     });
 });

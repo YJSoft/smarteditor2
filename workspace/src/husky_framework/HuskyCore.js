@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 import "./HuskyClass";
 import "./HuskyEvent";
+import "./LazyLoader";
 
 if(typeof window.nhn=='undefined'){window.nhn = {};}
 if (!nhn.husky){nhn.husky = {};}
@@ -304,9 +305,7 @@ if (!nhn.husky){nhn.husky = {};}
 				this._loadLazyFiles(sMsg, aArgs, oEvent, aFilenames, nIdx+1);
 			}else{
 				// 파일을 Lazy로딩한다.
-				// TODO: 진도컴포넌트 디펜던시 제거?
-				// TODO: 응답결과가 정상적이지 않을 경우에 대한 처리?
-				jindo.LazyLoading.load(nhn.husky.SE2M_Configuration.LazyLoad.sJsBaseURI+"/"+sFilename,
+				nhn.husky.LazyScriptLoader.load(nhn.husky.SE2M_Configuration.LazyLoad.sJsBaseURI+"/"+sFilename,
 					function(sMsg, aArgs, oEvent, aFilenames, nIdx){
 						// 로딩완료된 파일은 상태를 변경하고
 						var sFilename = aFilenames[nIdx];
@@ -314,7 +313,13 @@ if (!nhn.husky){nhn.husky = {};}
 						// 다음 파일을 로딩한다.
 						this._loadLazyFiles(sMsg, aArgs, oEvent, aFilenames, nIdx+1);
 					}.bind(this, sMsg, aArgs, oEvent, aFilenames, nIdx),
-					"utf-8"
+					"utf-8",
+					function(){
+						this.oLazyMessage[sMsg] = null;
+						if(window.console && console.error){
+							console.error("SmartEditor2 lazy script failed: " + sFilename);
+						}
+					}.bind(this)
 				);
 			}
 		},

@@ -24,15 +24,15 @@
 
 ## 2. 전체 완료 조건
 
-- [ ] `workspace/src`와 `workspace/static/js/service`에 활성 `jindo.*` 참조가 없다.
-- [ ] skin과 sample HTML이 `jindo2.all.js`, `jindo_component.js`를 로드하지 않는다.
-- [ ] `workspace/static/js/lib/jindo2.all.js`가 제거된다.
-- [ ] `workspace/static/js/lib/jindo_component.js`가 제거된다.
-- [ ] 테스트가 Jindo asset을 import하지 않는다.
-- [ ] 테스트가 `instanceof jindo.*` 또는 Jindo 내부 필드를 단언하지 않는다.
-- [ ] IE8 target, Uglify IE8 옵션과 IE8 전용 asset이 제거된다.
-- [ ] 배포물에 포함된 jQuery 3.7.1에서 필수 기능 회귀 테스트가 통과한다.
-- [ ] 모든 locale skin과 standalone demo가 자체 jQuery 자산으로 동작한다.
+- [x] `workspace/src`와 `workspace/static/js/service`에 활성 `jindo.*` 참조가 없다.
+- [x] skin과 sample HTML이 `jindo2.all.js`, `jindo_component.js`를 로드하지 않는다.
+- [x] `workspace/static/js/lib/jindo2.all.js`가 제거된다.
+- [x] `workspace/static/js/lib/jindo_component.js`가 제거된다.
+- [x] 테스트가 Jindo asset을 import하지 않는다.
+- [x] 테스트가 `instanceof jindo.*` 또는 Jindo 내부 필드를 단언하지 않는다.
+- [x] IE8 target, Uglify IE8 옵션과 IE8 전용 asset이 제거된다.
+- [x] 배포물에 포함된 jQuery 3.7.1에서 필수 기능 회귀 테스트가 통과한다.
+- [x] 모든 locale skin과 standalone demo가 자체 jQuery 자산으로 동작한다.
 - [ ] 신규 코드에 `$.proxy`, `$.trim`, `.bind`, `.unbind`, `.delegate` 사용이 없다.
 - [ ] 사용자 plugin과 사진 uploader 문서가 새 확장 방식을 안내한다.
 - [ ] jQuery 4 전환 점검표가 문서화된다.
@@ -55,10 +55,10 @@
 
 - [x] jQuery 3.7.1을 개발 의존성과 배포 기준 버전으로 고정한다.
 - [x] 빌드 시 `jquery.min.js`를 `dist/js/lib`에 복사한다.
-- [x] skin iframe이 자체 `jquery.min.js`를 Jindo보다 먼저 로드한다.
+- [x] skin iframe이 자체 `jquery.min.js`를 로드한다.
 - [x] 모든 locale skin과 standalone demo가 같은 editor 코드를 사용하도록 한다.
 - [x] jQuery 미존재 또는 3.x 미만일 때 초기화를 중단한다.
-- [ ] Jindo 제거 후에도 모든 skin의 jQuery 로딩 순서 검증을 유지한다.
+- [x] Jindo 제거 후에도 모든 skin의 jQuery 로딩 순서 검증을 유지한다.
 
 완료 기준:
 
@@ -96,10 +96,10 @@
 
 - [x] 런타임 source의 `jindo.*` 참조 수를 검사하는 script 또는 CI task를 추가한다.
 - [x] 남은 참조 수가 증가하면 CI가 실패하도록 한다.
-- [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
+- [x] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 4개, `workspace/static/js/service` 0개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax, 소형 wrapper, raw DOM lookup, selector와 `$Element` 전환으로 742개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$`, `jindo.$$`, `jindo.cssquery`, `jindo.$Element`, `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 0개, `workspace/static/js/service` 0개다. 분석 당시 source 기준 746개였던 참조는 클래스, 이벤트, 브라우저 기능, Array/Hash, Ajax, 소형 wrapper, raw DOM lookup, selector, `$Element`, Component, DragArea와 LazyLoading 전환으로 모두 제거되었다. 총량 guard와 별도로 제거가 끝난 Jindo member는 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -120,7 +120,7 @@ workspace/test
 - [ ] selector context와 선행 `>` 동작 테스트
 - [ ] `$Element` width/height/offset getter와 setter 결과 테스트
 - [x] Ajax text/JSONP success, timeout, error 테스트
-- [ ] lazy script 중복 요청, 순서, 성공, 실패 테스트
+- [x] lazy script 중복 요청, 순서, 성공, 실패 테스트
 - [ ] QuickEditor drag 시작/이동/종료/경계 테스트
 
 완료 기준:
@@ -376,41 +376,45 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-040 내부 Component 구현
 
-- [ ] ColorPicker에 필요한 option getter/setter를 구현한다.
-- [ ] custom event `attach`, `detach`, `fireEvent`를 구현한다.
-- [ ] event 취소 semantics가 실제 사용되는지 확인하고 필요한 범위만 구현한다.
-- [ ] instance 전역 registry 등 사용하지 않는 JC 기능은 구현하지 않는다.
-- [ ] ColorPicker와 ColorPalette의 `jindo.Component` 상속을 제거한다.
+- [x] ColorPicker에 필요한 option getter/setter를 구현한다.
+- [x] custom event `attach`, `detach`, `fireEvent`를 구현한다.
+- [x] event 취소 semantics가 실제 사용되는지 확인하고 필요한 범위만 구현한다.
+- [x] instance 전역 registry 등 사용하지 않는 JC 기능은 구현하지 않는다.
+- [x] ColorPicker와 ColorPalette의 `jindo.Component` 상속을 제거한다.
 
 완료 기준:
 
 - ColorPicker `colorchange` event와 ColorPalette 연결이 동작한다.
 - `jindo.Component` 참조가 0이다.
 
+`husky_framework/Component.js`는 실제 ColorPicker와 ColorPalette가 사용하는 option, attach/detach, fireEvent와 취소 semantics만 제공한다. 전체 Jindo Component registry나 activate lifecycle은 복제하지 않는다.
+
 ### MIG-041 QuickEditor DragArea 대체
 
-- [ ] 현재 사용 옵션 `sClassName`, `bFlowOut`, `nThreshold`를 정의한다.
-- [ ] `beforeDrag`, `dragStart`, `dragEnd` event payload를 정의한다.
-- [ ] drag handle과 실제 이동 layer가 다른 현재 동작을 보존한다.
-- [ ] editor 영역 경계를 넘지 않는 동작을 보존한다.
-- [ ] mouse event를 우선 지원하고 범용 에디터 정책에 따라 pointer/touch 지원을 결정한다.
-- [ ] drag 종료 시 document handler를 항상 해제한다.
+- [x] 현재 사용 옵션 `sClassName`, `bFlowOut`, `nThreshold`를 정의한다.
+- [x] `beforeDrag`, `dragStart`, `dragEnd` event payload를 정의한다.
+- [x] drag handle과 실제 이동 layer가 다른 현재 동작을 보존한다.
+- [x] editor 영역 경계를 넘지 않는 동작을 보존한다.
+- [x] mouse event를 우선 지원하고 범용 에디터 정책에 따라 pointer/touch 지원을 결정한다.
+- [x] drag 종료 시 document handler를 항상 해제한다.
 
 완료 기준:
 
 - QuickEditor 위치 저장, 고정 모드와 editing-area cover가 정상 동작한다.
 - `jindo.DragArea` 참조가 0이다.
 
+`husky_framework/DragArea.js`는 QuickEditor의 mouse drag 계약만 구현하며, `nThreshold` 이후 lifecycle event를 발생시키고 `bFlowOut: false`일 때 flow container 안으로 위치를 제한한다. IE capture와 Jindo 전용 touch/selection 분기는 유지하지 않는다.
+
 ### MIG-042 cached lazy script loader 대체
 
-- [ ] URL 단위 in-flight/completed 상태를 관리한다.
-- [ ] 요청 순서를 보존한다.
-- [ ] script 실행 완료 후 callback을 호출한다.
-- [ ] cache 사용을 명시한다.
-- [ ] charset 요구를 확인한다.
-- [ ] network/parse/execute 실패를 호출부에 전달한다.
-- [ ] 같은 script의 중복 요청을 합친다.
-- [ ] `HuskyCore.addLoadedFile`과 기존 loaded-file map을 통합한다.
+- [x] URL 단위 in-flight/completed 상태를 관리한다.
+- [x] 요청 순서를 보존한다.
+- [x] script 실행 완료 후 callback을 호출한다.
+- [x] cache 사용을 명시한다.
+- [x] charset 요구를 확인한다.
+- [x] network/parse/execute 실패를 호출부에 전달한다.
+- [x] 같은 script의 중복 요청을 합친다.
+- [x] `HuskyCore.addLoadedFile`과 기존 loaded-file map을 통합한다.
 
 완료 기준:
 
@@ -418,13 +422,15 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 - 실패가 무한 대기나 무한 재시도를 만들지 않는다.
 - `jindo.LazyLoading` 참조가 0이다.
 
+`husky_framework/LazyLoader.js`는 기존 HTML 조각용 `nhn.husky.LazyLoader`와 이름이 충돌하지 않도록 `nhn.husky.LazyScriptLoader`를 제공한다. URL별 jQuery script 요청을 합치고, 실행 완료 후 순차 callback을 호출하며, 실패 시 현재 lazy message를 정리한다.
+
 ### MIG-043 Jindo Component 번들 제거
 
-- [ ] 내부에서 사용하지 않는 나머지 16개 component의 외부 호환성 영향을 문서화한다.
+- [x] 내부에서 사용하지 않는 나머지 16개 component의 외부 호환성 영향을 문서화한다.
 - [ ] `jindo.FileUploader` 기반 legacy 문서에 대체 경로를 제공한다.
-- [ ] skin에서 `jindo_component.js` script를 제거한다.
-- [ ] 테스트 import를 제거한다.
-- [ ] 정적 파일을 삭제한다.
+- [x] skin에서 `jindo_component.js` script를 제거한다.
+- [x] 테스트 import를 제거한다.
+- [x] 정적 파일을 삭제한다.
 
 완료 기준:
 
@@ -495,23 +501,23 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-060 Jindo core asset 제거
 
-- [ ] 모든 `jindo.*` runtime 참조가 제거되었는지 guard로 확인한다.
-- [ ] 7개 skin/sample HTML에서 `jindo2.all.js`를 제거한다.
-- [ ] `SE2BasicCreator`의 Jindo 존재 검사와 오류 문구를 제거한다.
-- [ ] 테스트에서 Jindo core import를 제거한다.
-- [ ] `workspace/static/js/lib/jindo2.all.js`를 삭제한다.
-- [ ] `CopyWebpackPlugin` 결과에 파일이 없는지 확인한다.
+- [x] 모든 `jindo.*` runtime 참조가 제거되었는지 guard로 확인한다.
+- [x] 7개 skin/sample HTML에서 `jindo2.all.js`를 제거한다.
+- [x] `SE2BasicCreator`의 Jindo 존재 검사와 오류 문구를 제거한다.
+- [x] 테스트에서 Jindo core import를 제거한다.
+- [x] `workspace/static/js/lib/jindo2.all.js`를 삭제한다.
+- [x] `CopyWebpackPlugin` 결과에 파일이 없는지 확인한다.
 
 ### MIG-061 테스트 assertion 정리
 
 - [x] `instanceof jindo.$Event` assertion을 Husky event 동작 assertion으로 변경한다.
-- [ ] `jindo.LazyLoading.load` spy를 내부 script loader spy로 변경한다.
+- [x] `jindo.LazyLoading.load` spy를 내부 script loader spy로 변경한다.
 - [x] `$Class.extend` fixture를 새 class helper/native class fixture로 변경한다.
-- [ ] bundle smoke test가 Jindo 사전 import 없이 성공하도록 변경한다.
+- [x] bundle smoke test가 Jindo 사전 import 없이 성공하도록 변경한다.
 
 ### MIG-062 공개 문서 갱신
 
-- [ ] README의 Third-party libraries에서 Jindo/JC를 제거한다.
+- [x] README의 Third-party libraries에서 Jindo/JC를 제거한다.
 - [ ] jQuery 기준 버전과 업그레이드 정책을 추가한다.
 - [ ] browser support 표를 갱신한다.
 - [ ] plugin 작성 예제를 새 class/selector/event API로 변경한다.

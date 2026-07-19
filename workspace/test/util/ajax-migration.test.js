@@ -1,5 +1,3 @@
-import "@static/js/lib/jindo2.all";
-import "@static/js/lib/jindo_component";
 import "@src/util/hp_LazyLoader";
 import "@src/quick_editor/hp_SE2M_QuickEditor_Common";
 import "@src/fundamental/base/hp_SE2M_ColorPalette";

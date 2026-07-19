@@ -10,8 +10,6 @@
 	body { margin: 10px; }
 </style>
 <script type="text/javascript" src="./js/lib/jquery.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="./js/lib/jindo2.all.js" charset="utf-8"></script>
-<script type="text/javascript" src="./js/lib/jindo_component.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/service/SE2M_Configuration.js" charset="utf-8"></script>	<!-- 설정 파일 -->
 <script type="text/javascript" src="./js/service/SE2BasicCreator.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/smarteditor2.js" charset="utf-8"></script>
@@ -798,9 +796,9 @@
 
 <script type="text/javascript">
 if(window.frameElement){
-	jindo.$("se2_sample").style.display = "none";
+	document.getElementById("se2_sample").style.display = "none";
 }else{
-	var oEditor = createSEditor2(jindo.$("ir1"), {
+	var oEditor = createSEditor2(document.getElementById("ir1"), {
 		bUseToolbar : true,				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
 		bUseVerticalResizer : true,		// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
 		bUseModeChanger : true,			// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
@@ -833,7 +831,7 @@ if(window.frameElement){
 		oEditor.exec("UPDATE_CONTENTS_FIELD");	// 에디터의 내용이 textarea에 적용됩니다.
 	
 		// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("ir1").value를 이용해서 처리하면 됩니다.
-		jindo.$("ir1").form.submit();
+		document.getElementById("ir1").form.submit();
 	}
 	
 	function setDefaultFont() {

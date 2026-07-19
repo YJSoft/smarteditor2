@@ -1,3 +1,5 @@
+import "../../husky_framework/Component";
+
 /*
 Copyright (C) NAVER corp.  
 
@@ -480,4 +482,4 @@ nhn.ColorPicker = nhn.husky.createClass({
 
 		e.stop();
 	}
- }).extend(jindo.Component);
+ }).extend(nhn.husky.Component);
