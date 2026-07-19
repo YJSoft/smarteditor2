@@ -34,9 +34,7 @@ nhn.husky.SE2M_Configuration.SE2B_CSSLoader = {
  */
 nhn.husky.SE2M_Configuration.SE_EditingAreaManager = {
 	sCSSBaseURI : "css",					// smart_editor2_inputarea.html 파일의 상대경로
-	sBlankPageURL : "smart_editor2_inputarea.html",
-	sBlankPageURL_EmulateIE7 : "smart_editor2_inputarea_ie8.html",
-	aAddtionalEmulateIE7 : [] // IE8 default 사용, IE9 ~ 선택적 사용
+	sBlankPageURL : "smart_editor2_inputarea.html"
 };
 
 /**

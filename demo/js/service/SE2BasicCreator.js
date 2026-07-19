@@ -16,24 +16,28 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA  
 */
 window.createSEditor2 = function(elIRField, htParams, elSeAppContainer){
-	if(!window.$Jindo){
-		parent.document.body.innerHTML="진도 프레임웍이 필요합니다.<br>\n<a href='http://dev.naver.com/projects/jindo/download'>http://dev.naver.com/projects/jindo/download</a>에서 Jindo 1.5.3 버전의 jindo.min.js를 다운로드 받아 /js 폴더에 복사 해 주세요.\n(아직 Jindo 2 는 지원하지 않습니다.)";
-		return;
+	var sJQueryVersion = window.jQuery && window.jQuery.fn && window.jQuery.fn.jquery;
+	var nJQueryMajorVersion = sJQueryVersion ? parseInt(sJQueryVersion.split(".")[0], 10) : 0;
+	if(nJQueryMajorVersion < 3){
+		if(window.console && typeof window.console.error === "function"){
+			window.console.error("SmartEditor2 requires jQuery 3 or newer.");
+		}
+		return null;
 	}
 
-	var elAppContainer = (elSeAppContainer || jindo.$("smart_editor2"));	
-	var elEditingArea = jindo.$$.getSingle("DIV.husky_seditor_editing_area_container", elAppContainer);
-	var oWYSIWYGIFrame = jindo.$$.getSingle("IFRAME.se2_input_wysiwyg", elEditingArea);
-	var oIRTextarea = elIRField?elIRField:jindo.$$.getSingle("TEXTAREA.blind", elEditingArea);
-	var oHTMLSrc = jindo.$$.getSingle("TEXTAREA.se2_input_htmlsrc", elEditingArea);
-	var oTextArea = jindo.$$.getSingle("TEXTAREA.se2_input_text", elEditingArea);
+	var elAppContainer = (elSeAppContainer || document.getElementById("smart_editor2"));
+	var elEditingArea = nhn.husky.DOM.querySingle("DIV.husky_seditor_editing_area_container", elAppContainer);
+	var oWYSIWYGIFrame = nhn.husky.DOM.querySingle("IFRAME.se2_input_wysiwyg", elEditingArea);
+	var oIRTextarea = elIRField?elIRField:nhn.husky.DOM.querySingle("TEXTAREA.blind", elEditingArea);
+	var oHTMLSrc = nhn.husky.DOM.querySingle("TEXTAREA.se2_input_htmlsrc", elEditingArea);
+	var oTextArea = nhn.husky.DOM.querySingle("TEXTAREA.se2_input_text", elEditingArea);
 	
 	if(!htParams){ 
 		htParams = {}; 
 		htParams.fOnBeforeUnload = null;
 	}
 	htParams.elAppContainer = elAppContainer;												// 에디터 UI 최상위 element 셋팅 
-	htParams.oNavigator = jindo.$Agent().navigator();										// navigator 객체 셋팅
+	htParams.oNavigator = nhn.husky.Browser.navigator();										// navigator 객체 셋팅
 	htParams.I18N_LOCALE = htParams.I18N_LOCALE || "ko_KR";
 
 	var oEditor = new nhn.husky.HuskyCore(htParams);
@@ -44,9 +48,9 @@ window.createSEditor2 = function(elIRField, htParams, elSeAppContainer){
 		oEditor.registerPlugin({
 			_rxFilter:/<\/*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*?>/gi,
 			$ON_REGISTER_CONVERTERS : function() {
-				var fXssFilter = jindo.$Fn(function(sHtml){
+				var fXssFilter = (function(sHtml){
 					return sHtml.replace(this._rxFilter, "");
-				}, this).bind();
+				}).bind(this);
 				this.oApp.exec("ADD_CONVERTER",["HTMLSrc_TO_IR", fXssFilter]);
 				this.oApp.exec("ADD_CONVERTER",["IR_TO_DB", fXssFilter]);
 			}
