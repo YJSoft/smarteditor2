@@ -1,3 +1,5 @@
+import "../husky_framework/HuskyClass.js";
+import "../husky_framework/HuskyEvent.js";
 import "../common/base/hp_SE2M_Toolbar.js";
 import "../fundamental/editing/hp_SE_EditingAreaManager.js";
 import "../fundamental/editing/hp_SE_EditingArea_WYSIWYG.js";

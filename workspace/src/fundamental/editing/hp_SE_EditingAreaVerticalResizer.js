@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to resizing the editing area vertically
  * @name hp_SE_EditingAreaVerticalResizer.js
  */
-nhn.husky.SE_EditingAreaVerticalResizer = jindo.$Class({
+nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 	name : "SE_EditingAreaVerticalResizer",
 	
 	oResizeGrip : null,

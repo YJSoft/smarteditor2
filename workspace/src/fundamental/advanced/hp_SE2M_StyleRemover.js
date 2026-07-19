@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin with test handlers
  * @name hp_SE2M_StyleRemover.js
  */
-nhn.husky.SE2M_StyleRemover = jindo.$Class({
+nhn.husky.SE2M_StyleRemover = nhn.husky.createClass({
 	name: "SE2M_StyleRemover",
 
 	$ON_MSG_APP_READY : function(){

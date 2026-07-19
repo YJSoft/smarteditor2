@@ -1,3 +1,5 @@
+import "../husky_framework/HuskyClass.js";
+import "../husky_framework/HuskyEvent.js";
 import "../fundamental/advanced/hp_SE2M_FindReplacePlugin$Lazy.js";
 import "../fundamental/advanced/hp_SE2M_Quote$Lazy.js";
 import "../fundamental/advanced/hp_SE2M_SCharacter$Lazy.js";

@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains 
  * @name hp_LazyLoader.js
  */
-nhn.husky.LazyLoader = jindo.$Class({
+nhn.husky.LazyLoader = nhn.husky.createClass({
 	name : "LazyLoader",
 
 	// sMsg : KEY

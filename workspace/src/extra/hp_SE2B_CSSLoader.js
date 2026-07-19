@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of loading css files dynamically
  * @name hp_SE2B_CSSLoader.js
  */
-nhn.husky.SE2B_CSSLoader = jindo.$Class({
+nhn.husky.SE2B_CSSLoader = nhn.husky.createClass({
 	name : "SE2B_CSSLoader",
 	bCssLoaded : false,
 	

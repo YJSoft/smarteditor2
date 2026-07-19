@@ -50,7 +50,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc 드래그가 가능한 레이어를 컨트롤 하는 플러그인
  */
-nhn.husky.DialogLayerManager = jindo.$Class({
+nhn.husky.DialogLayerManager = nhn.husky.createClass({
 	name : "DialogLayerManager",
 	aMadeDraggable : null,
 	aOpenedLayers : null,

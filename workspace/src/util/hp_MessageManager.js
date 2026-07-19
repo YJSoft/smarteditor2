@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that maps a message code to the actual message
  * @name hp_MessageManager.js
  */
-nhn.husky.MessageManager = jindo.$Class({
+nhn.husky.MessageManager = nhn.husky.createClass({
 	name : "MessageManager",
 
 	_oMessageMapSet : {},

@@ -47,14 +47,6 @@ nhn.husky.EZCreator = new (function(){
 
 		if(bUseBlocker) nhn.husky.EZCreator.showBlocker();
 
-		var attachEvent = function(elNode, sEvent, fHandler){ 
-			if(elNode.addEventListener){
-				elNode.addEventListener(sEvent, fHandler, false);
-			}else{
-				elNode.attachEvent("on"+sEvent, fHandler);
-			}
-		} 
-
 		if(!elPlaceHolder){
 			alert("Placeholder is required!");
 			return;
@@ -63,21 +55,16 @@ nhn.husky.EZCreator = new (function(){
 		if(typeof(elPlaceHolder) != "object")
 			elPlaceHolder = document.getElementById(elPlaceHolder);
 
-		var elIFrame, nEditorHeight;
-
-		try{
-			elIFrame = document.createElement("<IFRAME frameborder=0 scrolling=no>");
-		}catch(e){
-			elIFrame = document.createElement("IFRAME");
-			elIFrame.setAttribute("frameborder", "0");
-			elIFrame.setAttribute("scrolling", "no");
-		}
+		var elIFrame = document.createElement("IFRAME");
+		var nEditorHeight;
+		elIFrame.setAttribute("frameborder", "0");
+		elIFrame.setAttribute("scrolling", "no");
 		
 		elIFrame.style.width = "1px";
 		elIFrame.style.height = "1px";
 		elPlaceHolder.parentNode.insertBefore(elIFrame, elPlaceHolder.nextSibling);
 		
-		attachEvent(elIFrame, "load", function(){
+		elIFrame.addEventListener("load", function(){
 			fCreator = elIFrame.contentWindow[fCreator] || elIFrame.contentWindow.createSEditor2;
 			
 //			top.document.title = ((new Date())-window.STime);
@@ -98,6 +85,10 @@ nhn.husky.EZCreator = new (function(){
 			}
 			
 			var oApp = fCreator(elPlaceHolder, htParams);	// oEditor
+			if(!oApp){
+				nhn.husky.EZCreator.showInitializationError(elIFrame, "SmartEditor2 initialization failed.");
+				return;
+			}
 			
 
 			oApp.elPlaceHolder = elPlaceHolder;
@@ -111,10 +102,32 @@ nhn.husky.EZCreator = new (function(){
 			
 //			top.document.title += ", "+((new Date())-window.STime);
 			nhn.husky.EZCreator.hideBlocker();
-		});
+		}, false);
 //		window.STime = new Date();
 		elIFrame.src = sSkinURI;
 		this.elIFrame = elIFrame;
+	};
+
+	this.showInitializationError = function(elIFrame, sMessage){
+		this.hideBlocker(true);
+		elIFrame.style.width = "100%";
+		elIFrame.style.height = "80px";
+		elIFrame.style.border = "1px solid #d00";
+		elIFrame.setAttribute("data-smarteditor2-error", sMessage);
+
+		try{
+			var elError = elIFrame.contentWindow.document.createElement("P");
+			elError.setAttribute("role", "alert");
+			elError.style.color = "#d00";
+			elError.appendChild(elIFrame.contentWindow.document.createTextNode(sMessage));
+			elIFrame.contentWindow.document.body.insertBefore(elError, elIFrame.contentWindow.document.body.firstChild);
+		}catch(e){
+			// The iframe may have become inaccessible while reporting the original error.
+		}
+
+		if(window.console && typeof window.console.error === "function"){
+			window.console.error(sMessage);
+		}
 	};
 	
 	this.showBlocker = function(){

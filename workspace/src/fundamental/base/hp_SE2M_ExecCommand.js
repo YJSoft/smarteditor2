@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the basic editor commands
  * @name hp_SE_ExecCommand.js
  */
-nhn.husky.SE2M_ExecCommand = jindo.$Class({
+nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 	name : "SE2M_ExecCommand",
 	oEditingArea : null,
 	oUndoOption : null,

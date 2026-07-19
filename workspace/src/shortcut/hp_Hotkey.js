@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the hotkey feature
  * @name hp_Hotkey.js
  */
-nhn.husky.Hotkey = jindo.$Class({
+nhn.husky.Hotkey = nhn.husky.createClass({
 	name : "Hotkey",
 
 	$init : function(){

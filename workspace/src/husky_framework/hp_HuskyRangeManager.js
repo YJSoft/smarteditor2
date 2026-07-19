@@ -15,12 +15,14 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software  
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA  
 */
+import "./HuskyClass";
+
 //{
 /**
  * @fileOverview This file contains Husky plugin that bridges the HuskyRange function
  * @name hp_HuskyRangeManager.js
  */
-nhn.husky.HuskyRangeManager = jindo.$Class({
+nhn.husky.HuskyRangeManager = nhn.husky.createClass({
 	name : "HuskyRangeManager",
 
 	oWindow : null,

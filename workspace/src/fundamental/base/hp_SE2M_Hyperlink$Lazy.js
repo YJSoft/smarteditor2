@@ -67,7 +67,6 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 		this.oApp.delayedExec("SELECT_UI", ["hyperlink"], 0);
 		this.oLinkInput.focus();
 		
-		this.oLinkInput.value = this.oLinkInput.value;
 		this.oLinkInput.select();
 	},
 	

@@ -1,3 +1,4 @@
+import "../husky_framework/HuskyClass.js";
 import "../extra/hp_SE2B_CSSLoader.js";
 import "../extra/husky_SE2B_Lang_ko_KR.js";
 import "../extra/husky_SE2B_Lang_en_US.js";

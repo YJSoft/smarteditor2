@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to table creation
  * @name hp_SE_Table.js
  */
-nhn.husky.SE2M_TableCreator = jindo.$Class({
+nhn.husky.SE2M_TableCreator = nhn.husky.createClass({
 	name : "SE2M_TableCreator",
 
 	_sSETblClass : "__se_tbl",

@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @version 1.0
  * @since 2009.09.29
  * */
-nhn.husky.SE2M_QuickEditor_Common = jindo.$Class({
+nhn.husky.SE2M_QuickEditor_Common = nhn.husky.createClass({
 	/**
 	 * class 이름
 	 * @type {String}

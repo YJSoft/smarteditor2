@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to Find/Replace
  * @name hp_SE2M_FindReplacePlugin.js
  */
-nhn.husky.SE2M_FindReplacePlugin = jindo.$Class({
+nhn.husky.SE2M_FindReplacePlugin = nhn.husky.createClass({
 	name : "SE2M_FindReplacePlugin",
 	oEditingWindow : null,
 	oFindReplace :  null,

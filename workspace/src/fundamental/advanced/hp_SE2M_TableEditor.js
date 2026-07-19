@@ -15,7 +15,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software  
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA  
 */
-nhn.husky.SE2M_TableEditor = jindo.$Class({
+nhn.husky.SE2M_TableEditor = nhn.husky.createClass({
 	name : "SE2M_TableEditor",
 	
 	_sSETblClass : "__se_tbl",

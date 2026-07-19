@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @name hp_SE_EditingArea_TEXT.js
  * @required SE_EditingAreaManager
  */
-nhn.husky.SE_EditingArea_TEXT = jindo.$Class({
+nhn.husky.SE_EditingArea_TEXT = nhn.husky.createClass({
 	name : "SE_EditingArea_TEXT",
 	sMode : "TEXT",
 	sRxConverter : '@[0-9]+@',

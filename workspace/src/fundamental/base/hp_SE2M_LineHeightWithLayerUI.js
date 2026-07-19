@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to changing the lineheight using layer
  * @name hp_SE2M_LineHeightWithLayerUI.js
  */
-nhn.husky.SE2M_LineHeightWithLayerUI = jindo.$Class({
+nhn.husky.SE2M_LineHeightWithLayerUI = nhn.husky.createClass({
 	name : "SE2M_LineHeightWithLayerUI",
 	MIN_LINE_HEIGHT : 50,
 	

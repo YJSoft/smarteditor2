@@ -20,7 +20,7 @@ nhn.husky.HuskyCore.addLoadedFile("N_DraggableLayer.js");
  * @fileOverview This file contains a function that takes care of the draggable layers
  * @name N_DraggableLayer.js
  */
-nhn.DraggableLayer = jindo.$Class({
+nhn.DraggableLayer = nhn.husky.createClass({
 	$init : function(elLayer, oOptions){
 		this.elLayer = elLayer;
 		

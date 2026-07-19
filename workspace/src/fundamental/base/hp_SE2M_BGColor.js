@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of changing the background color
  * @name hp_SE2M_BGColor.js
  */
-nhn.husky.SE2M_BGColor = jindo.$Class({
+nhn.husky.SE2M_BGColor = nhn.husky.createClass({
 	name : "SE2M_BGColor",
 	rxColorPattern : /^#?[0-9a-fA-F]{6}$|^rgb\(\d+, ?\d+, ?\d+\)$/i,
 	

@@ -8,7 +8,6 @@
 /img
 /js
 smart_editor2_inputarea.html
-smart_editor2_inputarea_ie8.html
 SmartEditor2Skin.html
 ```
 2. write.html 파일에 다음과 같은 내용을 추가한다. 이때 HuskyEZCreator.js 파일의 경로가 맞는지 주의해야 한다.

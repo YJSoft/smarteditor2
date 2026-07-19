@@ -103,7 +103,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @name hp_SE_UndoRedo.js
  * @required SE_EditingAreaManager, HuskyRangeManager
  */
-nhn.husky.SE_UndoRedo = jindo.$Class({
+nhn.husky.SE_UndoRedo = nhn.husky.createClass({
 	name : "SE_UndoRedo",
 	
 	oCurStateIdx : null,

@@ -51,7 +51,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc WYSIWYG 모드를 제공하는 플러그인
  */
-nhn.husky.SE_EditingArea_WYSIWYG = jindo.$Class({
+nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	name : "SE_EditingArea_WYSIWYG",
 	status : nhn.husky.PLUGIN_STATUS.NOT_READY,
 
@@ -83,38 +83,22 @@ nhn.husky.SE_EditingArea_WYSIWYG = jindo.$Class({
 			this.iframe.style.display = "none";
 		}
 	
-		// IE8 : 찾기/바꾸기에서 글자 일부에 스타일이 적용된 경우 찾기가 안되는 브라우저 버그로 인해 EmulateIE7 파일을 사용
-		// <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 		this.sBlankPageURL = "smart_editor2_inputarea.html";
-		this.sBlankPageURL_EmulateIE7 = "smart_editor2_inputarea_ie8.html";
-		this.aAddtionalEmulateIE7 = [];
 
 		this.htOptions = nhn.husky.SE2M_Configuration.SE_EditingAreaManager;	
 		if (this.htOptions) {
 			this.sBlankPageURL = this.htOptions.sBlankPageURL || this.sBlankPageURL;
-			this.sBlankPageURL_EmulateIE7 = this.htOptions.sBlankPageURL_EmulateIE7 || this.sBlankPageURL_EmulateIE7;
-			this.aAddtionalEmulateIE7 = this.htOptions.aAddtionalEmulateIE7 || this.aAddtionalEmulateIE7;
 		}
-		
-		this.aAddtionalEmulateIE7.push(8); // IE8은 Default 사용
 
 		this.sIFrameSrc = this.sBlankPageURL;
-		if(oAgent.ie && jindo.$A(this.aAddtionalEmulateIE7).has(oAgent.nativeVersion)) {
-			this.sIFrameSrc = this.sBlankPageURL_EmulateIE7;
-		}
 
 		iframe = this.iframe;
 		var sIFrameSrc = this.sIFrameSrc,
 			fHandlerSuccess = jindo.$Fn(this.initIframe, this).bind(),
 			fHandlerFail =jindo.$Fn(function(){this.iframe.src = sIFrameSrc;}, this).bind();
 			
-		if(!oAgent.ie || (oAgent.version >=9 && !!document.addEventListener)){
-			iframe.addEventListener("load", fHandlerSuccess, false);
-			iframe.addEventListener("error", fHandlerFail, false);
-		}else{
-			iframe.attachEvent("onload", fHandlerSuccess);
-			iframe.attachEvent("onerror", fHandlerFail);
-		}
+		iframe.addEventListener("load", fHandlerSuccess, false);
+		iframe.addEventListener("error", fHandlerFail, false);
 		iframe.src = sIFrameSrc; 	
 		this.elEditingArea = iframe;
 	},

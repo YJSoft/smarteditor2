@@ -537,7 +537,9 @@ describe("HuskyCore", () => {
             const args = plugin.$ON_MSG_CUSTOM.mock.calls[0];
             expect(args[0]).toEqual("A");
             expect(args[1]).toEqual("B");
-            expect(args[2]).toBeInstanceOf(jindo.$Event);
+            expect(args[2]).toBeInstanceOf(nhn.husky.HuskyEvent);
+            expect(args[2].element).toBe(btn);
+            expect(args[2].currentElement).toBe(btn);
         });
 
         it("특정 요소에 이벤트가 발생하면 자동으로 비동기메시지가 전송되도록 등록할 수 있다.", () => {
@@ -562,8 +564,65 @@ describe("HuskyCore", () => {
             const args = plugin.$ON_MSG_CUSTOM.mock.calls[0];
             expect(args[0]).toEqual("A");
             expect(args[1]).toEqual("B");
-            expect(args[2]).toBeInstanceOf(jindo.$Event);
+            expect(args[2]).toBeInstanceOf(nhn.husky.HuskyEvent);
+            expect(args[2].element).toBe(btn);
         });
+
+        it("등록 핸들로 이벤트를 정확히 해제할 수 있다.", () => {
+            // given
+            document.body.innerHTML = '<input type="button" value="btn">';
+            const btn = document.querySelector("input[type=button]");
+            const eventHandle = core.registerBrowserEvent(btn, "click", "MSG_CUSTOM");
+
+            // when
+            eventHandle.detach();
+            simulateEvent(btn, "click");
+
+            // then
+            expect(plugin.$ON_MSG_CUSTOM).not.toHaveBeenCalled();
+        });
+
+		it("document 객체에도 이벤트를 연결할 수 있다.", () => {
+			// given
+			core.registerBrowserEvent(document, "selectionchange", "MSG_CUSTOM");
+
+			// when
+			simulateEvent(document, "selectionchange");
+
+			// then
+			expect(plugin.$ON_MSG_CUSTOM).toHaveBeenCalledWith(expect.any(nhn.husky.HuskyEvent));
+			expect(plugin.$ON_MSG_CUSTOM.mock.calls[0][0].element).toBe(document);
+		});
+
+        it("iframe document의 요소에도 이벤트를 연결할 수 있다.", () => {
+            // given
+            const iframe = document.createElement("iframe");
+            document.body.appendChild(iframe);
+            const iframeBody = iframe.contentDocument.body;
+            core.registerBrowserEvent(iframeBody, "click", "MSG_CUSTOM");
+
+            // when
+            simulateEvent(iframeBody, "click");
+
+            // then
+            expect(plugin.$ON_MSG_CUSTOM).toHaveBeenCalledWith(expect.any(nhn.husky.HuskyEvent));
+            expect(plugin.$ON_MSG_CUSTOM.mock.calls[0][0].element).toBe(iframeBody);
+        });
+
+		it("iframe document 객체에도 이벤트를 연결할 수 있다.", () => {
+			// given
+			const iframe = document.createElement("iframe");
+			document.body.appendChild(iframe);
+			const iframeDocument = iframe.contentDocument;
+			core.registerBrowserEvent(iframeDocument, "selectionchange", "MSG_CUSTOM");
+
+			// when
+			simulateEvent(iframeDocument, "selectionchange");
+
+			// then
+			expect(plugin.$ON_MSG_CUSTOM).toHaveBeenCalledWith(expect.any(nhn.husky.HuskyEvent));
+			expect(plugin.$ON_MSG_CUSTOM.mock.calls[0][0].element).toBe(iframeDocument);
+		});
     });
 
     describe("LazyMessage 처리 > ", () => {
@@ -666,12 +725,12 @@ describe("HuskyCore", () => {
             expect(spy).not.toHaveBeenCalled();
         });
 
-        it("mixin > jindo 클래스를 상속받은 경우 부모클래스도 mixin 이 가능하다.", () => {
+        it("mixin > 상속받은 경우 부모클래스도 mixin 이 가능하다.", () => {
             // given
-            const ParentClass = jindo.$Class({});
-            const ChildClass = jindo.$Class({}).extend(ParentClass);
-            const jindoPlugin = new ChildClass();
-            core.registerPlugin(jindoPlugin);
+            const ParentClass = nhn.husky.createClass({});
+            const ChildClass = nhn.husky.createClass({}).extend(ParentClass);
+            const inheritedPlugin = new ChildClass();
+            core.registerPlugin(inheritedPlugin);
             jest.spyOn(jindo.LazyLoading, "load").mockImplementation((path, callback) => {
                 nhn.husky.HuskyCore.mixin(ParentClass, {
                     "$ON_MSG_CUSTOM": jest.fn()
@@ -684,7 +743,7 @@ describe("HuskyCore", () => {
             core.exec("MSG_CUSTOM");
 
             // then
-            expect(jindoPlugin.$ON_MSG_CUSTOM).toHaveBeenCalled();
+            expect(inheritedPlugin.$ON_MSG_CUSTOM).toHaveBeenCalled();
         });
     });
 });

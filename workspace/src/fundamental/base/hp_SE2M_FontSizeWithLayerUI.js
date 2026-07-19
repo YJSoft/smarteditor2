@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to changing the font size using Select element
  * @name SE2M_FontSizeWithLayerUI.js
  */
-nhn.husky.SE2M_FontSizeWithLayerUI = jindo.$Class({
+nhn.husky.SE2M_FontSizeWithLayerUI = nhn.husky.createClass({
 	name : "SE2M_FontSizeWithLayerUI",
 
 	$init : function(elAppContainer){

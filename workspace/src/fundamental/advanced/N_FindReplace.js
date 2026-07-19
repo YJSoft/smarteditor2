@@ -21,7 +21,7 @@ nhn.husky.HuskyCore.addLoadedFile("N_FindReplace.js");
  * @fileOverview This file contains a function that takes care of various operations related to find and replace
  * @name N_FindReplace.js
  */
-nhn.FindReplace = jindo.$Class({
+nhn.FindReplace = nhn.husky.createClass({
 	sKeyword : "",
 	window : null,
 	document : null,

@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to changing the font color
  * @name hp_SE_FontColor.js
  */
-nhn.husky.SE2M_FontColor = jindo.$Class({
+nhn.husky.SE2M_FontColor = nhn.husky.createClass({
 	name : "SE2M_FontColor",
 	rxColorPattern : /^#?[0-9a-fA-F]{6}$|^rgb\(\d+, ?\d+, ?\d+\)$/i,
 

@@ -1535,7 +1535,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	 * [IE 11] resizeend 이벤트 deprecated : pointerup 이벤트로 갈음한다.
 	 * */
 	_fnOnResizeEndTable : function(oEvent){
-		var wev = jindo.$Event(oEvent);
+		var wev = nhn.husky.HuskyEvent(oEvent);
 		var elTable = wev.element;
 		
 		this._markResizedMetric(elTable);

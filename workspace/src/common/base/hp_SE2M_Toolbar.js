@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to the tool bar UI
  * @name hp_SE2M_Toolbar.js
  */
-nhn.husky.SE2M_Toolbar = jindo.$Class({
+nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 	name : "SE2M_Toolbar",
 
 	toolbarArea : null,
@@ -119,8 +119,8 @@ nhn.husky.SE2M_Toolbar = jindo.$Class({
 			}
 		}
  
-		if (jindo.$$.getSingle("DIV.se2_icon_tool") != null) {
-			this.elFirstToolbarItem = jindo.$$.getSingle("DIV.se2_icon_tool UL.se2_itool1>li>button");
+		if (jindo.$$.getSingle("div.se2_icon_tool") != null) {
+			this.elFirstToolbarItem = jindo.$$.getSingle("div.se2_icon_tool ul.se2_itool1>li>button");
 		}
 	},
 

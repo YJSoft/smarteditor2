@@ -22,10 +22,8 @@ WYSIWYG 모드 및 HTML 편집 모드와 TEXT 모드를 제공하고, 자유로�
  * [SmartEditor2 Demo 바로가기](http://naver.github.io/smarteditor2/demo/)
 
 ## Supported Browsers
- * Internet Explorer 8.x 이상
- * Firefox 3.5 이상
- * Chrome 4.0 이상
- * Safari 4.0 이상
+ * 최신 안정 버전의 Chrome, Firefox, Safari, Edge
+ * Internet Explorer 계열은 지원하지 않음
 
 ## License
  * [SmartEditor2 is released under the LGPL v2.1](LICENSE.md).
@@ -33,10 +31,12 @@ WYSIWYG 모드 및 HTML 편집 모드와 TEXT 모드를 제공하고, 자유로�
 
 ## Third-party libraries
 The following third-party libraries are used :
+ * jQuery 3.7.1 - https://github.com/jquery/jquery
+   : target runtime for the Jindo migration
  * Jindo - https://github.com/naver/jindojs-jindo  
-   : for DOM/Event Handling, OOP style code
+   : legacy DOM/Event/OOP dependency being removed
  * Jindo Component - https://github.com/naver/jindojs-jc  
-   : for UI Control (DragArea, LayerManager, LazyLoading)  
+   : legacy UI dependency being removed (DragArea, LayerManager, LazyLoading)
 
 ## Read More
  * [CHANGELOG](CHANGELOG.md)

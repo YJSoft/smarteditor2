@@ -12,6 +12,11 @@ module.exports = {
         "__VERSION__": "test",
         "__HASH__": "0"
     },
+    setupFiles: [
+        "<rootDir>/workspace/src/husky_framework/HuskyClass.js",
+        "<rootDir>/workspace/src/husky_framework/HuskyEvent.js",
+        "<rootDir>/workspace/test/setup/jquery.js"
+    ],
     moduleNameMapper: {
         "^@static(.*)$": "<rootDir>/workspace/static$1",
         "^@src(.*)$": "<rootDir>/workspace/src$1",

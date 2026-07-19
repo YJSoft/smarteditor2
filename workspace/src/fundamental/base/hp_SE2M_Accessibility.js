@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of Accessibility about SmartEditor2.
  * @name hp_SE2M_Accessibility.js
  */
-nhn.husky.SE2M_Accessibility = jindo.$Class({
+nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 	name : "SE2M_Accessibility",
 	
 	/*

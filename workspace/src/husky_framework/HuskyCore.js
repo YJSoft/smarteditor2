@@ -15,6 +15,9 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software  
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA  
 */
+import "./HuskyClass";
+import "./HuskyEvent";
+
 if(typeof window.nhn=='undefined'){window.nhn = {};}
 if (!nhn.husky){nhn.husky = {};}
 /**
@@ -27,7 +30,7 @@ if (!nhn.husky){nhn.husky = {};}
 		_aHuskyCores = [],	// HuskyCore instance list
 		_htLoadedFile = {};	// lazy-loaded file list
 
-	nhn.husky.HuskyCore = jindo.$Class({
+	nhn.husky.HuskyCore = nhn.husky.createClass({
 		name : "HuskyCore",
 		aCallerStack : null,
 		bMobile : jindo.$Agent().navigator().mobile || jindo.$Agent().navigator().msafari, 
@@ -50,7 +53,7 @@ if (!nhn.husky){nhn.husky = {};}
 			
 			this.aCallerStack = [];
 			
-			this._fnWaitForPluginReady = jindo.$Fn(this._waitForPluginReady, this).bind();
+			this._fnWaitForPluginReady = this._waitForPluginReady.bind(this);
 			
 			// Register the core as a plugin so it can receive messages
 			this.registerPlugin(this);
@@ -68,7 +71,7 @@ if (!nhn.husky){nhn.husky = {};}
 		},
 	
 		delayedExec : function(msg, args, nDelay, oEvent){
-			var fExec = jindo.$Fn(this.exec, this).bind(msg, args, oEvent);
+			var fExec = this.exec.bind(this, msg, args, oEvent);
 			setTimeout(fExec, nDelay);
 		},
 	
@@ -127,8 +130,28 @@ if (!nhn.husky){nhn.husky = {};}
 	
 		registerBrowserEvent : function(obj, sEvent, sMessage, aParams, nDelay){
 			aParams = aParams || [];
-			var func = (nDelay)?jindo.$Fn(this.delayedExec, this).bind(sMessage, aParams, nDelay):jindo.$Fn(this.exec, this).bind(sMessage, aParams);
-			return jindo.$Fn(func, this).attach(obj, sEvent);
+			var self = this;
+			var jq = window.jQuery;
+			if(!jq){
+				throw new Error("SmartEditor2 requires jQuery 3.7.1 or newer in the editor window.");
+			}
+
+			var func = function(oEvent){
+				var oHuskyEvent = new nhn.husky.HuskyEvent(oEvent);
+				if(nDelay){
+					self.delayedExec(sMessage, aParams, nDelay, oHuskyEvent);
+				}else{
+					self.exec(sMessage, aParams, oHuskyEvent);
+				}
+			};
+			var oTarget = jq(obj);
+			oTarget.on(sEvent, func);
+
+			return {
+				detach : function(){
+					oTarget.off(sEvent, func);
+				}
+			};
 		},
 	
 		run : function(htOptions){
@@ -283,14 +306,14 @@ if (!nhn.husky){nhn.husky = {};}
 				// 파일을 Lazy로딩한다.
 				// TODO: 진도컴포넌트 디펜던시 제거?
 				// TODO: 응답결과가 정상적이지 않을 경우에 대한 처리?
-				jindo.LazyLoading.load(nhn.husky.SE2M_Configuration.LazyLoad.sJsBaseURI+"/"+sFilename, 
-					jindo.$Fn(function(sMsg, aArgs, oEvent, aFilenames, nIdx){
+				jindo.LazyLoading.load(nhn.husky.SE2M_Configuration.LazyLoad.sJsBaseURI+"/"+sFilename,
+					function(sMsg, aArgs, oEvent, aFilenames, nIdx){
 						// 로딩완료된 파일은 상태를 변경하고
 						var sFilename = aFilenames[nIdx];
 						_htLoadedFile[sFilename] = 1;
 						// 다음 파일을 로딩한다.
 						this._loadLazyFiles(sMsg, aArgs, oEvent, aFilenames, nIdx+1);
-					}, this).bind(sMsg, aArgs, oEvent, aFilenames, nIdx),
+					}.bind(this, sMsg, aArgs, oEvent, aFilenames, nIdx),
 					"utf-8"
 				);
 			}
@@ -355,23 +378,6 @@ if (!nhn.husky){nhn.husky = {};}
 					// if there were no $LOCAL_BEFORE_FIRST in already-loaded script, set to accept $LOCAL_BEFORE_FIRST next time as the function could be included in the lazy-loaded script.
 					if(typeof oPlugin["$LOCAL_BEFORE_FIRST"] !== "function"){
 						oPlugin.oApp.acceptLocalBeforeFirstAgain(oPlugin, true);
-					}
-				}else if(oPlugin._$superClass === oClass){	
-					// [SMARTEDITORSUS-1697] 
-					// jindo 클래스를 상속받아 확장된 클래스의 경우, 
-					// 1. instanceof 로 확인이 안되며
-					// 2. super 클래스에 mixin 처리한 것이 반영이 안된다.
-					// 따라서 상속된 jindo 클래스의 인스턴스는 인스턴스에 직접 mixin 처리한다.
-					if(typeof oPlugin["$LOCAL_BEFORE_FIRST"] !== "function"){
-						oPlugin.oApp.acceptLocalBeforeFirstAgain(oPlugin, true);
-					}
-					for(k in htMixin){
-						if(bOverride || !Object.prototype.hasOwnProperty.call(oPlugin, k)){
-							oPlugin[k] = htMixin[k];
-							if(_rxMsgHandler.test(k)){
-								oPlugin.oApp.addToMessageMap(k, oPlugin);
-							}
-						}
 					}
 				}
 			}

@@ -102,7 +102,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc IR 값과 복수개의 편집 영역을 관리하는 플러그인
  */
-nhn.husky.SE_EditingAreaManager = jindo.$Class({
+nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 	name : "SE_EditingAreaManager",
 	
 	// Currently active plugin instance(SE_EditingArea_???)

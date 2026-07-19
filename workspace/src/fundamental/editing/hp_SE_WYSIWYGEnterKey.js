@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc Enter키 입력시에 현재 줄을 P 태그로 감거나 <br> 태그를 삽입한다.
  */
-nhn.husky.SE_WYSIWYGEnterKey = jindo.$Class({
+nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 	name : "SE_WYSIWYGEnterKey",
 
 	$init : function(sLineBreaker){

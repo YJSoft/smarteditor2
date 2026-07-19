@@ -15,6 +15,8 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software  
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA  
 */
+import "./HuskyClass";
+
 if(typeof window.nhn=='undefined'){window.nhn = {};}
 
 nhn.CurrentSelection_IE = function(){
@@ -59,7 +61,7 @@ nhn.CurrentSelection_FF = function(){
 	};
 };
 
-nhn.CurrentSelection = new (jindo.$Class({
+nhn.CurrentSelection = new (nhn.husky.createClass({
 	$init : function(){
 		var oAgentInfo = jindo.$Agent().navigator();
 		if(oAgentInfo.ie && document.selection){
@@ -79,7 +81,7 @@ nhn.CurrentSelection = new (jindo.$Class({
  * @fileOverview This file contains a cross-browser implementation of W3C's DOM Range
  * @name W3CDOMRange.js
  */
-nhn.W3CDOMRange = jindo.$Class({
+nhn.W3CDOMRange = nhn.husky.createClass({
 	$init : function(win){
 		this.reset(win);
 	},
@@ -785,7 +787,7 @@ nhn.W3CDOMRange.END_TO_START = 3;
  * @fileOverview This file contains a cross-browser function that implements all of the W3C's DOM Range specification and some more
  * @name HuskyRange.js
  */
-nhn.HuskyRange = jindo.$Class({
+nhn.HuskyRange = nhn.husky.createClass({
 	_rxCursorHolder : /^(?:\uFEFF|\u00A0|\u200B|<br>)$/i,
 	_rxTextAlign : /text-align:[^"';]*;?/i,
 
@@ -2432,7 +2434,7 @@ nhn.BrowserSelectionImpl_IE = function(){
 	};
 };
 
-nhn.DOMFix = new (jindo.$Class({
+nhn.DOMFix = new (nhn.husky.createClass({
 	$init : function(){
 		if(jindo.$Agent().navigator().ie || jindo.$Agent().navigator().opera){
 			this.childNodes = this._childNodes_Fix;

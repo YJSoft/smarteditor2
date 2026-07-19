@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to string conversion. Ususally used to convert the IR value.
  * @name hp_StringConverterManager.js
  */
-nhn.husky.StringConverterManager = jindo.$Class({
+nhn.husky.StringConverterManager = nhn.husky.createClass({
 	name : "StringConverterManager",
 
 	oConverters : null,

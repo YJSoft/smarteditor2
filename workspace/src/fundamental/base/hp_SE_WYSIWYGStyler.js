@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @name hp_SE_WYSIWYGStyler.js
  * @required SE_EditingArea_WYSIWYG, HuskyRangeManager
  */
-nhn.husky.SE_WYSIWYGStyler = jindo.$Class({
+nhn.husky.SE_WYSIWYGStyler = nhn.husky.createClass({
 	name : "SE_WYSIWYGStyler",
 	_sCursorHolder : "\uFEFF",
 

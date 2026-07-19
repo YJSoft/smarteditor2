@@ -7,3 +7,5 @@
 그림 34 SmartEditor2.html의 구조
 
 SmartEditor2.html 파일은 에디터가 삽입된 페이지로, HuskyEZCreator.js 파일의 nhn.husky.EZCreator.createInIFrame() 함수를 호출해 에디터를 생성한다. nhn.husky.EZCreator.createInIFrame() 함수는 IFRAME을 생성하여 SmartEditor2Skin.html 파일을 로드한다. SmartEditor2Skin.html 파일 로드가 완료되면 에디터를 생성하는 함수가 호출된다.
+
+SmartEditor2Skin.html은 배포물에 포함된 jQuery 3.7.1을 자신의 IFRAME 안에서 로드한다. 따라서 에디터는 설치 페이지가 사용하는 JavaScript framework나 전역 `$` 설정에 의존하지 않는다.

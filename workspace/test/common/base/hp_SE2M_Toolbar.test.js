@@ -911,7 +911,7 @@ describe("SE2M_Toolbar", () => {
 
             it("부모요소가 LI 가 아닌 경우 hover 클래스가 추가되지 않는다.", () => {
                 // given
-                const button = document.querySelector(".husky_seditor_ui_hyperlink BUTTON.se2_apply");
+                const button = document.querySelector(".husky_seditor_ui_hyperlink button.se2_apply");
                 const parent = button.parentNode;
                 parent.classList.remove("hover");
                 const weEvent = {

@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to setting/changing the line style
  * @name hp_SE_LineStyler.js
  */
-nhn.husky.SE2M_LineStyler = jindo.$Class({
+nhn.husky.SE2M_LineStyler = nhn.husky.createClass({
 	name : "SE2M_LineStyler",
 	
 	$BEFORE_MSG_APP_READY : function() {

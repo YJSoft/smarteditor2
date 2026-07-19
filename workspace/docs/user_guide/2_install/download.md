@@ -25,7 +25,6 @@ SmartEditor2 배포 파일의 기본 구성은 다음과 같다.
 | /js | 에디터를 설치할 때 사용하는 JavaScript 파일. |
 | /quick_photo_uploader | 에디터의 사진 첨부 기능을 사용하기 위한 팝업 페이지(/popup)와 사진 첨부 기능을 구현한 JavaScript 파일(/plugin). |
 | smart_editor2_inputarea.html | 에디터의 편집 영역을 나타내는 HTML 파일. |
-| smart_editor2_inputarea_ie8.html | 에디터의 편집 영역을 나타내는 HTML 파일. |
 | SmartEditor2.html | 에디터의 데모 페이지. 에디터를 설치할 때 참고할 수 있다. |
 | SmartEditor2Skin.html | 에디터를 삽입한 페이지에서 로드하는 에디터의 스킨 HTML 파일. |
 | readme.txt | 에디터에 대한 간략한 설명이 포함된 문서. |

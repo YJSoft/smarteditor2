@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc Husky Framework에서 자주 사용되는 유틸성 메시지를 처리하는 플러그인
  */
- nhn.husky.Utils = jindo.$Class({
+ nhn.husky.Utils = nhn.husky.createClass({
 	name : "Utils",
 
 	$init : function(){

@@ -15,6 +15,8 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software  
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA  
 */
+import "./HuskyClass";
+
 /*[
  * ADD_APP_PROPERTY
  *
@@ -64,7 +66,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc Husky Framework에서 자주 사용되는 메시지를 처리하는 플러그인
  */
-nhn.husky.CorePlugin = jindo.$Class({
+nhn.husky.CorePlugin = nhn.husky.createClass({
 	name : "CorePlugin",
 
 	$AFTER_MSG_APP_READY : function(){

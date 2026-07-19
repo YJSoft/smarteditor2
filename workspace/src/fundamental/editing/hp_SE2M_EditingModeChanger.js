@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to changing the editing mode using a Button element
  * @name hp_SE2M_EditingModeChanger.js
  */
-nhn.husky.SE2M_EditingModeChanger = jindo.$Class({
+nhn.husky.SE2M_EditingModeChanger = nhn.husky.createClass({
 	name : "SE2M_EditingModeChanger",
 	htConversionMode : null,
 	

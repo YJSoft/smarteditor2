@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @fileOverview This file contains Husky plugin that takes care of the operations related to detecting the style change
  * @name hp_SE_WYSIWYGStyleGetter.js
  */
-nhn.husky.SE_WYSIWYGStyleGetter = jindo.$Class({
+nhn.husky.SE_WYSIWYGStyleGetter = nhn.husky.createClass({
 	name : "SE_WYSIWYGStyleGetter",
 
 	hKeyUp : null,

@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @name hp_SE_Quote.js
  * @required SE_EditingArea_WYSIWYG
  */
-nhn.husky.SE2M_Quote = jindo.$Class({
+nhn.husky.SE2M_Quote = nhn.husky.createClass({
 	name : "SE2M_Quote",
 	
 	htQuoteStyles_view : null,
@@ -126,7 +126,7 @@ nhn.husky.SE2M_Quote = jindo.$Class({
 		}
 		
 		if(this._isBlankQuote(elParentQuote)){
-			weEvent.stop(jindo.$Event.CANCEL_DEFAULT);
+			weEvent.stopDefault();
 		
 			oSelection.selectNode(elParentQuote);
 			oSelection.collapseToStart();
@@ -160,7 +160,7 @@ nhn.husky.SE2M_Quote = jindo.$Class({
 		}
 		
 		if(!elParentQuote.nextSibling){
-			weEvent.stop(jindo.$Event.CANCEL_DEFAULT);
+			weEvent.stopDefault();
 			
 			oP = oSelection._document.createElement("P");
 			oP.innerHTML = "&nbsp;";

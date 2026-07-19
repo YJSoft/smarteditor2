@@ -1,13 +1,31 @@
 const path = require('path');
-const child_process = require('child_process');
+const fs = require('fs');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const getGitHash = () => {
+    const gitDirectory = path.resolve(__dirname, '.git');
+    const head = fs.readFileSync(path.join(gitDirectory, 'HEAD'), 'utf8').trim();
+    if (!head.startsWith('ref: ')) {
+        return head.substring(0, 7);
+    }
+
+    const ref = head.substring(5);
+    const looseRef = path.join(gitDirectory, ref);
+    if (fs.existsSync(looseRef)) {
+        return fs.readFileSync(looseRef, 'utf8').trim().substring(0, 7);
+    }
+
+    const packedRefs = fs.readFileSync(path.join(gitDirectory, 'packed-refs'), 'utf8');
+    const packedRef = packedRefs.split('\n').find(line => line.endsWith(` ${ref}`));
+    return packedRef ? packedRef.substring(0, 7) : 'unknown';
+};
+
 module.exports = (env = {}) => {
     const pkg = require('./package.json');
-    const githash = child_process.execSync('git rev-parse --short=7 HEAD', { encoding: 'utf8' }).trim();
+    const githash = getGitHash();
 
     return {
         mode: env.production ? 'production' : 'development',
@@ -34,15 +52,12 @@ module.exports = (env = {}) => {
                         presets: [
                             ['env', {
                                 targets: {
-                                    browsers: ['ie >= 8']
+                                    browsers: ['> 0.5%', 'not ie <= 11']
                                 },
                                 loose: true
                             }]
                         ],
-                        "plugins": [
-                            "transform-es3-property-literals",
-                            "transform-es3-member-expression-literals"
-                        ]
+                        "plugins": []
                     },
                     loader: "babel-loader"
                 }
@@ -51,7 +66,11 @@ module.exports = (env = {}) => {
         plugins: [
             new CleanWebpackPlugin(),
             new CopyWebpackPlugin([
-                'workspace/static'
+                'workspace/static',
+                {
+                    from: 'node_modules/jquery/dist/jquery.min.js',
+                    to: 'js/lib/jquery.min.js'
+                }
             ]),
             new webpack.DefinePlugin({
                 __VERSION__: JSON.stringify(pkg.version),
@@ -60,11 +79,7 @@ module.exports = (env = {}) => {
             new webpack.BannerPlugin('Copyright (C) NAVER corp. Licensed under LGPL v2. @see https://github.com/naver/smarteditor2/blob/master/LICENSE.md')
         ],
         optimization: {
-            minimizer: [new UglifyJsPlugin({
-                uglifyOptions: {
-                    ie8: true
-                }
-            })]
+            minimizer: [new UglifyJsPlugin()]
         },
         devServer: {
             contentBase: path.join(__dirname, 'dist'),

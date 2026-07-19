@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @name hp_SE2M_SCharacter.js
  * @required HuskyRangeManager
  */
-nhn.husky.SE2M_SCharacter = jindo.$Class({
+nhn.husky.SE2M_SCharacter = nhn.husky.createClass({
 	name : "SE2M_SCharacter",
 
 	$ON_MSG_APP_READY : function(){

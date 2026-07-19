@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @name hp_SE_EditingArea_HTMLSrc.js
  * @required SE_EditingAreaManager
  */
-nhn.husky.SE_EditingArea_HTMLSrc = jindo.$Class({
+nhn.husky.SE_EditingArea_HTMLSrc = nhn.husky.createClass({
 	name : "SE_EditingArea_HTMLSrc",
 	sMode : "HTMLSrc",
 	bAutoResize : false,	// [SMARTEDITORSUS-677] 해당 편집모드의 자동확장 기능 On/Off 여부

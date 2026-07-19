@@ -24,7 +24,6 @@ SmartEditor Basic 0.3.x 버전에서 SmartEditor2으로 업그레이드하는 �
 /img
 /js
 smart_editor2_inputarea.html
-smart_editor2_inputarea_ie8.html
 SmartEditor2Skin.html
 ```
 3. 기존 write.html 파일을 복사하여 write_se2.html 파일을 생성한다. 그러면 폴더/파일 구조는 다음과 같다.
@@ -48,7 +47,6 @@ SmartEditor2Skin.html
     /img                      -- 에디터 관련 이미지들
     /js                       -- 에디터 관련 JavaScript 파일들
     smart_editor2_inputarea.html
-    smart_editor2_inputarea_ie8.html
     SmartEditor2Skin.html
 ```
 4. write_se2.html 파일에서 다음과 같은 CSS 링크를 제거한다.

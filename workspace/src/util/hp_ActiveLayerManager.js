@@ -48,7 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc 한번에 한개만 화면에 보여야 하는 레이어를 관리하는 플러그인
  */
-nhn.husky.ActiveLayerManager = jindo.$Class({
+nhn.husky.ActiveLayerManager = nhn.husky.createClass({
 	name : "ActiveLayerManager",
 	oCurrentLayer : null,
 	

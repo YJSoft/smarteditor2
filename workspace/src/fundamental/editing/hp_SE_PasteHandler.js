@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc WYSIWYG 영역에 붙여넣어지는 외부 컨텐츠를 정제하는 플러그인
  */
-nhn.husky.SE_PasteHandler = jindo.$Class({
+nhn.husky.SE_PasteHandler = nhn.husky.createClass({
 	name : "SE_PasteHandler",
 	_rxStyleTag : /<style(?:\s+[^>]*)?>(?:.|\r|\n)*?<\/style>/gi,
 	_rxStyleTagStrip : /<\/?style(?:\s+[^>]*)?>/gi,

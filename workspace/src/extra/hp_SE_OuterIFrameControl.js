@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * @pluginDesc 에디터를 싸고 있는 iframe 사이즈 조절을 담당하는 플러그인
  */
-nhn.husky.SE_OuterIFrameControl = jindo.$Class({
+nhn.husky.SE_OuterIFrameControl = nhn.husky.createClass({
 	name : "SE_OuterIFrameControl",
 	oResizeGrip : null,
 

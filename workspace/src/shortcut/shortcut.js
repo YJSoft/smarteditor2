@@ -103,7 +103,7 @@ Shortcut.Store = {
 	}
 };
 
-Shortcut.Data = jindo.$Class({
+Shortcut.Data = nhn.husky.createClass({
 	$init:function(sId,sKey,oElement){
 		this.id = sId;
 		this.element = oElement;
@@ -145,7 +145,7 @@ Shortcut.Data = jindo.$Class({
 		var oMatchKeyData = this.keyStemp[this.getKeyStamp(eEvent)];
 		
 		if(oMatchKeyData){
-			this.excute(new jindo.$Event(eEvent),oMatchKeyData);
+			this.excute(new nhn.husky.HuskyEvent(eEvent),oMatchKeyData);
 		}
 		
 	},
@@ -156,7 +156,6 @@ Shortcut.Data = jindo.$Class({
 		
 		if(staticFun.notCommonException(weEvent,data.commonExceptions)){
 			jindo.$A(data.events).forEach(function(v){
-				var e;
 				if(data.stopDefalutBehavior){
 					var leng = v.exceptions.length;
 					if(leng){
@@ -168,22 +167,12 @@ Shortcut.Data = jindo.$Class({
 						}
 						if(isExcute){
 							v.event(weEvent);
-							if(jindo.$Agent().navigator().ie){
-								e = weEvent._event;
-								e.keyCode = "";
-								e.charCode = "";
-							}
 							weEvent.stop();
 						}else{
 							jindo.$A.Break();
 						}
 					}else{
 						v.event(weEvent);
-						if(jindo.$Agent().navigator().ie){
-							e = weEvent._event;
-							e.keyCode = "";
-							e.charCode = "";
-						}
 						weEvent.stop();
 					}
 				}
@@ -310,29 +299,13 @@ Shortcut.Helper = {
 	
 };
 
-(function domAttach (){
-	if(document.addEventListener){
-		window.domAttach = function(dom,ev,fn){
-			dom.addEventListener(ev, fn, false);		
-		}
-	}else{
-		window.domAttach = function(dom,ev,fn){
-			dom.attachEvent("on"+ev, fn);		
-		}
-	}
-})();
+window.domAttach = function(dom,ev,fn){
+	dom.addEventListener(ev, fn, false);
+};
 
-(function domDetach (){
-	if(document.removeEventListener){
-		window.domDetach = function(dom,ev,fn){
-			dom.removeEventListener(ev, fn, false);		
-		}
-	}else{
-		window.domDetach = function(dom,ev,fn){
-			dom.detachEvent("on"+ev, fn);		
-		}
-	}
-})();
+window.domDetach = function(dom,ev,fn){
+	dom.removeEventListener(ev, fn, false);
+};
 
 
 

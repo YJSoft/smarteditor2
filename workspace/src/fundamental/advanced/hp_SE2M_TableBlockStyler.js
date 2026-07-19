@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @requires SE2M_TableEditor.js
  * @name SE2M_TableBlockManager
  */
-nhn.husky.SE2M_TableBlockStyler = jindo.$Class({
+nhn.husky.SE2M_TableBlockStyler = nhn.husky.createClass({
 	name : "SE2M_TableBlockStyler",
 	nSelectedTD : 0,
 	htSelectedTD : {},

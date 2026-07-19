@@ -71,7 +71,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	},
 	/**
 	 * 레이어가 닫혔을때 실행되는 이벤트.
-	 * @param {jindo.$Event} weEvent
+	 * @param {nhn.husky.HuskyEvent} weEvent
 	 */
 	$ON_CLOSE_QE_LAYER : function(weEvent){
 		if(!this.currentEle){return;} 
@@ -138,7 +138,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	/**
 	 * 레이어의 최대화/최소화를 토글링 하는 함수.
 	 * @param {String} sType(table|img)
-	 * @param {jindo.$Event} weEvent
+	 * @param {nhn.husky.HuskyEvent} weEvent
 	 */
 	toggle : function(sType,weEvent){
 		sType = this._currentType;
@@ -172,7 +172,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 				
 		this.oApp.exec("OPEN_QE_LAYER", [this.targetEle,this.currentEle,sType]);
 		this._in_event = false;
-		weEvent.stop(jindo.$Event.CANCEL_DEFAULT);
+		weEvent.stopDefault();
 	},
 	/**
 	 * 토글링시 전에 엘리먼트에 위치를 카피하는 함수.
@@ -194,7 +194,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	},
 	/**
 	 * 에디팅 영역에서 keyup할때 실행되는 함수.
-	 * @param {jindo.$Event} weEvent
+	 * @param {nhn.husky.HuskyEvent} weEvent
 	 */
 /*
 	$ON_EVENT_EDITING_AREA_KEYUP:function(weEvent){
@@ -210,7 +210,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 
 	/**
 	 * 에디팅 영역에서 mousedown할때 실행되는 함수.
-	 * @param {jindo.$Event} weEvent
+	 * @param {nhn.husky.HuskyEvent} weEvent
 	 */
 	$ON_EVENT_EDITING_AREA_MOUSEDOWN:function(weEvent){
 		if(this._currentType&&(!this._in_event)&&this._environmentData[this._currentType].isOpen){
@@ -220,7 +220,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	},
 	/**
 	 * 에디팅 영역에서 mousewheel할때 실행되는 함수.
-	 * @param {jindo.$Event} weEvent
+	 * @param {nhn.husky.HuskyEvent} weEvent
 	 */
 	$ON_EVENT_EDITING_AREA_MOUSEWHEEL:function(weEvent){
 		if(this._currentType&&(!this._in_event)&&this._environmentData[this._currentType].isOpen){
@@ -262,7 +262,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	},
 	/**
 	 * 레이어를 숨기는 함수.
-	 * @param {jindo.$Event} weEvent
+	 * @param {nhn.husky.HuskyEvent} weEvent
 	 */
 	layer_hide : function(/* weEvent */){
 		this.setOpenType(this._currentType,false);

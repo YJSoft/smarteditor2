@@ -16,9 +16,20 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA  
 */
 window.createSEditor2 = function(elIRField, htParams, elSeAppContainer){
+	var sJQueryVersion = window.jQuery && window.jQuery.fn && window.jQuery.fn.jquery;
+	var nJQueryMajorVersion = sJQueryVersion ? parseInt(sJQueryVersion.split(".")[0], 10) : 0;
+	if(nJQueryMajorVersion < 3){
+		if(window.console && typeof window.console.error === "function"){
+			window.console.error("SmartEditor2 requires jQuery 3 or newer.");
+		}
+		return null;
+	}
+
 	if(!window.$Jindo){
-		parent.document.body.innerHTML="jindo 라이브러리가 필요합니다.<br>\n<a href='https://github.com/naver/jindojs-jindo'>https://github.com/naver/jindojs-jindo</a>에서 스크립트파일을 다운로드 받아 임포트해주세요.";
-		return;
+		if(window.console && typeof window.console.error === "function"){
+			window.console.error("Jindo is still required while the migration is in progress.");
+		}
+		return null;
 	}
 
 	var elAppContainer = (elSeAppContainer || jindo.$("smart_editor2"));	

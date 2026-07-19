@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  * @name SE2M_FontNameWithLayerUI.js
  * @trigger MSG_STYLE_CHANGED,SE2M_TOGGLE_FONTNAME_LAYER
  */
-nhn.husky.SE2M_FontNameWithLayerUI = jindo.$Class({
+nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 	name : "SE2M_FontNameWithLayerUI",
 	FONT_SEPARATOR : "husky_seditor_font_separator",
 	_rxQuote : /['"]/g,
