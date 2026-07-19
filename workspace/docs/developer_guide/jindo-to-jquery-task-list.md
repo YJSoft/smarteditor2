@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 390개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability와 Array/Hash 전환으로 356개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`는 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 384개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash와 Ajax 전환으로 362개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`는 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -349,13 +349,15 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-038 `$Ajax` 제거
 
-- [ ] HTML fragment XHR을 `$.ajax` 또는 `$.get`으로 전환한다.
-- [ ] QuickEditor JSONP load/save를 `$.ajax({dataType: "jsonp"})`로 전환한다.
-- [ ] ColorPalette JSONP 세 호출을 전환한다.
-- [ ] Jindo response `.json()`과 `.text()` 호출을 제거한다.
-- [ ] timeout/error/success callback signature를 변경한다.
-- [ ] JSONP callback parameter와 cache 정책을 기존 endpoint 계약과 검증한다.
+- [x] HTML fragment XHR을 `$.ajax` 또는 `$.get`으로 전환한다.
+- [x] QuickEditor JSONP load/save를 `$.ajax({dataType: "jsonp"})`로 전환한다.
+- [x] ColorPalette JSONP 세 호출을 전환한다.
+- [x] Jindo response `.json()`과 `.text()` 호출을 제거한다.
+- [x] timeout/error/success callback signature를 변경한다.
+- [x] JSONP callback parameter와 cache 정책을 기존 endpoint 계약과 검증한다.
 - [ ] 가능하면 JSONP endpoint를 CORS JSON API로 전환할 수 있는지 별도 조사한다.
+
+`LazyLoader`의 HTML fragment는 `dataType: "html"` success/error callback으로 전환했고, QuickEditor와 ColorPalette의 JSONP 호출은 iframe-local jQuery에 `dataType: "jsonp"`, `jsonp: "callback"`, `cache: false`를 명시했다. QuickEditor의 기존 1초 timeout은 jQuery의 1000ms로 변환했다.
 
 완료 기준:
 

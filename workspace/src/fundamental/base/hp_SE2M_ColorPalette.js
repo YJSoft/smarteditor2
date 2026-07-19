@@ -306,22 +306,28 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 	},
 	
 	_ajaxAddColor : function(){		
-		jindo.$Ajax(this.URL_COLOR_ADD, {
-			type : "jsonp",
-			onload: function(){}
-		}).request({
-			text_key : "colortable",
-			text_data : this.aRecentColor.join(",")
+		window.jQuery.ajax({
+			url : this.URL_COLOR_ADD,
+			dataType : "jsonp",
+			jsonp : "callback",
+			cache : false,
+			data : {
+				text_key : "colortable",
+				text_data : this.aRecentColor.join(",")
+			}
 		});
 	},
 	
 	_ajaxUpdateColor : function(){		
-		jindo.$Ajax(this.URL_COLOR_UPDATE, {
-			type : "jsonp",
-			onload: function(){}
-		}).request({
-			text_key : "colortable",
-			text_data : this.aRecentColor.join(",")
+		window.jQuery.ajax({
+			url : this.URL_COLOR_UPDATE,
+			dataType : "jsonp",
+			jsonp : "callback",
+			cache : false,
+			data : {
+				text_key : "colortable",
+				text_data : this.aRecentColor.join(",")
+			}
 		});
 	},
 
@@ -340,14 +346,17 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 	},
 	
 	_ajaxRecentColor : function(fCallback){
-		jindo.$Ajax(this.URL_COLOR_LIST, {
-			type : "jsonp",
-			onload : fCallback.bind(this)
-		}).request();
+		window.jQuery.ajax({
+			url : this.URL_COLOR_LIST,
+			dataType : "jsonp",
+			jsonp : "callback",
+			cache : false,
+			success : fCallback.bind(this)
+		});
 	},
 
 	_ajaxRecentColorCallback : function(htResponse){
-		var aColorList = htResponse.json()["result"],
+		var aColorList = htResponse && htResponse["result"],
 			waColorList,
 			i, nLen;
 			

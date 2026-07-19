@@ -158,12 +158,15 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 		// QuickEditor를 접고 펼칠 때마다 API 통신을 거치기 때문에 submit이나 beforeunload에 구애받지 않고 안정적인 데이터 저장 가능
 		if (this._environmentData && this._bUseConfig) {
 			// [SMARTEDITORSUS-1970] 사용 설정값이 있는 경우에만 Ajax를 호출하도록 한다. 
-			jindo.$Ajax(this._sAddTextAjaxUrl,{
-				type : "jsonp",
-				onload: function(){}
-			}).request({
-				text_key :"qeditor_fold",
-				text_data : "{table:'"+this._environmentData["table"]["type"]+"',img:'"+this._environmentData["img"]["type"]+"',review:'"+this._environmentData["review"]["type"]+"'}" 
+			window.jQuery.ajax({
+				url : this._sAddTextAjaxUrl,
+				dataType : "jsonp",
+				jsonp : "callback",
+				cache : false,
+				data : {
+					text_key : "qeditor_fold",
+					text_data : "{table:'"+this._environmentData["table"]["type"]+"',img:'"+this._environmentData["img"]["type"]+"',review:'"+this._environmentData["review"]["type"]+"'}"
+				}
 			});
 		}
 		// --[SMARTEDITORSUS-1028][SMARTEDITORSUS-1517]

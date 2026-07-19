@@ -204,7 +204,7 @@ jQuery Event의 대응값은 `target`, `currentTarget`, `relatedTarget`, `pageX`
 
 현재 HuskyCore에는 editor 전체를 폐기하는 destroy lifecycle이 없다. 따라서 기존 lifetime을 유지하면서 등록별 `detach()` 핸들만 제공한다. 향후 destroy API를 추가할 때는 이 핸들을 core가 수집해 일괄 해제하는 방식으로 확장하고, 전역 event registry는 만들지 않는다.
 
-MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로, 중앙 경계 밖 browser event는 `HuskyEvent.createHandler()`와 jQuery `.on()`/`.off()`로 전환했다. attach와 detach가 같은 handler reference를 사용하도록 정리했으며, 지원하지 않는 IE 전용 direct event 경로는 제거했다. MIG-025에서는 browser·OS capability를 [`BrowserCapabilities.js`](../../src/husky_framework/BrowserCapabilities.js)로 중앙화해 `$Agent` 호출을 제거했다. MIG-035/036에서는 Array/Hash wrapper를 native Array와 `Object.create(null)` 자료구조로 전환했다. 활성 runtime source와 service의 `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H` 참조는 0개이고 migration guard가 재도입을 금지한다.
+MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로, 중앙 경계 밖 browser event는 `HuskyEvent.createHandler()`와 jQuery `.on()`/`.off()`로 전환했다. attach와 detach가 같은 handler reference를 사용하도록 정리했으며, 지원하지 않는 IE 전용 direct event 경로는 제거했다. MIG-025에서는 browser·OS capability를 [`BrowserCapabilities.js`](../../src/husky_framework/BrowserCapabilities.js)로 중앙화해 `$Agent` 호출을 제거했다. MIG-035/036에서는 Array/Hash wrapper를 native Array와 `Object.create(null)` 자료구조로 전환했다. MIG-038에서는 HTML XHR과 JSONP를 iframe-local `window.jQuery.ajax()`로 전환하고 Jindo response wrapper를 제거했다. 활성 runtime source와 service의 `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax` 참조는 0개이고 migration guard가 재도입을 금지한다.
 
 ### 6.3 selector 차이
 
@@ -257,13 +257,13 @@ MIG-036에서 `$H`는 제거했다. Shortcut은 `Object.keys()` 순회로, [`hp_
 
 ### 6.7 Ajax와 JSONP
 
-`$Ajax` 6곳은 다음과 같이 나뉜다.
+분석 당시 `$Ajax` 6곳은 다음과 같이 나뉘었다. 현재는 모두 jQuery Ajax로 전환했다.
 
 - HTML fragment를 가져오는 XHR 1곳
 - QuickEditor 설정 JSONP 2곳
 - 최근 색상 JSONP 3곳
 
-Jindo response의 `.json()`과 `.text()`를 사용하므로 jQuery success callback의 첫 번째 인자인 parsed data/text로 호출부를 바꿔야 한다. timeout, error, JSONP callback parameter, cache 정책도 characterization test로 고정한다.
+Jindo response의 `.json()`과 `.text()`는 제거하고 jQuery success callback의 parsed data/text를 직접 사용한다. JSONP callback parameter, cache 정책, 1초 timeout과 error fallback은 characterization test로 고정한다.
 
 ### 6.8 Jindo Component
 

@@ -7,7 +7,7 @@ const sourceGroups = [
     {
         name: "workspace/src",
         root: path.join(projectRoot, "workspace/src"),
-        maximumJindoReferences: 390
+        maximumJindoReferences: 384
     },
     {
         name: "workspace/static/js/service",
@@ -30,7 +30,7 @@ const prohibitedJQueryPatterns = [
         pattern: /(?:jQuery|\$)\s*\([^;\n]*\)\s*\.\s*(?:bind|unbind|delegate|undelegate)\s*\(/
     }
 ];
-const removedJindoMembers = ["$Class", "$Event", "$Fn", "$Agent", "$A", "$H"];
+const removedJindoMembers = ["$Class", "$Event", "$Fn", "$Agent", "$A", "$H", "$Ajax"];
 
 function listJavaScriptFiles(root) {
     const files = [];

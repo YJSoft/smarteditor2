@@ -103,11 +103,15 @@ nhn.husky.SE2M_QuickEditor_Common = nhn.husky.createClass({
 	
 	getData : function() {
 		var self = this;
-		jindo.$Ajax(self._sBaseAjaxUrl, {
-			type : "jsonp",
-			timeout : 1,
-			onload: function(rp) {
-				var result = rp.json().result;
+		window.jQuery.ajax({
+			url : self._sBaseAjaxUrl,
+			dataType : "jsonp",
+			jsonp : "callback",
+			cache : false,
+			timeout : 1000,
+			data : { text_key : "qeditor_fold" },
+			success: function(response) {
+				var result = response && response.result;
 				// [SMARTEDITORSUS-1028][SMARTEDITORSUS-1517] QuickEditor 설정 API 개선
 				//if (!!result && !!result.length) {
 				if (!!result && !!result.text_data) {
@@ -119,14 +123,11 @@ nhn.husky.SE2M_QuickEditor_Common = nhn.husky.createClass({
 				// --[SMARTEDITORSUS-1028][SMARTEDITORSUS-1517]
 			},
 			
-			onerror : function() {
+			error : function() {
 				self.setData("{table:'full',img:'full',review:'full'}");
 			},
-			
-			ontimeout : function() {
-				self.setData("{table:'full',img:'full',review:'full'}");
-			}	
-		}).request({ text_key : "qeditor_fold" });
+			complete : function() {}
+		});
 	},
 	
 	setData : function(sResult){

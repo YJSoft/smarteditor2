@@ -71,21 +71,27 @@ nhn.husky.LazyLoader = nhn.husky.createClass({
 		}
 
 		htCurMsgInfo.bLoadingStatus = 1;
-		(new jindo.$Ajax(htCurMsgInfo.sURL, {
-			onload : this._onload.bind(this, sMsg, aParams)
-		})).request();
+		window.jQuery.ajax({
+			url : htCurMsgInfo.sURL,
+			dataType : "html",
+			success : this._onload.bind(this, sMsg, aParams),
+			error : this._onerror.bind(this, sMsg)
+		});
 
 		return true;
 	},
 
-	_onload : function(sMsg, aParams, oResponse){
-		if(oResponse._response.readyState == 4) {
-			this.htMsgInfo[sMsg].elTarget.innerHTML = oResponse.text();
-			this.htMsgInfo[sMsg].nLoadingStatus = 2;
-			this._removeHandler("$BEFORE_"+sMsg);
-			this.oApp.exec("sMsg", aParams);
-		}else{
-			this.oApp.exec(this.htMsgInfo[sMsg].sFailureCallback, []);
+	_onload : function(sMsg, aParams, sHTML){
+		this.htMsgInfo[sMsg].elTarget.innerHTML = sHTML;
+		this.htMsgInfo[sMsg].nLoadingStatus = 2;
+		this._removeHandler("$BEFORE_"+sMsg);
+		this.oApp.exec(sMsg, aParams);
+	},
+
+	_onerror : function(sMsg){
+		var sFailureCallback = this.htMsgInfo[sMsg].sFailureCallback;
+		if(sFailureCallback){
+			this.oApp.exec(sFailureCallback, []);
 		}
 	},
 
