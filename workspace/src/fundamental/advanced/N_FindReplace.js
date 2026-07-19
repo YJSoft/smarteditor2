@@ -39,7 +39,7 @@ nhn.FindReplace = nhn.husky.createClass({
 		this.document = this.window.document;
 
 		if(this.document.domain != this.document.location.hostname){
-			var oAgentInfo = jindo.$Agent();
+			var oAgentInfo = nhn.husky.Browser;
 			var oNavigatorInfo = oAgentInfo.navigator();
 
 			if(oNavigatorInfo.firefox && oNavigatorInfo.version < 3){

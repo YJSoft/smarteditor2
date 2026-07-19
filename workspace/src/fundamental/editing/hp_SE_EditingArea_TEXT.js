@@ -32,7 +32,7 @@ nhn.husky.SE_EditingArea_TEXT = nhn.husky.createClass({
 	},
 
 	$BEFORE_MSG_APP_READY : function() {
-		this.oNavigator = jindo.$Agent().navigator();
+		this.oNavigator = nhn.husky.Browser.navigator();
 		this.oApp.exec("REGISTER_EDITING_AREA", [this]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["getTextAreaContents", this.getRawContents.bind(this)]);
 	},
@@ -169,7 +169,7 @@ nhn.husky.SE_EditingArea_TEXT = nhn.husky.createClass({
 				oContent.append(aContent[i]);
 				oContent.append('</P>');
 			} else {
-				if (!jindo.$Agent().navigator().ie) {
+				if (!nhn.husky.Browser.navigator().ie) {
 					oContent.append('<P><BR></P>');
 				} else {
 					oContent.append('<P>&nbsp;</P>');

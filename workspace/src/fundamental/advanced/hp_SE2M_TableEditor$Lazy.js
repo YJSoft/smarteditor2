@@ -76,7 +76,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	},
 
 	_attachEvents : function(){
-		var htBrowser = jindo.$Agent().navigator();
+		var htBrowser = nhn.husky.Browser.navigator();
 		
 		this.oApp.exec("SE2_ATTACH_HOVER_EVENTS", [this.aElBtn_tableStyle]);
 		
@@ -654,7 +654,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 				}
 				
 				// [SMARTEDITORSUS-1533] 병합되는 셀 바로 뒤에 포함된 빈 텍스트 노드도 함께 제거하여 DOM 트리 일관성 유지
-				var htBrowser = jindo.$Agent().navigator();
+				var htBrowser = nhn.husky.Browser.navigator();
 				if(htBrowser.ie && (htBrowser.nativeVersion == 9 || htBrowser.nativeVersion == 10) && (htBrowser.version == 9 || htBrowser.version == 10)){
 					this._removeEmptyTextNode_IE(elTD);
 				}
@@ -824,7 +824,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			
 			// [SMARTEDITORSUS-1745][SMARTEDITORSUS-1842] 배경색이 바로 반영되지 않는 버그로 인해 명시
 			// [SMARTEDITORSUS-2155] Win10 Spartan
-			var htBrowser = jindo.$Agent().navigator();
+			var htBrowser = nhn.husky.Browser.navigator();
 			if((htBrowser.edge && (Math.floor(htBrowser.version) === 12)) || (htBrowser.ie && (htBrowser.nativeVersion >= 9 || htBrowser.nativeVersion <= 11) && (htBrowser.version >= 9 || htBrowser.version <= 11))){
 				elNewTD.style.cssText = elCurCell.style.cssText;
 			}
@@ -940,7 +940,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			
 			// [SMARTEDITORSUS-1745][SMARTEDITORSUS-1842] 배경색이 바로 반영되지 않는 버그로 인해 명시
 			// [SMARTEDITORSUS-2155] Win10 Spartan
-			var htBrowser = jindo.$Agent().navigator();
+			var htBrowser = nhn.husky.Browser.navigator();
 			if((htBrowser.edge && (Math.floor(htBrowser.version) === 12)) || (htBrowser.ie && (htBrowser.nativeVersion >= 9 || htBrowser.nativeVersion <= 11) && (htBrowser.version >= 9 || htBrowser.version <= 11))){
 				elNewTD.style.cssText = elNewTD.style.cssText;	// eslint-disable-line no-self-assign
 			}
@@ -1035,7 +1035,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 
 		// [SMARTEDITORSUS-2136] [IE] <table>에 resizeend 핸들러 부여
 		var elTable = wevE.element,
-		htBrowser = jindo.$Agent().navigator(),
+		htBrowser = nhn.husky.Browser.navigator(),
 		sPointerUpEvent = 'onpointerup',
 		sResizeEndEvent = 'onresizeend';
 		if(htBrowser.ie && elTable && elTable.tagName && (elTable.tagName.toUpperCase() === 'TABLE')){ // [IE]
@@ -1233,7 +1233,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 				var elCell = allCells[n][i];
 				var welCell = jindo.$Element(elCell);
 				
-				// var htBrowser = jindo.$Agent().navigator();
+				// var htBrowser = nhn.husky.Browser.navigator();
 				
 				// [SMARTEDITORSUS-1427][SMARTEDITORSUS-1431][SMARTEDITORSUS-1491][SMARTEDITORSUS-1504] IE9, 10에서 Jindo.$Element#css 가 빈 속성값을 1px로 가져오는 문제점이 있어 대체
 				/*var nPaddingLeft = this.parseIntOr0(welCell.css("paddingLeft"));
@@ -1404,7 +1404,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	_fnOnMouseMoveResizeCover : function(oEvent){
 		// [SMARTEDITORSUS-1504] 표 모서리 Drag 사용성 개선
 		// - 최초 리사이징 후 해당 위치에서 바로 마우스를 눌러 Drag 가능
-		if(jindo.$Agent().navigator().chrome || jindo.$Agent().navigator().safari){
+		if(nhn.husky.Browser.navigator().chrome || nhn.husky.Browser.navigator().safari){
 			if(this.htResizing.nPreviousResizeMode != undefined && this.htResizing.nPreviousResizeMode != 0){
 				if(this.htResizing.nResizeMode != this.htResizing.nPreviousResizeMode){
 					this.htResizing.nResizeMode = this.htResizing.nPreviousResizeMode;
@@ -1670,7 +1670,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		// For FF, (0, 0) is top left corner of the cell excluding the border.
 		var nAdjustedDraggableCellEdge1;
 		var nAdjustedDraggableCellEdge2;
-		if(jindo.$Agent().navigator().ie || jindo.$Agent().navigator().safari){
+		if(nhn.husky.Browser.navigator().ie || nhn.husky.Browser.navigator().safari){
 			nAdjustedDraggableCellEdge1 = this.htResizing.nBorderSize + this.nDraggableCellEdge;
 			nAdjustedDraggableCellEdge2 = this.nDraggableCellEdge;
 		}else{
@@ -1745,7 +1745,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		// --[SMARTEDITORSUS-1504]
 		
 		// [SMARTEDITORSUS-1504] 표 모서리 Drag 사용성 개선
-		if(jindo.$Agent().navigator().chrome || jindo.$Agent().navigator().safari){
+		if(nhn.husky.Browser.navigator().chrome || nhn.husky.Browser.navigator().safari){
 			if(!this.htResizing.elPreviousCell){
 				this.htResizing.elPreviousCell = this.htResizing.elCell;
 			}else{
@@ -1891,7 +1891,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			elTmp = this.aSelectedCells[i];
 			
 			// [SMARTEDITORSUS-1533] 삭제되는 열 바로 뒤에 인접한 빈 텍스트 노드도 함께 삭제하여 DOM 트리 일관성 유지 
-			var htBrowser = jindo.$Agent().navigator();
+			var htBrowser = nhn.husky.Browser.navigator();
 			if(htBrowser.ie && (htBrowser.nativeVersion == 9 || htBrowser.nativeVersion == 10) && (htBrowser.version == 9 || htBrowser.version == 10)){
 				this._removeEmptyTextNode_IE(elTmp);
 			}
@@ -1910,7 +1910,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 				// There can be empty but necessary TR's because of Rowspan
 				if(!this.htMap[0][i] || !this.htMap[0][i].parentNode || this.htMap[0][i].parentNode.tagName !== "TR"){
 					// [SMARTEDITORSUS-1533] 삭제되는 행 바로 뒤에 인접한 빈 텍스트 노드도 함께 삭제하여 DOM 트리 일관성 유지
-					htBrowser = jindo.$Agent().navigator();
+					htBrowser = nhn.husky.Browser.navigator();
 					if(htBrowser.ie && (htBrowser.nativeVersion == 9 || htBrowser.nativeVersion == 10) && (htBrowser.version == 9 || htBrowser.version == 10)){
 						this._removeEmptyTextNode_IE(elTmp);
 					}
@@ -1950,7 +1950,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		// +---+---+---+---+
 		
 		// [SMARTEDITORSUS-991] IE는 insertionPt의 previousSibling에도 배경색을 적용해줘야 할 필요가 있음.
-		var htBrowser = jindo.$Agent().navigator();
+		var htBrowser = nhn.husky.Browser.navigator();
 		// --[SMARTEDITORSUS-991]
 		
 		for(var y = 0, nYLen = this.htMap[0].length; y < nYLen; y++){
@@ -2029,7 +2029,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		var elInsertionPt = aTRs[this.htSelectionEPos.y + 1] || null;
 
 		// [SMARTEDITORSUS-991] IE는 insertionPt의 previousSibling에도 배경색을 적용해줘야 할 필요가 있음.
-		var htBrowser = jindo.$Agent().navigator();
+		var htBrowser = nhn.husky.Browser.navigator();
 		// --[SMARTEDITORSUS-991]
 		
 		for(var y = this.htSelectionSPos.y; y <= this.htSelectionEPos.y; y++){
@@ -2244,7 +2244,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 				}
 				
 				// [SMARTEDITORSUS-1533]
-				var htBrowser = jindo.$Agent().navigator();
+				var htBrowser = nhn.husky.Browser.navigator();
 				if(htBrowser.ie && (htBrowser.nativeVersion == 9 || htBrowser.nativeVersion == 10) && (htBrowser.version == 9 || htBrowser.version == 10)){
 					this._removeEmptyTextNode_IE(aTR[y]);
 				}

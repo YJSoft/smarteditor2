@@ -405,7 +405,7 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 		this.welHelpPopupLayer.offset(this.nCalcY, (this.nCalcX)/2); 
 
 		//[SMARTEDITORSUS-1327] IE에서 포커스 이슈로 IE에 대해서만 window.focus실행함. 
-		if(jindo.$Agent().navigator().ie) {
+		if(nhn.husky.Browser.navigator().ie) {
 			window.focus();
 		}
         

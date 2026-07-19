@@ -359,7 +359,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	 * @param {Element} oLayer
 	 */
 	getPositionInfo : function(oEle, oLayer){
-		this.nYGap = jindo.$Agent().navigator().ie? -16 : -18;
+		this.nYGap = nhn.husky.Browser.navigator().ie? -16 : -18;
 		this.nXGap = 1;
 		
 		var oRevisePosition = {};

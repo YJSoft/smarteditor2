@@ -42,7 +42,7 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 
 	$ON_MSG_APP_READY : function(){
 		// [SMARTEDITORSUS-2260] 메일 > Mac에서 ctrl 조합 단축키 모두 meta 조합으로 변경
-		if (jindo.$Agent().os().mac) {
+		if (nhn.husky.Browser.os().mac) {
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+b", "EXECCOMMAND", ["bold", false, false]]);
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+u", "EXECCOMMAND", ["underline", false, false]]);
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+i", "EXECCOMMAND", ["italic", false, false]]);
@@ -76,7 +76,7 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 
 //		this.oApp.exec("REGISTER_UI_EVENT", ["styleRemover", "click", "EXECCOMMAND", ["RemoveFormat", false, false]]);
 
-		this.oNavigator = jindo.$Agent().navigator();
+		this.oNavigator = nhn.husky.Browser.navigator();
 
 		if(!this.oNavigator.safari && !this.oNavigator.chrome){
 			this._getDocumentBR = function(){};
@@ -183,7 +183,7 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 	 * execCommand() 실행 후 빈 <P>를 제거해 준다.
 	 * */
 	_checkBlockQuoteCondition_IE : function(){
-		var htBrowser = jindo.$Agent().navigator();
+		var htBrowser = nhn.husky.Browser.navigator();
 		var bProcess = false;
 		var elBlockquote;
 		

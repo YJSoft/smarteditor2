@@ -44,7 +44,7 @@ window.createSEditor2 = function(elIRField, htParams, elSeAppContainer){
 		htParams.fOnBeforeUnload = null;
 	}
 	htParams.elAppContainer = elAppContainer;												// 에디터 UI 최상위 element 셋팅 
-	htParams.oNavigator = jindo.$Agent().navigator();										// navigator 객체 셋팅
+	htParams.oNavigator = nhn.husky.Browser.navigator();										// navigator 객체 셋팅
 	htParams.I18N_LOCALE = htParams.I18N_LOCALE || "ko_KR";
 
 	var oEditor = new nhn.husky.HuskyCore(htParams);

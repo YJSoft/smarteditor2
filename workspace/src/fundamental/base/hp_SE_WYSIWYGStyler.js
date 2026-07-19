@@ -26,7 +26,7 @@ nhn.husky.SE_WYSIWYGStyler = nhn.husky.createClass({
 	_sCursorHolder : "\uFEFF",
 
 	$init : function(){
-		var htBrowser = jindo.$Agent().navigator();
+		var htBrowser = nhn.husky.Browser.navigator();
 
 		if(htBrowser.ie && htBrowser.version > 8){
 			// [SMARTEDITORSUS-178] ZWNBSP(\uFEFF) 를 사용하면 IE9 이상의 경우 높이값을 갖지 못해 커서위치가 이상함
@@ -160,10 +160,10 @@ nhn.husky.SE_WYSIWYGStyler = nhn.husky.createClass({
 			}
 */
 			// FF3 will actually display %uFEFF when it is followed by a number AND certain font-family is used(like Gulim), so remove the character for FF3
-			//if(jindo.$Agent().navigator().firefox && jindo.$Agent().navigator().version == 3){
+			//if(nhn.husky.Browser.navigator().firefox && nhn.husky.Browser.navigator().version == 3){
 			// FF4+ may have similar problems, so ignore the version number
 			// [SMARTEDITORSUS-416] 커서가 올라가지 않도록 BR 을 살려둠
-			// if(jindo.$Agent().navigator().firefox){
+			// if(nhn.husky.Browser.navigator().firefox){
 				// oSpan.innerHTML = "";
 			// }
 			return;
@@ -211,7 +211,7 @@ nhn.husky.SE_WYSIWYGStyler = nhn.husky.createClass({
 			// To make the cursor go inside the styling SPAN, remove the bogus BR when the styling SPAN is created.
 			// 	-> Style TEST<br> as <span style="XXX">TEST</span> (remove unnecessary BR)
 			// 	-> Cannot monitor clicks/cursor position real-time so make the contents error-proof instead.
-			if(jindo.$Agent().navigator().firefox){
+			if(nhn.husky.Browser.navigator().firefox){
 				var aStyleParents = oSelection.aStyleParents;
 				var nLen=aStyleParents.length;
 				for(i=0; i<nLen; i++){

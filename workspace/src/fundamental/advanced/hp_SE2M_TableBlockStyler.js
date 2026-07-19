@@ -82,7 +82,7 @@ nhn.husky.SE2M_TableBlockStyler = nhn.husky.createClass({
 
 				oBlockNode = self.oDocument.createElement('P');								
 				
-				if (jindo.$Agent().navigator().firefox) {
+				if (nhn.husky.Browser.navigator().firefox) {
 					oChildNode = self.oDocument.createElement('BR');
 				} else {
 					oChildNode = self.oDocument.createTextNode('\u00A0');

@@ -63,7 +63,7 @@ nhn.CurrentSelection_FF = function(){
 
 nhn.CurrentSelection = new (nhn.husky.createClass({
 	$init : function(){
-		var oAgentInfo = jindo.$Agent().navigator();
+		var oAgentInfo = nhn.husky.Browser.navigator();
 		if(oAgentInfo.ie && document.selection){
 			nhn.CurrentSelection_IE.apply(this);
 		}else{
@@ -512,7 +512,7 @@ nhn.W3CDOMRange = nhn.husky.createClass({
 	// eg)
 	// when <P><SPAN>TEST</SPAN></p> is selected, <SPAN>TEST</SPAN> will be returned as commonAncestorContainer
 	fixCommonAncestorContainer : function(){
-		if(!jindo.$Agent().navigator().ie){
+		if(!nhn.husky.Browser.navigator().ie){
 			return;
 		}
 		
@@ -1048,7 +1048,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 	},
 	
 	placeStringBookmark : function(){
-		if(this.collapsed || jindo.$Agent().navigator().ie || jindo.$Agent().navigator().firefox){
+		if(this.collapsed || nhn.husky.Browser.navigator().ie || nhn.husky.Browser.navigator().firefox){
 			return this.placeStringBookmark_NonWebkit();
 		}else{
 			return this.placeStringBookmark_Webkit();
@@ -1071,7 +1071,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 		oInsertionPoint.insertNode(oStartMarker);
 
 		// IE에서 빈 SPAN의 앞뒤로 커서가 이동하지 않아 문제가 발생 할 수 있어, 보이지 않는 특수 문자를 임시로 넣어 줌.
-		if(jindo.$Agent().navigator().ie){
+		if(nhn.husky.Browser.navigator().ie){
 			// SPAN의 위치가 TD와 TD 사이에 있을 경우, 텍스트 삽입 시 알수 없는 오류가 발생한다.
 			// TD와 TD사이에서는 텍스트 삽입이 필요 없음으로 그냥 try/catch로 처리
 			try{
@@ -1358,7 +1358,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 			// 커서를 다음라인으로 앞쪽으로 위치시킨다.
 			if(elNextLine.innerHTML === ""){
 				// 크롬에서 빈 <p></p> 를 선택해서 collapseToStart 하면 윗라인으로 이동하기 때문에 비어있으면 \uFEFF 를 넣어준다.
-				elNextLine.innerHTML = (jindo.$Agent().navigator().ie && jindo.$Agent().navigator().version > 8) ? "\u200B" : "\uFEFF";
+				elNextLine.innerHTML = (nhn.husky.Browser.navigator().ie && nhn.husky.Browser.navigator().version > 8) ? "\u200B" : "\uFEFF";
 			}
 			this.selectNodeContents(elNextLine);
 			this.collapseToStart();
@@ -1368,7 +1368,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 			// (주의) 북마크를 넣었다 빼면 IE10은 다음라인 p태그 끝쪽으로 이동되기 때문에 IE7인 경우만 넣어줌 
 			// [SMARTEDITORSUS-2043] SE_EditingArea_WYSIWYG.$ON_PASTE_HTML 에서 IE8의 경우만 삽입시 뒤에 \uFEFF가 추가로 붙어서 들어오는데
 			// 이로 인해 템플릿과 커서사이가 한줄 벌어지는 문제가 있어서 \uFEFF 추가하는 부분을 삭제하니 커서가 IE7과 동일하게 동작하여 IE8도 임시북마크처리함
-			if(jindo.$Agent().navigator().ie && jindo.$Agent().navigator().version < 9){
+			if(nhn.husky.Browser.navigator().ie && nhn.husky.Browser.navigator().version < 9){
 				sBM = this.placeStringBookmark();
 				this.removeStringBookmark(sBM);
 			}
@@ -1518,7 +1518,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 	 * @see nhn.HuskyRange#_checkTextDecoration
 	 */
 	_setTextDecoration : function(oNode, sValue){
-		if (jindo.$Agent().navigator().firefox) {	// FF
+		if (nhn.husky.Browser.navigator().firefox) {	// FF
 			oNode.style.textDecoration = (oNode.style.textDecoration) ? oNode.style.textDecoration + " " + sValue : sValue;
 		}
 		else{
@@ -2076,7 +2076,7 @@ nhn.BrowserSelection = function(win){
 	this.init(win);
 
 	// [SMARTEDITORSUS-888] IE9 이후로 document.createRange 를 지원
-/*	var oAgentInfo = jindo.$Agent().navigator();
+/*	var oAgentInfo = nhn.husky.Browser.navigator();
 	if(oAgentInfo.ie){
 		nhn.BrowserSelectionImpl_IE.apply(this);
 	}else{
@@ -2436,7 +2436,7 @@ nhn.BrowserSelectionImpl_IE = function(){
 
 nhn.DOMFix = new (nhn.husky.createClass({
 	$init : function(){
-		if(jindo.$Agent().navigator().ie || jindo.$Agent().navigator().opera){
+		if(nhn.husky.Browser.navigator().ie || nhn.husky.Browser.navigator().opera){
 			this.childNodes = this._childNodes_Fix;
 			this.parentNode = this._parentNode_Fix;
 		}else{

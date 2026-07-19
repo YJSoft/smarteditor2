@@ -33,7 +33,7 @@ nhn.husky.SE2B_CSSLoader = nhn.husky.createClass({
 		this.htOptions = nhn.husky.SE2M_Configuration.SE2B_CSSLoader;
 			
 		// only IE's slow
-		if(!jindo.$Agent().navigator().ie){
+		if(!nhn.husky.Browser.navigator().ie){
 			this.$ON_MSG_APP_READY = (function(){
 				this.loadSE2CSS();
 			}).bind(this)

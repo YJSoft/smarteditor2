@@ -28,7 +28,7 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 			this.sLineBreaker = "P";
 		}
 		
-		this.htBrowser = jindo.$Agent().navigator();
+		this.htBrowser = nhn.husky.Browser.navigator();
 		
 		// [SMARTEDITORSUS-227] IE 인 경우에도 에디터 Enter 처리 로직을 사용하도록 수정
 		if(this.htBrowser.opera && this.sLineBreaker == "P"){

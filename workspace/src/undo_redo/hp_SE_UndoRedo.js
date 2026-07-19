@@ -160,7 +160,7 @@ nhn.husky.SE_UndoRedo = nhn.husky.createClass({
 	},
 	
 	$ON_MSG_APP_READY : function(){
-		var oNavigator = jindo.$Agent().navigator();
+		var oNavigator = nhn.husky.Browser.navigator();
 		this.bIE = oNavigator.ie;
 		this.bFF = oNavigator.firefox;
 		//this.bChrome = oNavigator.chrome;
@@ -170,7 +170,7 @@ nhn.husky.SE_UndoRedo = nhn.husky.createClass({
 		this.oApp.exec("REGISTER_UI_EVENT", ["redo", "click", "REDO"]);
 
 		// [SMARTEDITORSUS-2260] 메일 > Mac에서 ctrl 조합 단축키 모두 meta 조합으로 변경
-		if (jindo.$Agent().os().mac) {
+		if (nhn.husky.Browser.os().mac) {
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+z", "UNDO"]);
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+y", "REDO"]);
 		} else {

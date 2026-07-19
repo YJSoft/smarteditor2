@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 	name : "Utils",
 
 	$init : function(){
-		var oAgentInfo = jindo.$Agent();
+		var oAgentInfo = nhn.husky.Browser;
 		var oNavigatorInfo = oAgentInfo.navigator();
 
 		if(oNavigatorInfo.ie && oNavigatorInfo.version == 6){
@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["htBrowser", jindo.$Agent().navigator()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["htBrowser", nhn.husky.Browser.navigator()]);
 	},
 	
 	$ON_ATTACH_HOVER_EVENTS : function(aElms, htOptions){

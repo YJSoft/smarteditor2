@@ -30,7 +30,7 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 		this.elLastHover = null;
 		this._assignHTMLElements(elAppContainer);
 		
-		this.htBrowser = jindo.$Agent().navigator();
+		this.htBrowser = nhn.husky.Browser.navigator();
 		this.aAdditionalFontList = aAdditionalFontList || [];
 	},
 	

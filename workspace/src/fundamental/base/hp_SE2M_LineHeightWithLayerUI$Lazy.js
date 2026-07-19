@@ -120,7 +120,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_LineHeightWithLayerUI, {
 		}
 		this.oApp.exec("SE2M_TOGGLE_LINEHEIGHT_LAYER", []);
 		
-		var oNavigator = jindo.$Agent().navigator();
+		var oNavigator = nhn.husky.Browser.navigator();
 		if(oNavigator.chrome || oNavigator.safari){
 			this.oApp.exec("FOCUS");	// [SMARTEDITORSUS-654]
 		}

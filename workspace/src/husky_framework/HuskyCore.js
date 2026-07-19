@@ -33,7 +33,7 @@ if (!nhn.husky){nhn.husky = {};}
 	nhn.husky.HuskyCore = nhn.husky.createClass({
 		name : "HuskyCore",
 		aCallerStack : null,
-		bMobile : jindo.$Agent().navigator().mobile || jindo.$Agent().navigator().msafari, 
+		bMobile : nhn.husky.Browser.navigator().mobile || nhn.husky.Browser.navigator().msafari,
 
 		$init : function(htOptions){
 			this.htOptions = htOptions||{};

@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 517개, `workspace/static/js/service` 7개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계 전환으로 229개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`은 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 440개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계와 browser capability 전환으로 306개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`는 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -229,12 +229,14 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-025 browser capability 모듈 구현
 
-- [ ] 실제로 필요한 플랫폼 정보 목록을 정의한다.
-- [ ] macOS shortcut 판별을 중앙화한다.
+- [x] 실제로 필요한 플랫폼 정보 목록을 정의한다.
+- [x] macOS shortcut 판별을 중앙화한다.
 - [ ] Selection/Range와 event capability를 중앙화한다.
 - [ ] 불필요한 IE/Opera/구형 Safari 분기를 제거한다.
 - [ ] 유지할 browser workaround는 근거와 테스트를 추가한다.
-- [ ] `jindo.$Agent` 참조가 0인지 확인한다.
+- [x] `jindo.$Agent` 참조가 0인지 확인한다.
+
+[`BrowserCapabilities.js`](../../src/husky_framework/BrowserCapabilities.js)는 user agent를 한 번만 분석해 editor가 실제로 사용하는 browser·OS capability를 제공한다. 기존 plugin 계약과의 전환 비용을 줄이기 위해 `navigator()`와 `os()` accessor를 제공하지만 Jindo 객체에는 의존하지 않는다. 모든 runtime source와 service 호출부가 이 모듈을 사용하며, migration guard가 `jindo.$Agent` 재도입을 막는다.
 
 완료 기준:
 

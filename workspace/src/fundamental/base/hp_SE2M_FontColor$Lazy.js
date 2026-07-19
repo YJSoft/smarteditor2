@@ -53,7 +53,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FontColor, {
 		this.oApp.exec("SET_WYSIWYG_STYLE", [{"color":sFontColor}]);
 
 		// [SMARTEDITORSUS-907] 모든 브라우저에서 SET_WYSIWYG_STYLE로 색상을 설정하도록 변경
-		// var oAgent = jindo.$Agent().navigator();
+		// var oAgent = nhn.husky.Browser.navigator();
 		// if( oAgent.ie || oAgent.firefox ){	// [SMARTEDITORSUS-658] Firefox 추가
 		//	this.oApp.exec("SET_WYSIWYG_STYLE", [{"color":sFontColor}]);
 		// } else {

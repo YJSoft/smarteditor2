@@ -276,7 +276,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableCreator, {
 			htBrowser;
 			
 		elBody = this.oApp.getWYSIWYGDocument().body;
-		htBrowser = jindo.$Agent().navigator();
+		htBrowser = nhn.husky.Browser.navigator();
 		
 		this.nTableWidth = elBody.offsetWidth;
 		

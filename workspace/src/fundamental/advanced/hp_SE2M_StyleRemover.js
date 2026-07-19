@@ -146,7 +146,7 @@ nhn.husky.SE2M_StyleRemover = nhn.husky.createClass({
 			aNodesInSelection,
 			oSelection; 
 		
-		htBrowser = jindo.$Agent().navigator();
+		htBrowser = nhn.husky.Browser.navigator();
 		
 		if(!sHtml) {return false;}
 		if(this.oApp.getEditingMode() != "WYSIWYG"){

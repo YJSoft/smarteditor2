@@ -19,9 +19,9 @@ if(typeof window.nhn == 'undefined') { window.nhn = {}; }
 if(!nhn.husky) { nhn.husky = {}; }
 
 (function(){
-	// 구버전 jindo.$Agent polyfill
+	// Legacy device flags retained for editor-specific workarounds.
 	var ua = navigator.userAgent,
-		oAgent = jindo.$Agent(),
+		oAgent = nhn.husky.Browser,
 		browser = oAgent.navigator(),
 		os = oAgent.os();
 
@@ -51,8 +51,8 @@ nhn.husky.SE2M_UtilPlugin = nhn.husky.createClass({
 	name : "SE2M_UtilPlugin",
 
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["oAgent", jindo.$Agent()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["oNavigator", jindo.$Agent().navigator()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["oAgent", nhn.husky.Browser]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["oNavigator", nhn.husky.Browser.navigator()]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["oUtils", this]);
 	},
 	

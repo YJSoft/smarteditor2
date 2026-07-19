@@ -36,7 +36,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_SCharacter, {
 	},
 	
 	$LOCAL_BEFORE_FIRST : function(/* sFullMsg */){
-		this.bIE = jindo.$Agent().navigator().ie;
+		this.bIE = nhn.husky.Browser.navigator().ie;
 
 		this._assignHTMLObjects(this.oApp.htOptions.elAppContainer);
 

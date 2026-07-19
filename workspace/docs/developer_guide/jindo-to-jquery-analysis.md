@@ -93,7 +93,7 @@ upstream Jindo 최신 문서만 기준으로 치환하면 SmartEditor 전용 pat
 
 전환 기간의 로딩 순서는 jQuery 3.7.1, Jindo core, Jindo Component, 설정과 creator, `smarteditor2.js` 순서다. Webpack이 Jindo를 module dependency로 묶는 구조가 아니라 `CopyWebpackPlugin`이 `workspace/static` 전체를 배포물로 복사한다. jQuery는 npm 개발 의존성의 `dist/jquery.min.js`를 배포물의 `js/lib/jquery.min.js`로 복사한다.
 
-[`SE2BasicCreator.js`](../../static/js/service/SE2BasicCreator.js)는 Jindo 존재 여부를 검사하고 `$`, `$$`, `$Agent`를 사용한다. 따라서 `workspace/src` 전환만으로는 Jindo를 제거할 수 없다.
+[`SE2BasicCreator.js`](../../static/js/service/SE2BasicCreator.js)는 Jindo 존재 여부를 검사하고 `$`, `$$`를 사용한다. 따라서 `workspace/src` 전환만으로는 Jindo를 제거할 수 없다.
 
 ### 4.3 iframe 런타임 경계
 
@@ -204,7 +204,7 @@ jQuery Event의 대응값은 `target`, `currentTarget`, `relatedTarget`, `pageX`
 
 현재 HuskyCore에는 editor 전체를 폐기하는 destroy lifecycle이 없다. 따라서 기존 lifetime을 유지하면서 등록별 `detach()` 핸들만 제공한다. 향후 destroy API를 추가할 때는 이 핸들을 core가 수집해 일괄 해제하는 방식으로 확장하고, 전역 event registry는 만들지 않는다.
 
-MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로, 중앙 경계 밖 browser event는 `HuskyEvent.createHandler()`와 jQuery `.on()`/`.off()`로 전환했다. attach와 detach가 같은 handler reference를 사용하도록 정리했으며, 지원하지 않는 IE 전용 direct event 경로는 제거했다. 활성 runtime source와 service의 `jindo.$Fn` 참조는 0개이고 migration guard가 재도입을 금지한다.
+MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로, 중앙 경계 밖 browser event는 `HuskyEvent.createHandler()`와 jQuery `.on()`/`.off()`로 전환했다. attach와 detach가 같은 handler reference를 사용하도록 정리했으며, 지원하지 않는 IE 전용 direct event 경로는 제거했다. MIG-025에서는 browser·OS capability를 [`BrowserCapabilities.js`](../../src/husky_framework/BrowserCapabilities.js)로 중앙화해 `$Agent` 호출을 제거했다. 활성 runtime source와 service의 `jindo.$Fn`, `jindo.$Agent` 참조는 0개이고 migration guard가 재도입을 금지한다.
 
 ### 6.3 selector 차이
 
@@ -232,7 +232,7 @@ MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.proto
 
 ### 6.5 `$Agent`와 legacy browser 분기
 
-`$Agent` 호출 82곳 중 대부분은 IE, Firefox, Chrome, Safari와 macOS 분기다. jQuery에는 `$Agent` 또는 `$.browser` 대체 기능이 없다.
+분석 당시 `$Agent` 호출 82곳은 대부분 IE, Firefox, Chrome, Safari와 macOS 분기였다. jQuery에는 `$Agent` 또는 `$.browser` 대체 기능이 없으므로, 현재는 [`BrowserCapabilities.js`](../../src/husky_framework/BrowserCapabilities.js)가 user agent를 한 번만 분석해 필요한 플래그와 OS 정보를 제공한다. runtime source와 service의 `$Agent` 호출은 모두 제거되었다.
 
 분기 처리 원칙은 다음과 같다.
 

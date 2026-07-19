@@ -77,7 +77,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 	},
 	
 	_validateTarget : function() {
-		var oNavigator = jindo.$Agent().navigator(),
+		var oNavigator = nhn.husky.Browser.navigator(),
 			bReturn = true;
 		
 		if(oNavigator.ie) {
@@ -107,7 +107,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 		}
 		sURL = sURL.replace(/\s+$/, "");
 		
-		var oAgent = jindo.$Agent().navigator();
+		var oAgent = nhn.husky.Browser.navigator();
 		var sBlank = "";
 
 		this.oApp.exec("IE_FOCUS", []);
@@ -230,7 +230,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 	},
 	
 	_isExceptional : function(){
-		var oNavigator = jindo.$Agent().navigator(),
+		var oNavigator = nhn.husky.Browser.navigator(),
 			bImg = false, bEmail = false;
 		
 		if(!oNavigator.ie){

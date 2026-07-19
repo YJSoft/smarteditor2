@@ -370,7 +370,7 @@ Shortcut.Action ={
 	for(var i=1 ; i < 13 ; i++){
 		Shortcut.Store.anthorKeyHash["F"+i] = i+111;
 	}
-	var agent = jindo.$Agent().navigator();
+	var agent = nhn.husky.Browser.navigator();
 	if(agent.ie||agent.safari||agent.chrome){
 		hash.HYPHEN = 189;//(-)
 		hash.EQUAL  = 187;//(=)

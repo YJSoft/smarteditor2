@@ -68,7 +68,7 @@ nhn.husky.SE2M_Hyperlink = nhn.husky.createClass({
 		this.bLayerShown = false;
 
 		// [SMARTEDITORSUS-2260] 메일 > Mac에서 ctrl 조합 단축키 모두 meta 조합으로 변경
-		if (jindo.$Agent().os().mac) {
+		if (nhn.husky.Browser.os().mac) {
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+k", "TOGGLE_HYPERLINK_LAYER", []]);
 		} else {
 			this.oApp.exec("REGISTER_HOTKEY", ["ctrl+k", "TOGGLE_HYPERLINK_LAYER", []]);

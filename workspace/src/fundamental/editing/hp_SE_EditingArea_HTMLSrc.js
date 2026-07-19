@@ -32,7 +32,7 @@ nhn.husky.SE_EditingArea_HTMLSrc = nhn.husky.createClass({
 	},
 
 	$BEFORE_MSG_APP_READY : function() {
-		this.oNavigator = jindo.$Agent().navigator();
+		this.oNavigator = nhn.husky.Browser.navigator();
 		this.oApp.exec("REGISTER_EDITING_AREA", [this]);
 	},
 	
@@ -123,7 +123,7 @@ nhn.husky.SE_EditingArea_HTMLSrc = nhn.husky.createClass({
 		}
 		
 		// [SMARTEDITORSUS-1589] 문서 모드가 Edge인 IE11에서 WYSIWYG 모드와 HTML 모드 전환 시, 문말에 무의미한 <br> 두 개가 첨가되는 현상으로 필터링 추가
-		var htBrowser = jindo.$Agent().navigator();
+		var htBrowser = nhn.husky.Browser.navigator();
 		if(htBrowser.ie && htBrowser.nativeVersion == 11 && document.documentMode == 11){ // Edge 모드의 documentMode 값은 11
 			sIR = sIR.replace(/(<br><br>$)/, "");
 		}

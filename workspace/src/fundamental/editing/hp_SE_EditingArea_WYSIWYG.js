@@ -74,7 +74,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	
 	$init : function(iframe){
 		this.iframe = jindo.$(iframe);		
-		var oAgent = jindo.$Agent().navigator();		
+		var oAgent = nhn.husky.Browser.navigator();
 		// IE에서 에디터 초기화 시에 임의적으로 iframe에 포커스를 반쯤(IME 입력 안되고 커서만 깜박이는 상태) 주는 현상을 막기 위해서 일단 iframe을 숨겨 뒀다가 CHANGE_EDITING_MODE에서 위지윅 전환 시 보여준다.
 		// 이런 현상이 다양한 요소에 의해서 발생하며 발견된 몇가지 경우는,
 		// - frameset으로 페이지를 구성한 후에 한개의 frame안에 버튼을 두어 에디터로 링크 할 경우
@@ -487,7 +487,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		/**
 		 * [SMARTEDITORSUS-1972] [IE 11] 마지막 변경된 body height에서 변화가 없는 경우 0px로 축소하지 않음
 		 * */
-		var htBrowser = jindo.$Agent().navigator(),
+		var htBrowser = nhn.husky.Browser.navigator(),
 		isIE11 = (htBrowser.ie && htBrowser.nativeVersion === 11),
 		isShrinkingUnnecessary = (this.nBodyHeight_last === nBodyHeight);
 		
@@ -584,7 +584,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	$ON_CHANGE_EDITING_MODE : function(sMode/*, bNoFocus*/){
 		if(sMode === this.sMode){
 			// [SMARTEDITORSUS-1213][IE9, 10] 사진 삭제 후 zindex 1000인 div가 잔존하는데, 그 위로 썸네일 drag를 시도하다 보니 drop이 불가능.
-			var htBrowser = jindo.$Agent().navigator();
+			var htBrowser = nhn.husky.Browser.navigator();
 			if(htBrowser.ie && htBrowser.nativeVersion > 8){ 
 				var elFirstChild = jindo.$$.getSingle("DIV.husky_seditor_editing_area_container").childNodes[0];
 				if((elFirstChild.tagName == "DIV") && (elFirstChild.style.zIndex == 1000)){
@@ -893,7 +893,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 			this.oApp.exec("RECORD_UNDO_BEFORE_ACTION", ["PASTE HTML"]);
 		}
 
-		oNavigator = jindo.$Agent().navigator();
+		oNavigator = nhn.husky.Browser.navigator();
 		oSelection = oPSelection || this.oApp.getSelection();
 
 		//[SMARTEDITORSUS-888] 브라우저 별 테스트 후 아래 부분이 불필요하여 제거함
@@ -1081,7 +1081,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	$BEFORE_MSG_EDITING_AREA_RESIZE_STARTED  : function(){
 		// FF에서 Height조정 시에 본문의 _fitElementInEditingArea()함수 부분에서 selection이 깨지는 현상을 잡기 위해서
 		// StringBookmark를 사용해서 위치를 저장해둠. (step1)
-		if(!jindo.$Agent().navigator().ie){
+		if(!nhn.husky.Browser.navigator().ie){
 			var oSelection = null;
 			oSelection = this.oApp.getSelection();
 			this.sBM = oSelection.placeStringBookmark();
@@ -1095,7 +1095,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		
 		// bts.nhncorp.com/nhnbts/browse/COM-1042
 		// $BEFORE_MSG_EDITING_AREA_RESIZE_STARTED에서 저장한 StringBookmark를 셋팅해주고 삭제함.(step2)
-		if(!jindo.$Agent().navigator().ie){
+		if(!nhn.husky.Browser.navigator().ie){
 			var oSelection = this.oApp.getEmptySelection();
 			oSelection.moveToBookmark(this.sBM);
 			oSelection.select();
@@ -1379,7 +1379,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		}
 				
 		this.bWYSIWYGEnabled = true;		
-		if(jindo.$Agent().navigator().firefox){
+		if(nhn.husky.Browser.navigator().firefox){
 			setTimeout((function(){
 				//enableInlineTableEditing : Enables or disables the table row and column insertion and deletion controls. 
 				this.iframe.contentWindow.document.execCommand('enableInlineTableEditing', false, false);

@@ -97,7 +97,7 @@ nhn.husky.SE_WYSIWYGStyleGetter = nhn.husky.createClass({
 		this.oDocument = this.oApp.getWYSIWYGDocument();
 		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", this.getCurrentStyle.bind(this)]);
 		
-		if(jindo.$Agent().navigator().safari || jindo.$Agent().navigator().chrome || jindo.$Agent().navigator().ie){
+		if(nhn.husky.Browser.navigator().safari || nhn.husky.Browser.navigator().chrome || nhn.husky.Browser.navigator().ie){
 			this.oStyleMap.textAlign = {
 				type : "Value",
 				css : "textAlign"

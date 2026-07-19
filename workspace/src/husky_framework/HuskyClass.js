@@ -1,3 +1,5 @@
+import "./BrowserCapabilities";
+
 /*
 Copyright (C) NAVER corp.
 

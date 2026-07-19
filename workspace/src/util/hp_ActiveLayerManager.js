@@ -53,7 +53,7 @@ nhn.husky.ActiveLayerManager = nhn.husky.createClass({
 	oCurrentLayer : null,
 	
 	$BEFORE_MSG_APP_READY : function() {
-		this.oNavigator = jindo.$Agent().navigator();
+		this.oNavigator = nhn.husky.Browser.navigator();
 	},
 	
 	$ON_TOGGLE_ACTIVE_LAYER : function(oLayer, sOnOpenCmd, aOnOpenParam, sOnCloseCmd, aOnCloseParam){

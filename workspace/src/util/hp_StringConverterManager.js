@@ -28,7 +28,7 @@ nhn.husky.StringConverterManager = nhn.husky.createClass({
 	$init : function(){
 		this.oConverters = {};
 		this.oConverters_DOM = {};
-		this.oAgent = jindo.$Agent().navigator(); 
+		this.oAgent = nhn.husky.Browser.navigator();
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
@@ -69,7 +69,7 @@ nhn.husky.StringConverterManager = nhn.husky.createClass({
 			
 			
 			//IE의 경우, sContents를 innerHTML로 넣는 경우 string과 <p>tag 사이에 '\n\'개행문자를 넣어준다. 
-			if( jindo.$Agent().navigator().ie ){
+			if( nhn.husky.Browser.navigator().ie ){
 				sTmpStr = sTmpStr +'(\r\n)?'; //ie+win에서는 개행이 \r\n로 들어감.
 				rxTmpStr = new RegExp(sTmpStr , "g");
 			}

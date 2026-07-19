@@ -35,7 +35,7 @@ nhn.husky.SE2M_FindReplacePlugin = nhn.husky.createClass({
 		this.oEditingWindow = this.oApp.getWYSIWYGWindow();
 
 		// [SMARTEDITORSUS-2260] 메일 > Mac에서 ctrl 조합 단축키 모두 meta 조합으로 변경
-		if (jindo.$Agent().os().mac) {
+		if (nhn.husky.Browser.os().mac) {
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+f", "SHOW_FIND_LAYER", []]);
 			this.oApp.exec("REGISTER_HOTKEY", ["meta+h", "SHOW_REPLACE_LAYER", []]);
 		} else {
