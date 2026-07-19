@@ -50,9 +50,9 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		
 		this.elPanelBGImg = nhn.husky.DOM.querySingle("DD", this.elPanelReviewBGArea);
 		
-		this.welPanelTableBGArea = jindo.$Element(this.elPanelTableBGArea);
-		this.welPanelTableTemplateArea = jindo.$Element(this.elPanelTableTemplateArea);
-		this.welPanelReviewBGArea = jindo.$Element(this.elPanelReviewBGArea);
+		this.welPanelTableBGArea = window.jQuery(this.elPanelTableBGArea);
+		this.welPanelTableTemplateArea = window.jQuery(this.elPanelTableTemplateArea);
+		this.welPanelReviewBGArea = window.jQuery(this.elPanelReviewBGArea);
 		
 		//		this.elPanelReviewBtnArea = nhn.husky.DOM.querySingle("DIV.se2_btn_area", this.elQELayer); 	//My리뷰 버튼 레이어
 		this.elPanelDim1 = nhn.husky.DOM.querySingle("DIV.husky_se2m_tbl_qe_dim1", this.elQELayer);
@@ -127,7 +127,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		this.htResizing = {};
 		this.nDraggableCellEdge = 2;
 
-		var elBody = jindo.$Element(document.body);
+		var elBody = window.jQuery(document.body);
 		this.nPageLeftRightMargin = parseInt(elBody.css("marginLeft"), 10) + parseInt(elBody.css("marginRight"), 10);
 		this.nPageTopBottomMargin = parseInt(elBody.css("marginTop"), 10) + parseInt(elBody.css("marginBottom"), 10);
 		
@@ -151,7 +151,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		//[SMARTEDITORSUS-1625] iframe의 offset을 수행하면 iOS에서 처음 탭시 포커싱이 안되는데 정확한 이유를 모르겠음
 		//일단 사용안하기 때문에 코멘트처리해서 회피함
 		//TODO: 다른 부분에서 동일한 이슈가 발생할 경우 디버깅이 어렵기 때문에 정확한 원인파악이 필요함
-		//this.htFrameOffset = jindo.$Element(this.elIFrame).offset();
+		//this.htFrameOffset = window.jQuery(this.elIFrame).offset();
 
 		this.sEmptyTDSrc = "";
 		if(this.oApp.oNavigator.firefox){
@@ -335,22 +335,22 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	},
 
 	$ON_TABLE_QE_SET_IMG : function(elSelected){
-		var sClassName = jindo.$Element(elSelected).className();
-		var welBtnBGIMGPalette = jindo.$Element(this.elBtnBGIMGPalette);
-		var aBtnClassNames = welBtnBGIMGPalette.className().split(" ");
+		var sClassName = elSelected.className;
+		var welBtnBGIMGPalette = window.jQuery(this.elBtnBGIMGPalette);
+		var aBtnClassNames = this.elBtnBGIMGPalette.className.split(" ");
 		for(var i = 0, nLen = aBtnClassNames.length; i < nLen; i++){
 			if(aBtnClassNames[i].indexOf("cellimg") > 0){
 				welBtnBGIMGPalette.removeClass(aBtnClassNames[i]);
 			}
 		}
-		jindo.$Element(this.elBtnBGIMGPalette).addClass(sClassName);
+		window.jQuery(this.elBtnBGIMGPalette).addClass(sClassName);
 		
 		var n = sClassName.substring(11, sClassName.length); //se2_cellimg11
 		var sImageName = "pattern_";
 
 		if(n === "0"){
 			for(i = 0, nLen = this.aSelectedCells.length; i < nLen; i++){
-				jindo.$Element(this.aSelectedCells[i]).css("backgroundImage", "");
+				window.jQuery(this.aSelectedCells[i]).css("backgroundImage", "");
 				this.aSelectedCells[i].removeAttribute(this.TMP_BGC_ATTR);
 				this.aSelectedCells[i].removeAttribute(this.TMP_BGIMG_ATTR);
 			}
@@ -363,7 +363,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 
 			var sBackgroundImage = nhn.husky.SE2M_Configuration.LinkageDomain.sCommonStatic + "/static/img/" + sImageName;
 			for(i = 0, nLen = this.aSelectedCells.length; i < nLen ; i++){
-				jindo.$Element(this.aSelectedCells[i]).css("backgroundImage", "url("+sBackgroundImage+")");
+				window.jQuery(this.aSelectedCells[i]).css("backgroundImage", "url("+sBackgroundImage+")");
 				this.aSelectedCells[i].removeAttribute(this.TMP_BGC_ATTR);
 				this.aSelectedCells[i].setAttribute(this.TMP_BGIMG_ATTR, "url("+sBackgroundImage+")");
 			}
@@ -380,10 +380,10 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	 * 테이블 퀵 에디터 Show 
 	 */
 	$ON_SHOW_COMMON_QE : function(){
-		if(jindo.$Element(this.elSelectionStartTable).hasClass(this._sSETblClass)){
+		if(window.jQuery(this.elSelectionStartTable).hasClass(this._sSETblClass)){
 			this.oApp.exec("SHOW_TABLE_QE");
 		}else{
-			if(jindo.$Element(this.elSelectionStartTable).hasClass(this._sSEReviewTblClass)){
+			if(window.jQuery(this.elSelectionStartTable).hasClass(this._sSEReviewTblClass)){
 				this.oApp.exec("SHOW_REVIEW_QE");
 			}
 		}
@@ -449,7 +449,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		var sBackgroundImage = this.aSelectedCells[0].getAttribute(this.TMP_BGIMG_ATTR) || "";
 		var bAllMatchedImage = true;
 		var sPatternInfo, nPatternImage = 0;
-		var welBtnBGIMGPalette = jindo.$Element(this.elBtnBGIMGPalette);
+		var welBtnBGIMGPalette = window.jQuery(this.elBtnBGIMGPalette);
 		
 		if(sBackgroundImage){
 			var aPattern = sBackgroundImage.match(/_[0-9]*/);
@@ -463,7 +463,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			}
 		}
 		
-		var aBtnClassNames = welBtnBGIMGPalette.className().split(/\s/);
+		var aBtnClassNames = this.elBtnBGIMGPalette.className.split(/\s/);
 		nLen = aBtnClassNames.length;
 		for(var j = 0; j < nLen; j++){
 			if(aBtnClassNames[j].indexOf("cellimg") > 0){
@@ -487,7 +487,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			//this.elPanelReviewBtnArea.style.display = "none"; //My리뷰 버튼 레이어
 			
 			// 배경Area에서 css를 제거해야함
-			jindo.$Element(this.elPanelTableBGArea).className("se2_qe2");
+			this.elPanelTableBGArea.className = "se2_qe2";
 			
 			var nTpl = this.parseIntOr0(this.elSelectionStartTable.getAttribute(this.ATTR_TBL_TEMPLATE));
 			if(nTpl){
@@ -1006,10 +1006,10 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			// --[SMARTEDITORSUS-1672]
 				var elTBL = nhn.husky.SE2M_Utils.findAncestorByTagName("TABLE", elTD);
 				
-				if(!jindo.$Element(elTBL).hasClass(this._sSETblClass) && !jindo.$Element(elTBL).hasClass(this._sSEReviewTblClass)){return;}
+				if(!window.jQuery(elTBL).hasClass(this._sSETblClass) && !window.jQuery(elTBL).hasClass(this._sSEReviewTblClass)){return;}
 				if(!this._isValidTable(elTBL)){
-					jindo.$Element(elTBL).removeClass(this._sSETblClass);
-					jindo.$Element(elTBL).removeClass(this._sSEReviewTblClass);
+					window.jQuery(elTBL).removeClass(this._sSETblClass);
+					window.jQuery(elTBL).removeClass(this._sSEReviewTblClass);
 					return;
 				}
 				
@@ -1231,7 +1231,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		for(var n = 0; n < 2; n++){
 			for(var i = 0; i < allCells[n].length; i++){
 				var elCell = allCells[n][i];
-				var welCell = jindo.$Element(elCell);
+				var welCell = window.jQuery(elCell);
 				
 				// var htBrowser = nhn.husky.Browser.navigator();
 				
@@ -1287,8 +1287,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 				 * */
 				/*nOffsetWidth = elCell.offsetWidth - (nPaddingLeft + nPaddingRight + nBorderLeft + nBorderRight) + "px";
 				nOffsetHeight = elCell.offsetHeight - (nPaddingTop + nPaddingBottom + nBorderTop + nBorderBottom) + "px";*/
-				var nWidth = jindo.$Element(elCell).attr("width");
-				var nHeight = jindo.$Element(elCell).attr("height");
+				var nWidth = window.jQuery(elCell).attr("width");
+				var nHeight = window.jQuery(elCell).attr("height");
 				if(!nWidth && !nHeight){
 					nOffsetWidth = elCell.style.width;
 					nOffsetHeight = elCell.style.height;
@@ -1348,12 +1348,12 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			aCellInfo[0].style.height = (parseFloat(aCellInfo[2], 10) * nTableHeightAdjustRatio) + 'px';
 			// --[SMARTEDITORSUS-2136]
 			
-//			jindo.$Element(aCellInfo[0]).css("width", aCellInfo[1]);
-//			jindo.$Element(aCellInfo[0]).css("height", aCellInfo[2]);
+//			window.jQuery(aCellInfo[0]).css("width", aCellInfo[1]);
+//			window.jQuery(aCellInfo[0]).css("height", aCellInfo[2]);
 		}
 
 		// [SMARTEDITORSUS-2136] HTMLElement의 속성으로 <table>의 크기 기록
-		var welTable = jindo.$Element(elTable);
+		var welTable = window.jQuery(elTable);
 		elTable._nWidth = welTable.width(),
 		elTable._nHeight = welTable.height();
 		// --[SMARTEDITORSUS-2136]
@@ -1559,7 +1559,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		}
 		
 		// HTMLElement의 속성으로 resize된 <table>의 크기 기록
-		var welCurrentTable = jindo.$Element(elTable);
+		var welCurrentTable = window.jQuery(elTable);
 		elTable._nResizedWidth = welCurrentTable.width(),
 		elTable._nResizedHeight = welCurrentTable.height();
 	},
@@ -1567,7 +1567,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	$ON_CLOSE_QE_LAYER : function(oEvent){
 		// [SMARTEDITORSUS-2137] 퀵에디터의 접기/펼치기 클릭 시에는, cell의 상태를 변경하지 않는다.
 		var elTarget = oEvent ? oEvent.element : null,
-		welTarget = elTarget ? jindo.$Element(elTarget) : null,
+		welTarget = elTarget ? window.jQuery(elTarget) : null,
 		aQEToggleClassName = ['q_open_table_fold', 'q_open_table_full'], sQEToggleClassName,
 		i, len = aQEToggleClassName.length,
 		isFromQEToggle = false;
@@ -1650,7 +1650,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		this.htResizing.elTable = nhn.husky.SE2M_Utils.findAncestorByTagName("TABLE", this.htResizing.elCell);
 		if(!this.htResizing.elTable){return;}
 
-		if(!jindo.$Element(this.htResizing.elTable).hasClass(this._sSETblClass) && !jindo.$Element(this.htResizing.elTable).hasClass(this._sSEReviewTblClass)){return;}
+		if(!window.jQuery(this.htResizing.elTable).hasClass(this._sSETblClass) && !window.jQuery(this.htResizing.elTable).hasClass(this._sSEReviewTblClass)){return;}
 		
 		// Adjustment variables: to be used to map the x, y position of the resizing point relative to elCell
 		// eg) When left border of a cell at 2,2 is selected, the actual cell that has to be resized is the one at 1,2. So, set the horizontal adjustment to -1.
@@ -1780,7 +1780,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		
 		// gripper는 대상 셀에서 어느 경계 위에 커서가 위치했느냐에 기반하여 배치
 		if(this.htResizing.nResizeMode == 1){ // 오른쪽 경계
-			this._setResizerSize((this.htResizing.nBorderSize + this.nDraggableCellEdge) * 2, this.parseIntOr0(jindo.$Element(this.elIFrame).css("height")));
+			this._setResizerSize((this.htResizing.nBorderSize + this.nDraggableCellEdge) * 2, this.parseIntOr0(window.jQuery(this.elIFrame).css("height")));
 			this.elResizeGrid.style.top = "0px";
 			this.elResizeGrid.style.left = this.htResizing.elCell.clientWidth + this.htResizing.htEPos.clientX - this.htResizing.htEPos.offsetX - this.parseIntOr0(this.elResizeGrid.style.width)/2 + "px";
 		}else if(this.htResizing.nResizeMode == 2){ // 아래쪽 경계
@@ -1790,7 +1790,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			this.elResizeGrid.style.top = this.htResizing.elCell.clientHeight + this.htResizing.htEPos.clientY - this.htResizing.htEPos.offsetY - this.parseIntOr0(this.elResizeGrid.style.height)/2 + "px";
 			this.elResizeGrid.style.left = "0px";
 		}else if(this.htResizing.nResizeMode == 3){ // 왼쪽 경계
-			this._setResizerSize((this.htResizing.nBorderSize + this.nDraggableCellEdge) * 2, this.parseIntOr0(jindo.$Element(this.elIFrame).css("height")));
+			this._setResizerSize((this.htResizing.nBorderSize + this.nDraggableCellEdge) * 2, this.parseIntOr0(window.jQuery(this.elIFrame).css("height")));
 			this.elResizeGrid.style.top = "0px";
 			this.elResizeGrid.style.left = + this.htResizing.htEPos.clientX - this.htResizing.htEPos.offsetX - this.parseIntOr0(this.elResizeGrid.style.width)/2 + "px";
 			
@@ -2109,7 +2109,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		}
 		
 		var elIFrame = this.oApp.getWYSIWYGWindow().frameElement;
-		this.htEditingAreaPos = jindo.$Element(elIFrame).offset();
+		this.htEditingAreaPos = window.jQuery(elIFrame).offset();
 		this.htEditingAreaPos.height = elIFrame.offsetHeight;
 		this.htEditingAreaPos.bottom = this.htEditingAreaPos.top + this.htEditingAreaPos.height;
 		this.htEditingAreaPos.width = elIFrame.offsetWidth;
@@ -2295,7 +2295,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 				}
 				// --[SMARTEDITORSUS-1498][SMARTEDITORSUS-1549]
 					
-				welCell = jindo.$Element(elCell);
+				welCell = window.jQuery(elCell);
 				welCell.addClass(this.CELL_SELECTION_CLASS);
 				
 				// [SMARTEDITORSUS-1498][SMARTEDITORSUS-1549] 선택된 모든 셀에서 드래그가 발생하지 못하게 방지(FF, Chrome)
@@ -2324,7 +2324,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 
 			// [SMARTEDITORSUS-1552] 드래그로 셀을 선택하는 중 elCell이 없는 경우 오류 발생
 			if(elCell){
-				welCell = jindo.$Element(elCell);
+				welCell = window.jQuery(elCell);
 				welCell.removeClass(this.CELL_SELECTION_CLASS);
 				
 				// [SMARTEDITORSUS-1498][SMARTEDITORSUS-1549] 선택된 모든 셀에서 드래그가 발생하지 못하게 방지(FF, Chrome)

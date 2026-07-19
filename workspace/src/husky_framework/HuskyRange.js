@@ -1624,7 +1624,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 				if(typeof sValue != "string"){continue;}
 				
 				if(sName == "class"){
-					jindo.$Element(aStyleParents[i]).addClass(sValue);
+					window.jQuery(aStyleParents[i]).addClass(sValue);
 				}else{
 					aStyleParents[i].setAttribute(sName, sValue);
 				}

@@ -76,7 +76,7 @@ nhn.husky.SE2M_FontSizeWithLayerUI = nhn.husky.createClass({
 				
 				/**
 				 * Chrome의 경우, 
-				 * jindo.$Element().css()에서 대상 Element에 구하고자 하는 style 값이 명시되어 있지 않다면,
+				 * window.jQuery().css()에서 대상 Element에 구하고자 하는 style 값이 명시되어 있지 않다면,
 				 * 실제 수행되는 메서드는 window.getComputedStyle()이다.
 				 * 
 				 * 이 메서드를 거치면 px 단위로 값을 가져오게 되는데,
@@ -135,7 +135,7 @@ nhn.husky.SE2M_FontSizeWithLayerUI = nhn.husky.createClass({
 			this._clearFontSizeSelection();
 			if(elLi){
 				this.elFontSizeLabel.innerHTML = sAttributeValue;
-				jindo.$Element(elLi).addClass("active");
+				window.jQuery(elLi).addClass("active");
 			}else{
 				this.elFontSizeLabel.innerHTML = sAttributeValue;
 			}
@@ -169,7 +169,7 @@ nhn.husky.SE2M_FontSizeWithLayerUI = nhn.husky.createClass({
 	
 	_clearFontSizeSelection : function(){
 		for(var i=0; i<this.aLIFontSizes.length; i++){
-			jindo.$Element(this.aLIFontSizes[i]).removeClass("active");
+			window.jQuery(this.aLIFontSizes[i]).removeClass("active");
 		}
 	}
 });

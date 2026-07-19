@@ -75,10 +75,9 @@ nhn.husky.SE2M_TableBlockStyler = nhn.husky.createClass({
 		
 		this.setTdBlock();
 		for (var j = 0; j < this.nSelectedTD ; j++){
-			jindo.$Element(this.htSelectedTD.aTdCells[j]).child( function(elChild){
-				
-				welParent = jindo.$Element(elChild._element.parentNode);
-				welParent.remove(elChild);
+			Array.from(this.htSelectedTD.aTdCells[j].children).forEach(function(elChild){
+				welParent = window.jQuery(elChild.parentNode);
+				elChild.parentNode.removeChild(elChild);
 
 				oBlockNode = self.oDocument.createElement('P');								
 				
@@ -90,7 +89,7 @@ nhn.husky.SE2M_TableBlockStyler = nhn.husky.createClass({
 				
 				oBlockNode.appendChild(oChildNode);
 				welParent.append(oBlockNode);
-			}, 1);
+			});
 		}
 	}
 	

@@ -68,7 +68,7 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 		this.elColorPaletteLayerColorPicker.style.display = "none";
 		
 		this.elMoreBtn = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_color_palette_more_btn", this.elColorPaletteLayer);
-		this.welMoreBtn = jindo.$Element(this.elMoreBtn);
+		this.welMoreBtn = window.jQuery(this.elMoreBtn);
 		
 		this.elOkBtn = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_color_palette_ok_btn", this.elColorPaletteLayer);
 		
@@ -85,7 +85,7 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 		this._assignHTMLElements(this.elAppContainer);
 		
 		if(this.elDummyNode){
-			jindo.$Element(nhn.husky.DOM.querySingle("ul.se2_pick_color > li", this.elColorPaletteLayerRecent)).leave();
+			window.jQuery(nhn.husky.DOM.querySingle("ul.se2_pick_color > li", this.elColorPaletteLayerRecent)).remove();
 		}
 
 		if( this.bUseRecentColor ){
@@ -110,7 +110,7 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 		}
 		//조건 추가-by cielo 2010.04.20
 		if(!elHovered || !elHovered.nodeType || elHovered.nodeType == 9){return;}
-		if(elHovered.className == "" || (!elHovered.className) || typeof(elHovered.className) == 'undefined'){jindo.$Element(elHovered).addClass("hover");}
+		if(elHovered.className == "" || (!elHovered.className) || typeof(elHovered.className) == 'undefined'){window.jQuery(elHovered).addClass("hover");}
 	},
 	
 	$ON_EVENT_MOUSEOUT_COLOR_PALETTE : function(oEvent){
@@ -120,7 +120,7 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 			elHovered = elHovered.parentNode;
 		}
 		if(!elHovered){return;}
-		if(elHovered.className == "hover"){jindo.$Element(elHovered).removeClass("hover");}
+		if(elHovered.className == "hover"){window.jQuery(elHovered).removeClass("hover");}
 	},
 	
 	$ON_EVENT_CLICK_COLOR_PALETTE : function(oEvent){
@@ -163,7 +163,7 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 		}
 		
 		// 색상 버튼인 경우
-		welColorParent = jindo.$Element(elButton.parentNode.parentNode.parentNode);
+		welColorParent = window.jQuery(elButton.parentNode.parentNode.parentNode);
 		sColorCode = elButton.title;
 		
 		if(welColorParent.hasClass("husky_se2m_color_palette")){				// 템플릿 색상 적용

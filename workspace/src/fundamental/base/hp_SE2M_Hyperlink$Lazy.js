@@ -159,7 +159,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 								oEmptySelection.pasteHTML(sTempUrl + value.nodeValue + "</a>");
 							}else if(value.nodeType === 1 && value.tagName === "IMG"){
 								oEmptySelection.selectNode(value);
-								oEmptySelection.pasteHTML(sTempUrl + jindo.$Element(value).outerHTML() + "</a>");
+							oEmptySelection.pasteHTML(sTempUrl + window.jQuery(value).prop("outerHTML") + "</a>");
 							}
 						}, this);
 					}else{
@@ -185,19 +185,19 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 						var sNewHref = sHref.replace(rxMarker, "");
 						var sDecodeHref = decodeURIComponent(sNewHref);
 						if(oAgent.ie){
-							jindo.$Element(elATag).attr({
+							window.jQuery(elATag).attr({
 								"href" : sDecodeHref,
 								"target" : sTarget
 							});
 						//}else if(oAgent.firefox){
 						}else{
-							var sAContent = jindo.$Element(elATag).html();
-							jindo.$Element(elATag).attr({
+							var sAContent = window.jQuery(elATag).html();
+							window.jQuery(elATag).attr({
 								"href" : sDecodeHref,
 								"target" : sTarget
 							});
 							if(this._validateURL(sAContent)){
-								jindo.$Element(elATag).html(jindo.$Element(elATag).attr("href"));
+								window.jQuery(elATag).html(window.jQuery(elATag).attr("href"));
 							}
 						}
 						/*else{

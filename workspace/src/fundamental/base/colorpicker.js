@@ -25,9 +25,9 @@ nhn.ColorPicker = nhn.husky.createClass({
 	canvasType : "Canvas",
 	_hsvColor  : null,
 	$init : function(oElement, oOptions) {
-		this.elem = jindo.$Element(oElement).empty();
+		this.elem = window.jQuery(oElement).empty();
 		this.huePanel   = null;
-		this.cursor     = jindo.$Element("<div>").css("overflow", "hidden");
+		this.cursor     = window.jQuery("<div>").css("overflow", "hidden");
 		this.canvasType = nhn.husky.DOM.getElement(oElement).filters?"Filter":nhn.husky.DOM.getElement("<canvas>").getContext?"Canvas":null;
 
 		if(!this.canvasType) {
@@ -41,7 +41,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 		
 		this.option(oOptions);
 		if (this.option("huePanel")) {
-			this.huePanel = jindo.$Element(this.option("huePanel")).empty();
+			this.huePanel = window.jQuery(this.option("huePanel")).empty();
 		}	
 
 		// rgb
@@ -54,9 +54,9 @@ nhn.ColorPicker = nhn.husky.createClass({
 			}	
 		}
 
-		window.jQuery(this.elem.$value()).on("mousedown", this._onDownColorFn);
+		this.elem.on("mousedown", this._onDownColorFn);
 		if (this.huePanel) {
-			window.jQuery(this.huePanel.$value()).on("mousedown", this._onDownHueFn);
+			this.huePanel.on("mousedown", this._onDownHueFn);
 		}	
 
 		// paint
@@ -125,7 +125,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 	},
 	_paintColWithFilter : function() {
 		// white : left to right
-		jindo.$Element("<div>").css({
+		window.jQuery("<div>").css({
 			position : "absolute",
 			top      : 0,
 			left     : 0,
@@ -135,7 +135,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 		}).appendTo(this.elem);
 
 		// black : down to up
-		jindo.$Element("<div>").css({
+		window.jQuery("<div>").css({
 			position : "absolute",
 			top      : 0,
 			left     : 0,
@@ -145,10 +145,10 @@ nhn.ColorPicker = nhn.husky.createClass({
 		}).appendTo(this.elem);
 	},
 	_paintColWithCanvas : function() {
-		var cvs = jindo.$Element("<canvas>").css({width:"100%",height:"100%"});		
+		var cvs = window.jQuery("<canvas>").css({width:"100%",height:"100%"});
 		cvs.appendTo(this.elem.empty());
 		
-		var ctx = cvs.attr("width", cvs.width()).attr("height", cvs.height()).$value().getContext("2d");
+		var ctx = cvs.attr("width", cvs.width()).attr("height", cvs.height()).get(0).getContext("2d");
 		var lin = null;
 		var w   = cvs.width();
 		var h   = cvs.height();
@@ -180,7 +180,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 			s_hex = "#FF"+this._rgb2hex(s_rgb.r, s_rgb.g, s_rgb.b);
 			e_hex = "#FF"+this._rgb2hex(e_rgb.r, e_rgb.g, e_rgb.b);
 
-			jindo.$Element("<div>").css({
+			window.jQuery("<div>").css({
 				position : "absolute",
 				left   : 0,
 				width  : "100%",
@@ -191,7 +191,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 		}
 
 		// white : left to right
-		jindo.$Element("<div>").css({
+		window.jQuery("<div>").css({
 			position : "absolute",
 			top      : 0,
 			left     : 0,
@@ -201,7 +201,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 		}).appendTo(this.elem);
 
 		// black : down to up
-		jindo.$Element("<div>").css({
+		window.jQuery("<div>").css({
 			position : "absolute",
 			top      : 0,
 			right    : 0,
@@ -212,10 +212,10 @@ nhn.ColorPicker = nhn.husky.createClass({
 	},
 	_paintOneWithCanvas : function() {
 		var rgb = {r:0, g:0, b:0};		
-		var cvs = jindo.$Element("<canvas>").css({width:"100%",height:"100%"});
+		var cvs = window.jQuery("<canvas>").css({width:"100%",height:"100%"});
 		cvs.appendTo(this.elem.empty());
 		
-		var ctx = cvs.attr("width", cvs.width()).attr("height", cvs.height()).$value().getContext("2d");
+		var ctx = cvs.attr("width", cvs.width()).attr("height", cvs.height()).get(0).getContext("2d");
 		
 		var w = cvs.width();
 		var h = cvs.height();
@@ -256,7 +256,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 			s_hex = "#FF"+this._rgb2hex(s_rgb.r, s_rgb.g, s_rgb.b);
 			e_hex = "#FF"+this._rgb2hex(e_rgb.r, e_rgb.g, e_rgb.b);
 
-			elDiv = jindo.$Element("<div>").css({
+			elDiv = window.jQuery("<div>").css({
 				position : "absolute",
 				filter : "progid:DXImageTransform.Microsoft.Gradient(GradientType="+(vert?0:1)+",StartColorStr='"+s_hex+"',EndColorStr='"+e_hex+"')"
 			});
@@ -271,10 +271,10 @@ nhn.ColorPicker = nhn.husky.createClass({
 		var opt = this.option(), rgb;
 		var vtc = (opt.huePanelType == "vertical");
 		
-		var cvs = jindo.$Element("<canvas>").css({width:"100%",height:"100%"});
+		var cvs = window.jQuery("<canvas>").css({width:"100%",height:"100%"});
 		cvs.appendTo(this.huePanel.empty());
 		
-		var ctx = cvs.attr("width", cvs.width()).attr("height", cvs.height()).$value().getContext("2d");
+		var ctx = cvs.attr("width", cvs.width()).attr("height", cvs.height()).get(0).getContext("2d");
 		var lin = ctx.createLinearGradient(0,0,vtc?0:cvs.width(),vtc?cvs.height():0);
 
 		for(var i=0; i < 7; i++) {

@@ -223,13 +223,13 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 
 		// [SMARTEDITORSUS-887] [블로그 1단] 자동확장 모드에서 에디터 가로사이즈보다 큰 사진을 추가했을 때 가로스크롤이 안생기는 문제
 		if(oBrowser.ie && oBrowser.version < 9){
-			jindo.$Element(this.getDocument().body).css({ "overflow" : "visible" });
+			window.jQuery(this.getDocument().body).css({ "overflow" : "visible" });
 
 			// { "overflowX" : "visible", "overflowY" : "hidden" } 으로 설정하면 세로 스크롤 뿐 아니라 가로 스크롤도 보이지 않는 문제가 있어
 			// { "overflow" : "visible" } 로 처리하고 에디터의 container 사이즈를 늘려 세로 스크롤이 보이지 않도록 처리해야 함
 			// [한계] 자동 확장 모드에서 내용이 늘어날 때 세로 스크롤이 보였다가 없어지는 문제
 		}else{
-			jindo.$Element(this.getDocument().body).css({ "overflowX" : "visible", "overflowY" : "hidden" });
+			window.jQuery(this.getDocument().body).css({ "overflowX" : "visible", "overflowY" : "hidden" });
 		}
 				
 		this._setAutoResize();
@@ -247,7 +247,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 
 		this.oApp.exec("STOP_FLOAT_TOOLBAR");	// remove scroll event
 		
-		jindo.$Element(this.getDocument().body).css({ "overflow" : "visible", "overflowY" : "visible" });
+		window.jQuery(this.getDocument().body).css({ "overflow" : "visible", "overflowY" : "visible" });
 		
 		this.oApp.exec("START_CHECKING_BODY_HEIGHT");
 	},
@@ -274,7 +274,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	 */ 
 	_setAutoResize : function(){		
 		var elBody = this.getDocument().body,
-			welBody = jindo.$Element(elBody),
+			welBody = window.jQuery(elBody),
 			nBodyHeight,
 			nContainerHeight,
 			oCurrentStyle,
@@ -467,7 +467,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		}
 
 		var elBody = this.getDocument().body,
-			welBody = jindo.$Element(elBody),
+			welBody = window.jQuery(elBody),
 			nMarginTopBottom = parseInt(welBody.css("marginTop"), 10) + parseInt(welBody.css("marginBottom"), 10),
 			nContainerOffset = this.oApp.getEditingAreaHeight(),
 			nMinBodyHeight = nContainerOffset - nMarginTopBottom,
@@ -945,12 +945,12 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 			oStartContainer = oSelection.startContainer;
 				
 			if(oStartContainer.nodeType === 1 && oStartContainer.tagName === "P"){
-				aImgChild = jindo.$Element(oStartContainer).child(function(v){  
-					return (v.$value().nodeType === 1 && v.$value().tagName === "IMG");
-				}, 1);
+				aImgChild = Array.from(oStartContainer.children).filter(function(elChild){
+					return elChild.tagName === "IMG";
+				});
 				
 				if(aImgChild.length > 0){
-					elLastImg = aImgChild[aImgChild.length - 1].$value();
+					elLastImg = aImgChild[aImgChild.length - 1];
 					elChild = elLastImg.nextSibling;
 					
 					while(elChild){
@@ -1029,7 +1029,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		}catch(e){/**/}
 
 		htPos.nTop = nTop;
-		htPos.nBottom = nTop + jindo.$Element(el).height();
+		htPos.nBottom = nTop + window.jQuery(el).height();
 
 		return htPos;
 	},

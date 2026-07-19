@@ -138,15 +138,15 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_SCharacter, {
 
 	$ON_CHANGE_SCHARACTER_SET : function(nSCharSet){
 		for(var i=0; i<this.aSCharList.length; i++){
-			if(jindo.$Element(this.aLabel[i]).hasClass("active")){
+			if(window.jQuery(this.aLabel[i]).hasClass("active")){
 				if(i == nSCharSet){return;}
 				
-				jindo.$Element(this.aLabel[i]).removeClass("active");
+				window.jQuery(this.aLabel[i]).removeClass("active");
 			}
 		}
 		
 		this._drawSCharList(nSCharSet);
-		jindo.$Element(this.aLabel[nSCharSet]).addClass("active");
+		window.jQuery(this.aLabel[nSCharSet]).addClass("active");
 	},
 
 	$ON_SET_SCHARACTER_LIST : function(charSet){

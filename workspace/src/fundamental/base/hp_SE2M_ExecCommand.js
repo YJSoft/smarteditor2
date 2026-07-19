@@ -443,7 +443,7 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 				elNode = elNode.parentNode;
 			}
 			
-			if(elParentNode && (elNode === elParentNode || jindo.$Element(elNode).isChildOf(elParentNode))){
+			if(elParentNode && (elNode === elParentNode || (elParentNode.contains && elParentNode.contains(elNode)))){
 				continue;
 			}
 			
@@ -505,7 +505,7 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 			aChildrenNode = this.oSelection.getNodes();
 			for( var k = 0; k < aChildrenNode.length ; k++ ) {
 				if(aChildrenNode[k].tagName == "UL" || aChildrenNode[k].tagName == "OL" ){
-					jindo.$Element(aChildrenNode[k]).css("color",vValue);
+					window.jQuery(aChildrenNode[k]).css("color",vValue);
 				}
 			}			
 			this.oEditingArea.execCommand(sCommand, bUserInterface, vValue);

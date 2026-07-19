@@ -203,7 +203,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 	$BEFORE_MSG_APP_READY : function(/*msg*/){
 		this.oApp.exec("ADD_APP_PROPERTY", ["version", nhn.husky.SE_EditingAreaManager.version]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["elEditingAreaContainer", this.elEditingAreaContainer]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["welEditingAreaContainer", jindo.$Element(this.elEditingAreaContainer)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["welEditingAreaContainer", window.jQuery(this.elEditingAreaContainer)]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaHeight", this.getEditingAreaHeight.bind(this)]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaWidth", this.getEditingAreaWidth.bind(this)]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["getRawContents", this.getRawContents.bind(this)]);
@@ -501,7 +501,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 			this.elEditingAreaContainer.appendChild(this.elEditingAreaCover);
 		}
 		if(bDimmed){
-			jindo.$Element(this.elEditingAreaCover).opacity(0.4);
+			window.jQuery(this.elEditingAreaCover).css("opacity", 0.4);
 		}
 		this.elEditingAreaCover.style.display = "block";
 	},
@@ -511,7 +511,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 			return;
 		}
 		this.elEditingAreaCover.style.display = "none";
-		jindo.$Element(this.elEditingAreaCover).opacity(0);
+			window.jQuery(this.elEditingAreaCover).css("opacity", 0);
 	},
 	
 	$ON_KEEP_WITHIN_EDITINGAREA : function(elLayer, nHeight){
@@ -697,11 +697,11 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 					}
 					
 					// <img>의 width 확인
-					nImgWidth = jindo.$Element(elImg).width(),
+					nImgWidth = window.jQuery(elImg).width(),
 					
 					// <img> parentNode의 width 확인
 					elImgParent = elImg.parentNode,
-					nParentWidth = jindo.$Element(elImgParent).width();
+					nParentWidth = window.jQuery(elImgParent).width();
 					
 					/*
 					 * <img>와 parentNode의 width가 같은지 확인하여

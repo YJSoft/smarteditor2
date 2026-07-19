@@ -28,7 +28,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		this.oApp.exec("LOAD_HTML", ["find_and_replace"]);
 //		this.oEditingWindow = nhn.husky.DOM.querySingle("IFRAME", oAppContainer);
 		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_findAndReplace_layer", oAppContainer);
-		this.welDropdownLayer = jindo.$Element(this.elDropdownLayer);
+		this.welDropdownLayer = window.jQuery(this.elDropdownLayer);
 		var oTmp = nhn.husky.DOM.queryAll("LI", this.elDropdownLayer);
 		
 		this.oFindTab = oTmp[0];
@@ -84,14 +84,14 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 
 		//레이어의 이동 범위 설정.
 		var elIframe = this.oApp.getWYSIWYGWindow().frameElement;
-		this.htOffsetPos = jindo.$Element(elIframe).offset();
+		this.htOffsetPos = window.jQuery(elIframe).offset();
 		this.nEditorWidth = elIframe.offsetWidth;
 
 		this.elDropdownLayer.style.display = "block";
 		this.htInitialPos = this.welDropdownLayer.offset();
 		// var htScrollXY = this.oApp.oUtils.getScrollXY();
 		// this.welDropdownLayer.offset(this.htOffsetPos.top-htScrollXY.y, this.htOffsetPos.left-htScrollXY.x);
-		this.welDropdownLayer.offset(this.htOffsetPos.top, this.htOffsetPos.left);
+		this.welDropdownLayer.offset({top: this.htOffsetPos.top, left: this.htOffsetPos.left});
 		this.htTopLeftCorner = {x:parseInt(this.elDropdownLayer.style.left, 10), y:parseInt(this.elDropdownLayer.style.top, 10)};
 		
 		// offset width가 IE에서 css lazy loading 때문에 제대로 잡히지 않아 상수로 설정
@@ -170,11 +170,11 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		this.bFindMode = true;
 		this.oFindInput_Keyword.value = this.oReplaceInput_Original.value;
 		
-		jindo.$Element(this.oFindTab).addClass("active");
-		jindo.$Element(this.oReplaceTab).removeClass("active");
+		window.jQuery(this.oFindTab).addClass("active");
+		window.jQuery(this.oReplaceTab).removeClass("active");
 		
-		jindo.$Element(this.oFindNextButton).removeClass("normal");
-		jindo.$Element(this.oFindNextButton).addClass("strong");
+		window.jQuery(this.oFindNextButton).removeClass("normal");
+		window.jQuery(this.oFindNextButton).addClass("strong");
 
 		this.oFindInputSet.style.display = "block";
 		this.oReplaceInputSet.style.display = "none";
@@ -182,19 +182,19 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		this.oReplaceButton.style.display = "none";
 		this.oReplaceAllButton.style.display = "none";
 		
-		jindo.$Element(this.elDropdownLayer).removeClass("replace");
-		jindo.$Element(this.elDropdownLayer).addClass("find");
+		window.jQuery(this.elDropdownLayer).removeClass("replace");
+		window.jQuery(this.elDropdownLayer).addClass("find");
 	},
 	
 	$ON_SHOW_REPLACE : function(){
 		this.bFindMode = false;
 		this.oReplaceInput_Original.value = this.oFindInput_Keyword.value;
 		
-		jindo.$Element(this.oFindTab).removeClass("active");
-		jindo.$Element(this.oReplaceTab).addClass("active");
+		window.jQuery(this.oFindTab).removeClass("active");
+		window.jQuery(this.oReplaceTab).addClass("active");
 		
-		jindo.$Element(this.oFindNextButton).removeClass("strong");
-		jindo.$Element(this.oFindNextButton).addClass("normal");
+		window.jQuery(this.oFindNextButton).removeClass("strong");
+		window.jQuery(this.oFindNextButton).addClass("normal");
 		
 		this.oFindInputSet.style.display = "none";
 		this.oReplaceInputSet.style.display = "block";
@@ -202,8 +202,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		this.oReplaceButton.style.display = "inline";
 		this.oReplaceAllButton.style.display = "inline";
 		
-		jindo.$Element(this.elDropdownLayer).removeClass("find");
-		jindo.$Element(this.elDropdownLayer).addClass("replace");
+		window.jQuery(this.elDropdownLayer).removeClass("find");
+		window.jQuery(this.elDropdownLayer).addClass("replace");
 	},
 
 	$ON_FIND : function(){

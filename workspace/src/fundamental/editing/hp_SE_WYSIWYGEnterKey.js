@@ -508,12 +508,12 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 			return elNode;
 		}
 		
-		aImgChild = jindo.$Element(elNode).child(function(v){  
-			return (v.$value().nodeType === 1 && v.$value().tagName === "IMG");
-		}, 1);
+		aImgChild = Array.from(elNode.children).filter(function(elChild){
+			return elChild.tagName === "IMG";
+		});
 		
 		if(aImgChild.length > 0){
-			elLastImg = aImgChild[aImgChild.length - 1].$value();
+			elLastImg = aImgChild[aImgChild.length - 1];
 			elChild = elLastImg.nextSibling;
 			
 			while(elChild){

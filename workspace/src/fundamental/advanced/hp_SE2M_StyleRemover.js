@@ -88,7 +88,7 @@ nhn.husky.SE2M_StyleRemover = nhn.husky.createClass({
 			if(oNode.style && oNode.tagName != "BR" && oNode.tagName != "TD" && oNode.tagName != "TR" && oNode.tagName != "TBODY" && oNode.tagName != "TABLE"){
 				oNode.removeAttribute("align");
 				oNode.removeAttribute("style");
-				if((jindo.$Element(oNode).css("display") == "inline" && oNode.tagName != "IMG" && oNode.tagName != "IFRAME") && (!oNode.firstChild || oSelection._isBlankTextNode(oNode.firstChild))){
+				if((window.jQuery(oNode).css("display") == "inline" && oNode.tagName != "IMG" && oNode.tagName != "IFRAME") && (!oNode.firstChild || oSelection._isBlankTextNode(oNode.firstChild))){
 					oNode.parentNode.removeChild(oNode);
 				}
 			}
@@ -217,7 +217,7 @@ nhn.husky.SE2M_StyleRemover = nhn.husky.createClass({
 			
 			var bDontSplit = false;
 			// If oNode is direct child of a block level node, don't do anything. (should not move up the hierarchy anymore)
-			if(jindo.$Element(oNode.parentNode).css("display") != "inline"){
+			if(window.jQuery(oNode.parentNode).css("display") != "inline"){
 				continue;
 			}
 
@@ -363,7 +363,7 @@ nhn.husky.SE2M_StyleRemover = nhn.husky.createClass({
 		var oTmp = targetNode;
 		var oCopy = oTmp;
 
-		while(jindo.$Element(oTmp.parentNode).css("display") == "inline"){
+		while(window.jQuery(oTmp.parentNode).css("display") == "inline"){
 			var oNode = oTmp.parentNode.cloneNode(false);
 
 			while(oTmp.nextSibling){

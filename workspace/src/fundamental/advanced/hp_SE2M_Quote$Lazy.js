@@ -254,15 +254,15 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Quote, {
 			aQuoteChild = oFormattingNode.childNodes;
 			aQuoteCloneChild = [];
 			
-			jindo.$Element(oFormattingNode).leave();
+			window.jQuery(oFormattingNode).remove();
 			for(i = 0, nLen = aQuoteChild.length; i < nLen; i++){
 				aQuoteCloneChild[i] = aQuoteChild[i];
 			}
 			for(i = 0, nLen = aQuoteCloneChild.length; i < nLen; i++){
 				if(elNextNode){
-					jindo.$Element(elNextNode).before(aQuoteCloneChild[i]);
+					window.jQuery(elNextNode).before(aQuoteCloneChild[i]);
 				}else{
-					jindo.$Element(elParentNode).append(aQuoteCloneChild[i]);
+					window.jQuery(elParentNode).append(aQuoteCloneChild[i]);
 				}
 			}
 			

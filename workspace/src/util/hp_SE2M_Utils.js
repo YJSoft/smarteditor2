@@ -377,8 +377,8 @@ ellipsis(jindo.$("a"), jindo.$("a").parentNode, "...", 2);
 		if (typeof nLine == "undefined") {
 			nLine = 1;
 		}
-		var welText = jindo.$Element(elText);
-		var welContainer = jindo.$Element(elContainer);
+		var welText = window.jQuery(elText);
+		var welContainer = window.jQuery(elContainer);
 		
 		var sText = welText.html();
 		var nLength = sText.length;
@@ -425,7 +425,7 @@ ellipsisByPixel(jindo.$("a"), "...", 150);
 	 */
 	ellipsisByPixel : function(elText, sStringTail, nPixel, fCondition) {
 		sStringTail = sStringTail || "...";
-		var welText = jindo.$Element(elText);
+		var welText = window.jQuery(elText);
 		var nCurrentWidth = welText.width();
 		if (nCurrentWidth < nPixel) {
 			return;
@@ -478,7 +478,7 @@ ellipsisByPixel(jindo.$("a"), "...", 150);
 	<strong id="c">말줄임을적용할내용</strong>
 <div>
 ellipsisElementsToDesinatedWidth([jindo.$("c"), jindo.$("b"), jindo.$("a")], "...", [100, 50, 50], function(){
-	if (jindo.$Element("parent").width() > 200) {
+	if (window.jQuery("parent").width() > 200) {
 		return true;
 	} 
 	return false;
@@ -925,15 +925,15 @@ getFilteredHashTable({
 				return;
 			}
 			var elWYSIWYGDoc = oDoc;
-			var wel = jindo.$Element(el);
+			var wel = window.jQuery(el);
 			var sHtml = wel.html();
 			//현재 align을 얻어오기.
-			var sAlign = jindo.$Element(el).attr('align') || jindo.$Element(el).css('text-align');
+			var sAlign = window.jQuery(el).attr('align') || window.jQuery(el).css('text-align');
 			//if(!sAlign){ //  P > DIV의 경우 문제 발생, 수정 화면에 들어 왔을 때 태그 깨짐
 			//	return;
 			//}
 			//새로운 div 노드 생성한다.
-			var welAfter = jindo.$Element(nhn.husky.DOM.getElement('<div></div>', elWYSIWYGDoc));
+			var welAfter = window.jQuery(nhn.husky.DOM.getElement('<div></div>', elWYSIWYGDoc));
 			welAfter.html(sHtml).attr('align', sAlign);			
 			wel.replace(welAfter);		
 		}		
@@ -1126,8 +1126,8 @@ nhn.husky.AutoResizer = nhn.husky.createClass({
 		this.wfnCallback = htOption.wfnCallback;
 		
 		this.elContainer = el.parentNode;
-		this.welTextArea = jindo.$Element(el);	// autoresize를 적용할 TextArea
-		this.welHiddenDiv = jindo.$Element('<div>');
+		this.welTextArea = window.jQuery(el);	// autoresize를 적용할 TextArea
+		this.welHiddenDiv = window.jQuery('<div>');
 
 		this.fnResize = nhn.husky.HuskyEvent.createHandler(this._resize, this);
 
@@ -1143,23 +1143,23 @@ nhn.husky.AutoResizer = nhn.husky.createClass({
 		this.nLastHeight = this.welTextArea.height();
 	},
 	bind : function(){
-		this.welCloneDiv = jindo.$Element(this.welHiddenDiv.$value().cloneNode(false));
-		
-		window.jQuery(this.welTextArea.$value()).on("keyup", this.fnResize);
+		this.welCloneDiv = window.jQuery(this.welHiddenDiv.get(0).cloneNode(false));
+
+		this.welTextArea.on("keyup", this.fnResize);
 		this.welCloneDiv.appendTo(this.elContainer);
 		
 		this._resize();
 	},
 	unbind : function(){
-		window.jQuery(this.welTextArea.$value()).off("keyup", this.fnResize);
+		this.welTextArea.off("keyup", this.fnResize);
 		this.welTextArea.css("overflow", this.sOverflow);
 		
 		if(this.welCloneDiv){
-			this.welCloneDiv.leave();
+			this.welCloneDiv.remove();
 		}
 	},
 	_resize : function(){
-		var sContents = this.welTextArea.$value().value,
+		var sContents = this.welTextArea.val(),
 			bExpand = false,
 			nHeight;
 

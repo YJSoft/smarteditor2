@@ -267,7 +267,7 @@ nhn.husky.SE_WYSIWYGStyleGetter = nhn.husky.createClass({
 				 * getComputedStyle() 반올림 방식으로 인한 오차로 인해
 				 * pt 단위의 글자크기가 px로 바뀌게 되는데,
 				 *  
-				 * 스타일 변화 확인에는 jindo.$Element().css()를 사용하는데,
+				 * 스타일 변화 확인에는 window.jQuery().css()를 사용하는데,
 				 * el.currentStyle - getComputedStyle(el)의 순위로 존재여부를 확인하여 사용한다.
 				 * 
 				 * getComputedStyle(el)을 사용하는 경우,
@@ -308,7 +308,7 @@ nhn.husky.SE_WYSIWYGStyleGetter = nhn.husky.createClass({
 			oNode = oNode.body;
 		}
 		
-		var welNode = jindo.$Element(oNode);
+		var welNode = window.jQuery(oNode);
 		var attribute;
 
 		for(var styleName in this.oStyle){

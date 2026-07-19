@@ -278,7 +278,7 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 			this._clearFontNameSelection();
 			if(elLi){
 				this.elFontNameLabel.innerHTML = this._getFontNameLabelFromLI(elLi);
-				jindo.$Element(elLi).addClass("active");
+				window.jQuery(elLi).addClass("active");
 			}else{
 				//var sDisplayName = this.htFamilyName2DisplayName[sAttributeValue] || sAttributeValue;
 				var sDisplayName = this.sDefaultText;
@@ -350,7 +350,7 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 	
 	_clearFontNameSelection : function(){
 		for(var i=0; i<this.aLIFontNames.length; i++){
-			jindo.$Element(this.aLIFontNames[i]).removeClass("active");
+			window.jQuery(this.aLIFontNames[i]).removeClass("active");
 		}
 	},
 

@@ -75,7 +75,7 @@ nhn.husky.SE2M_TableCreator = nhn.husky.createClass({
 		
 		// 테두리가 없음 속성의 table (임의로 추가한 attr_no_border_tbl 속성이 있는 table 을 찾음)
 		Array.from(aTables).forEach(function(oValue) {
-			if(jindo.$Element(oValue).attr("attr_no_border_tbl")){
+			if(window.jQuery(oValue).attr("attr_no_border_tbl")){
 				aNoBorderTable.push(oValue);
 			}
 		}, this);
@@ -91,13 +91,13 @@ nhn.husky.SE2M_TableCreator = nhn.husky.createClass({
 			oTable = aNoBorderTable[i];
 			
 			// <TABLE> 에서 border, cellpadding 속성값 변경, style property 제거
-			jindo.$Element(oTable).css({"border": "", "borderLeft": "", "borderBottom": ""});
-			jindo.$Element(oTable).attr({"border": 0, "cellpadding": 1});
+			window.jQuery(oTable).css({"border": "", "borderLeft": "", "borderBottom": ""});
+			window.jQuery(oTable).attr({"border": 0, "cellpadding": 1});
 			
 			// <TD> 에서는 background-color 를 제외한 style 을 모두 제거
 			aTDs = nhn.husky.DOM.queryAll('tbody>tr>td', oTable);
 			Array.from(aTDs).forEach(function(oTD) {
-				jindo.$Element(oTD).css({"border": "", "borderTop": "", "borderRight": ""});
+				window.jQuery(oTD).css({"border": "", "borderTop": "", "borderRight": ""});
 			});
 		}
 	},
@@ -117,7 +117,7 @@ nhn.husky.SE2M_TableCreator = nhn.husky.createClass({
 		
 		// 테두리가 없음 속성의 table (임의로 추가한 attr_no_border_tbl 속성이 있는 table 을 찾음)
 		Array.from(aTables).forEach(function(oValue) {
-			if(jindo.$Element(oValue).attr("attr_no_border_tbl")){
+			if(window.jQuery(oValue).attr("attr_no_border_tbl")){
 				aNoBorderTable.push(oValue);
 			}
 		}, this);
@@ -132,13 +132,13 @@ nhn.husky.SE2M_TableCreator = nhn.husky.createClass({
 			oTable = aNoBorderTable[i];
 			
 			// <TABLE> 에서 border, cellpadding 속성값 변경/ style 속성 추가
-			jindo.$Element(oTable).css({"border": "1px dashed #c7c7c7", "borderLeft": 0, "borderBottom": 0});
-			jindo.$Element(oTable).attr({"border": 1, "cellpadding": 0});
+			window.jQuery(oTable).css({"border": "1px dashed #c7c7c7", "borderLeft": 0, "borderBottom": 0});
+			window.jQuery(oTable).attr({"border": 1, "cellpadding": 0});
 			
 			// <TD> 에서 style 속성값 추가
 			aTDs = nhn.husky.DOM.queryAll('tbody>tr>td', oTable);
 			Array.from(aTDs).forEach(function(oTD) {
-				jindo.$Element(oTD).css({"border": "1px dashed #c7c7c7", "borderTop": 0, "borderRight": 0});
+				window.jQuery(oTD).css({"border": "1px dashed #c7c7c7", "borderTop": 0, "borderRight": 0});
 			});
 		}
 	}

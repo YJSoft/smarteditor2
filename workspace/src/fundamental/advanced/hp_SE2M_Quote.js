@@ -114,7 +114,7 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 			oSelection.selectNode(elParentQuote);
 			oSelection.collapseToStart();
 		
-			jindo.$Element(elParentQuote).leave();
+			window.jQuery(elParentQuote).remove();
 			
 			oSelection.select();
 		}
@@ -148,7 +148,7 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 			oP = oSelection._document.createElement("P");
 			oP.innerHTML = "&nbsp;";
 			
-			jindo.$Element(elParentQuote).after(oP);
+			window.jQuery(elParentQuote).after(oP);
 						
 			setTimeout((function(oSelection){
 				var sBookmarkID = oSelection.placeStringBookmark();
@@ -211,7 +211,7 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 				elTable = aTable[i];
 
 				if(isBlankTable(elTable)){
-					jindo.$Element(elTable).leave();
+			window.jQuery(elTable).remove();
 				}
 			}
 		}

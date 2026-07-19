@@ -106,7 +106,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			this._elAlertClose = nhn.husky.DOM.querySingle(".btn_close", this._elAlertLayer);
 		}
 
-		this.welToolbarArea = jindo.$Element(this.toolbarArea);		
+		this.welToolbarArea = window.jQuery(this.toolbarArea);
 		for (var i = 0, nCount = this.aAllUI.length; i < nCount; i++) {
 			if (this.rxUI.test(this.aAllUI[i].className)) {
 				var sUIName = RegExp.$1;
@@ -115,7 +115,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 				}
 				
 				this.htUIList[sUIName] = this.aAllUI[i];
-				this.htWrappedUIList[sUIName] = jindo.$Element(this.htUIList[sUIName]);
+				this.htWrappedUIList[sUIName] = window.jQuery(this.htUIList[sUIName]);
 			}
 		}
  
@@ -277,7 +277,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			}
 //			if(sUIName) this.oApp.exec("ENABLE_UI", [sUIName]);
 		}
-//		jindo.$Element(this.toolbarArea).removeClass("off");
+//		window.jQuery(this.toolbarArea).removeClass("off");
 
 		this.nUIStatus = 1;
 	},
@@ -302,7 +302,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			}
 //			if(sUIName) this.oApp.exec("DISABLE_UI", [sUIName]);
 		}
-//		jindo.$Element(this.toolbarArea).addClass("off");
+//		window.jQuery(this.toolbarArea).addClass("off");
 
 		this.nUIStatus = 2;
 	},
@@ -331,7 +331,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			elBtn.parentNode.appendChild(elLayer);
 		}
 
-		var welLayer = jindo.$Element(elLayer);
+		var welLayer = window.jQuery(elLayer);
 
 		if(sAlign != "right"){
 			elLayer.style.left = "0";
@@ -484,7 +484,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			// <LI>
 			//   <BUTTON>
 			if((elLi = elLi.parentNode) && elLi.tagName == "LI" && this.rxUI.test(elLi.className)){
-				return [jindo.$Element(elLi)];
+				return [window.jQuery(elLi)];
 			}
 
 			// button pair
@@ -494,8 +494,8 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			//   <SPAN>
 			//     <BUTTON>
 			elLi = el;
-			if((elLi = elLi.parentNode.parentNode) && elLi.tagName == "LI" && (welLi = jindo.$Element(elLi)).hasClass("se2_pair")){
-				return [welLi, jindo.$Element(el.parentNode)];
+			if((elLi = elLi.parentNode.parentNode) && elLi.tagName == "LI" && (welLi = window.jQuery(elLi)).hasClass("se2_pair")){
+				return [welLi, window.jQuery(el.parentNode)];
 			}
 
 			return [];
@@ -507,14 +507,14 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			//   <BUTTON>
 			//     <SPAN>
 			if((elLi = elLi.parentNode.parentNode) && elLi.tagName == "LI" && this.rxUI.test(elLi.className)){
-				return [jindo.$Element(elLi)];
+				return [window.jQuery(elLi)];
 			}
 
 			// <LI>
 			//     <SPAN>
 			//글감과 글양식
 			if((elLi = elLi.parentNode) && elLi.tagName == "LI" && this.rxUI.test(elLi.className)){
-				return [jindo.$Element(elLi)];
+				return [window.jQuery(elLi)];
 			}
 		}
 

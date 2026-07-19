@@ -39,9 +39,9 @@ nhn.husky.SE2M_EditingModeChanger = nhn.husky.createClass({
 		this.elModeToolbar = nhn.husky.DOM.querySingle("DIV.se2_conversion_mode", elAppContainer);
 		//@ec]
 
-		this.welWYSIWYGButtonLi = jindo.$Element(this.elWYSIWYGButton.parentNode);
-		this.welHTMLSrcButtonLi = jindo.$Element(this.elHTMLSrcButton.parentNode);
-		this.welTEXTButtonLi = jindo.$Element(this.elTEXTButton.parentNode);
+		this.welWYSIWYGButtonLi = window.jQuery(this.elWYSIWYGButton.parentNode);
+		this.welHTMLSrcButtonLi = window.jQuery(this.elHTMLSrcButton.parentNode);
+		this.welTEXTButtonLi = window.jQuery(this.elTEXTButton.parentNode);
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){

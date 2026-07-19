@@ -107,7 +107,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 	 * 입력창 크기 조절 바의 위치를 확인하여 브라우저 하단에 위치한 경우 자동확장을 멈춤
 	 */	
 	checkResizeGripPosition : function(bExpand){
-		var nGap = (jindo.$Element(this.oResizeGrip).offset().top - nhn.husky.DOMMetrics.scrollPosition().top + 25) - nhn.husky.DOMMetrics.clientSize().height;
+		var nGap = (window.jQuery(this.oResizeGrip).offset().top - nhn.husky.DOMMetrics.scrollPosition().top + 25) - nhn.husky.DOMMetrics.clientSize().height;
 		
 		if(nGap <= 0){
 			return;
@@ -139,8 +139,8 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 		this.elModeToolbar = nhn.husky.DOM.querySingle("DIV.se2_conversion_mode", elAppContainer);
 		//@ec]
 		
-		this.welNoticeLayer = jindo.$Element(nhn.husky.DOM.querySingle("DIV.husky_seditor_resize_notice", elAppContainer));
-		this.welConversionMode = jindo.$Element(this.oResizeGrip.parentNode);
+		this.welNoticeLayer = window.jQuery(nhn.husky.DOM.querySingle("DIV.husky_seditor_resize_notice", elAppContainer));
+		this.welConversionMode = window.jQuery(this.oResizeGrip.parentNode);
 	},
 	
 	_mouseover : function(oEvent){

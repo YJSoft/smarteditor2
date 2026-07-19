@@ -54,11 +54,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 		if(!aElms) return;
 		
 		var fnAddClass = nhn.husky.HuskyEvent.createHandler(function(wev){
-			jindo.$Element(fnElmToTarget(wev.currentElement)).addClass(sHoverClass);
+			window.jQuery(fnElmToTarget(wev.currentElement)).addClass(sHoverClass);
 		}, this);
 		
 		var fnRemoveClass = nhn.husky.HuskyEvent.createHandler(function(wev){
-			jindo.$Element(fnElmToTarget(wev.currentElement)).removeClass(sHoverClass);
+			window.jQuery(fnElmToTarget(wev.currentElement)).removeClass(sHoverClass);
 		}, this);
 		
 		for(var i=0, len = aElms.length; i<len; i++){

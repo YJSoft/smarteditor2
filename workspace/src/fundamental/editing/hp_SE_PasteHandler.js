@@ -119,7 +119,7 @@ nhn.husky.SE_PasteHandler = nhn.husky.createClass({
 		for(var i = 0, elTarget; (elTarget = aelTarget[i]); i++){
 			this._applyInlineStyle(elTarget, oStyle);
 			if(sRemoveClass){
-				jindo.$Element(elTarget).removeClass(sRemoveClass);
+				window.jQuery(elTarget).removeClass(sRemoveClass);
 			}
 		}
 	},

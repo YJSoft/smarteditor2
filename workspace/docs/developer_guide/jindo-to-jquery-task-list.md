@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 164개, `workspace/static/js/service` 0개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax, 소형 wrapper, raw DOM lookup과 selector 전환으로 582개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$`, `jindo.$$`, `jindo.cssquery`, `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 4개, `workspace/static/js/service` 0개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax, 소형 wrapper, raw DOM lookup, selector와 `$Element` 전환으로 742개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$`, `jindo.$$`, `jindo.cssquery`, `jindo.$Element`, `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -277,22 +277,24 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-032 `$Element` class/style/attribute API 전환
 
-- [ ] `addClass`, `removeClass`, `hasClass`, `className` 전환
-- [ ] `css`, `opacity`, `visible`, `show`, `hide` 전환
-- [ ] `attr`, `html`, `outerHTML` 전환
-- [ ] `$value()`를 `.get(0)` 또는 raw DOM 보존 방식으로 변경
+- [x] `addClass`, `removeClass`, `hasClass`, `className` 전환
+- [x] `css`, `opacity`, `visible`, `show`, `hide` 전환
+- [x] `attr`, `html`, `outerHTML` 전환
+- [x] `$value()`를 `.get(0)` 또는 raw DOM 보존 방식으로 변경
 
 완료 기준:
 
 - class, style, attribute 관련 UI 회귀 테스트가 통과한다.
 
+`$Element` wrapper 생성은 iframe-local `window.jQuery()`로 바꾸고, raw DOM이 필요한 지점은 `.get(0)` 또는 기존 DOM 참조를 사용한다. `opacity`, `visible`, `outerHTML`, `className`, `child`, `leave`, `$value`처럼 jQuery에 없는 Jindo 메서드는 각각 `.css()`, `:visible`, `.prop()`, raw DOM, `children()`, `.remove()`와 `.get(0)`으로 명시적으로 전환했다. class/style/attribute와 DOM mutation 회귀 테스트를 추가했다.
+
 ### MIG-033 `$Element` geometry API 전환
 
-- [ ] width/height getter semantics를 비교한다.
-- [ ] numeric setter와 CSS string setter를 구분한다.
-- [ ] `offset()` getter를 iframe/scroll 상태에서 검증한다.
-- [ ] `offset(top, left)`를 `.offset({top, left})`로 변경한다.
-- [ ] hidden layer와 table cell 크기 계산을 검증한다.
+- [x] width/height getter semantics를 비교한다.
+- [x] numeric setter와 CSS string setter를 구분한다.
+- [x] `offset()` getter를 iframe/scroll 상태에서 검증한다.
+- [x] `offset(top, left)`를 `.offset({top, left})`로 변경한다.
+- [x] hidden layer와 table cell 크기 계산을 검증한다.
 
 완료 기준:
 
@@ -300,11 +302,11 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-034 `$Element` DOM traversal/mutation 전환
 
-- [ ] `child(callback)` 전환
-- [ ] `isChildOf`와 parent 관계 검사 전환
-- [ ] `append`, `appendTo`, `before`, `after` 전환
-- [ ] `leave`, `remove`, `replace`, `empty` 전환
-- [ ] cross-document node 삽입 동작을 검증한다.
+- [x] `child(callback)` 전환
+- [x] `isChildOf`와 parent 관계 검사 전환
+- [x] `append`, `appendTo`, `before`, `after` 전환
+- [x] `leave`, `remove`, `replace`, `empty` 전환
+- [x] cross-document node 삽입 동작을 검증한다.
 
 완료 기준:
 

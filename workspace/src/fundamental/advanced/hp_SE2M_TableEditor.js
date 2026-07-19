@@ -64,7 +64,7 @@ nhn.husky.SE2M_TableEditor = nhn.husky.createClass({
 							aCells[i].style.backgroundColor = aCells[i].getAttribute(this.TMP_BGC_ATTR);
 							aCells[i].removeAttribute(this.TMP_BGC_ATTR);
 						}else if(aCells[i].getAttribute(this.TMP_BGIMG_ATTR)){
-							jindo.$Element(this.aCells[i]).css("backgroundImage",aCells[i].getAttribute(this.TMP_BGIMG_ATTR));
+							window.jQuery(this.aCells[i]).css("backgroundImage",aCells[i].getAttribute(this.TMP_BGIMG_ATTR));
 							aCells[i].removeAttribute(this.TMP_BGIMG_ATTR);
 						}
 					}

@@ -41,7 +41,7 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 
 	_assignHTMLElements : function(elAppContainer){
 		this.elHelpPopupLayer = nhn.husky.DOM.querySingle("DIV.se2_accessibility", elAppContainer);
-		this.welHelpPopupLayer = jindo.$Element(this.elHelpPopupLayer);	
+		this.welHelpPopupLayer = window.jQuery(this.elHelpPopupLayer);
 
 		//close buttons
 		this.oCloseButton = nhn.husky.DOM.querySingle("BUTTON.se2_close", this.elHelpPopupLayer);
@@ -98,7 +98,7 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 	
 		//레이어의 이동 범위 설정.
 		var elIframe = this.oApp.getWYSIWYGWindow().frameElement;
-		this.htOffsetPos = jindo.$Element(elIframe).offset();
+		this.htOffsetPos = window.jQuery(elIframe).offset();
 		this.nEditorWidth = elIframe.offsetWidth;
 
 		this.htInitialPos = this.welHelpPopupLayer.offset();
@@ -294,7 +294,7 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 		var bFocusTagExists = false;
 		
 		for(var i = 0, len = aFocusTagViaTabKey.length; i < len; i++){
-			if(self.nodeType === 1 && self.nodeName && self.nodeName.toUpperCase() == aFocusTagViaTabKey[i] && !self.disabled && jindo.$Element(self).visible()){
+			if(self.nodeType === 1 && self.nodeName && self.nodeName.toUpperCase() == aFocusTagViaTabKey[i] && !self.disabled && window.jQuery(self).is(":visible")){
 				bFocusTagExists = true;
 				break;
 			}
@@ -401,8 +401,8 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 			nMaxY : this.nCalcY
 		}]);
 
-		// offset (nTop:Numeric,  nLeft:Numeric)
-		this.welHelpPopupLayer.offset(this.nCalcY, (this.nCalcX)/2); 
+		// jQuery offset setter uses an object instead of Jindo's (top, left) signature.
+		this.welHelpPopupLayer.offset({top: this.nCalcY, left: (this.nCalcX)/2});
 
 		//[SMARTEDITORSUS-1327] IE에서 포커스 이슈로 IE에 대해서만 window.focus실행함. 
 		if(nhn.husky.Browser.navigator().ie) {

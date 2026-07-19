@@ -85,7 +85,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_LineHeightWithLayerUI, {
 		if(nLineHeight != null && nLineHeight !== 0){
 			this.oInput.value = (nLineHeight*100).toFixed(0);
 			var elLi = this._getMatchingLI(this.oInput.value+"%");
-			if(elLi){jindo.$Element(elLi.firstChild).addClass("active");}
+			if(elLi){window.jQuery(elLi.firstChild).addClass("active");}
 		}else{
 			this.oInput.value = "";
 		}
@@ -144,7 +144,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_LineHeightWithLayerUI, {
 	
 	_clearOptionSelection : function(){
 		for(var i=0; i<this.aLIOptions.length; i++){
-			jindo.$Element(this.aLIOptions[i].firstChild).removeClass("active");
+			window.jQuery(this.aLIOptions[i].firstChild).removeClass("active");
 		}
 	}
 	//@lazyload_js]

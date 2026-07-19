@@ -27,7 +27,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableCreator, {
 		var tmp = null;
 
 		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_table_layer", oAppContainer);
-		this.welDropdownLayer = jindo.$Element(this.elDropdownLayer);
+		this.welDropdownLayer = window.jQuery(this.elDropdownLayer);
 
 		tmp = nhn.husky.DOM.queryAll("INPUT", this.elDropdownLayer);
 		this.elText_row = tmp[0];
@@ -415,11 +415,11 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableCreator, {
 		
 		oSelection.removeStringBookmark(sBM);
 		
-		welParentP = jindo.$Element(oParentP);
+		welParentP = window.jQuery(oParentP);
 		welParentP.after(oEWrapper);
 		welParentP.after(oSWrapper);
 
-		welParentP.leave();
+		welParentP.remove();
 		
 		oSelection = this.oApp.getEmptySelection();
 		

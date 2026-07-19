@@ -95,8 +95,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 			return false;
 		}
 		
-		this.woEditor = jindo.$Element(this.oApp.elEditingAreaContainer);
-		this.woStandard = jindo.$Element(this.oApp.htOptions.elAppContainer).offset();
+		this.woEditor = window.jQuery(this.oApp.elEditingAreaContainer);
+		this.woStandard = window.jQuery(this.oApp.htOptions.elAppContainer).offset();
 		this._qe_wrap = nhn.husky.DOM.querySingle("DIV.quick_wrap", this.oApp.htOptions.elAppContainer);
 		
 		var that = this;
@@ -110,7 +110,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 				oCustomEvent.elFlowOut = oCustomEvent.elArea.parentNode;
 			},
 			dragStart: function(oCustomEvent){
-				if(!jindo.$Element(oCustomEvent.elDrag).hasClass('se2_qmax')){
+				if(!window.jQuery(oCustomEvent.elDrag).hasClass('se2_qmax')){
 					oCustomEvent.elDrag = oCustomEvent.elDrag.parentNode;
 				}
 				that.oApp.exec("SHOW_EDITING_AREA_COVER");
@@ -119,7 +119,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 				that.changeFixedMode();
 				that._in_event = false;
 				//if(that._currentType=="review"||that._currentType=="table"){	// [SMARTEDITORSUS-153] 이미지 퀵 에디터도 같은 로직으로 처리하도록 수정
-					var richEle = jindo.$Element(oCustomEvent.elDrag);
+					var richEle = window.jQuery(oCustomEvent.elDrag);
 					that._environmentData[that._currentType].position = [richEle.css("top"),richEle.css("left")];
 				//}
 				that.oApp.exec("HIDE_EDITING_AREA_COVER");
@@ -142,7 +142,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	 */
 	toggle : function(sType,weEvent){
 		sType = this._currentType;
-//		var oBefore = jindo.$Element(nhn.husky.DOM.querySingle("._"+this._environmentData[sType].type,this.currentEle));
+//		var oBefore = window.jQuery(nhn.husky.DOM.querySingle("._"+this._environmentData[sType].type,this.currentEle));
 //		var beforeX = oBefore.css("left");
 //		var beforeY = oBefore.css("top");
 		
@@ -184,7 +184,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	 * @param {Element} sAfterEle
 	 */
 	positionCopy:function(beforeX, beforeY, sAfterEle){
-		jindo.$Element(nhn.husky.DOM.querySingle("._"+sAfterEle,this.currentEle)).css({
+		window.jQuery(nhn.husky.DOM.querySingle("._"+sAfterEle,this.currentEle)).css({
 			top : beforeY,
 			left : beforeX
 		});
@@ -270,7 +270,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	layer_hide : function(/* weEvent */){
 		this.setOpenType(this._currentType,false);
 		
-		jindo.$Element(nhn.husky.DOM.querySingle("._"+this._environmentData[this._currentType].type,this.currentEle)).hide();
+		window.jQuery(nhn.husky.DOM.querySingle("._"+this._environmentData[this._currentType].type,this.currentEle)).hide();
 	},
 	/**
 	 * 늦게 이벤트 바인딩 하는 함수.
@@ -291,7 +291,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 		this._currentType = sType;
 		this.setOpenType(this._currentType,true);
 		var  layer = nhn.husky.DOM.querySingle("._"+this._environmentData[this._currentType].type,this.currentEle);
-		jindo.$Element(layer)
+		window.jQuery(layer)
 			.show()
 			.css( this.get_position_layer(oEle , layer) );
 			
@@ -314,7 +314,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 			var position = this._environmentData[this._currentType].position;
 			var nTop = parseInt(position[0], 10);
 			var nAppHeight = this.getAppPosition().h;
-			var nLayerHeight = jindo.$Element(oLayer).height();
+			var nLayerHeight = window.jQuery(oLayer).height();
 		
 			// [SMARTEDITORSUS-129] 편집 영역 높이를 줄였을 때 퀵에디터가 영역을 벗어나지 않도록 처리
 			if((nTop + nLayerHeight + this.nYGap) > nAppHeight){
@@ -370,8 +370,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 		var eleInfo = this.getElementPosition(oEle, oLayer);
 		var appInfo = this.getAppPosition();
 		var layerInfo = {
-			w : jindo.$Element(oLayer).width(),
-			h : jindo.$Element(oLayer).height()
+			w : window.jQuery(oLayer).width(),
+			h : window.jQuery(oLayer).height()
 		};
 
 		if((eleInfo.x + layerInfo.w + this.nXGap) > appInfo.w){
@@ -400,7 +400,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 		var wEle, oOffset, nEleWidth, nEleHeight, nScrollX, nScrollY;
 		
 		if(eEle){
-			wEle = jindo.$Element(eEle);
+			wEle = window.jQuery(eEle);
 			oOffset = wEle.offset();
 			nEleWidth = wEle.width();
 			nEleHeight = wEle.height();

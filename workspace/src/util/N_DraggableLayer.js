@@ -35,8 +35,8 @@ nhn.DraggableLayer = nhn.husky.createClass({
 		this.aBasePosition = this.getBaseOffset(elLayer);
 
 		// "number-ize" the position and set it as inline style. (the position could've been set as "auto" or set by css, not inline style)
-		var nTop = (this.toInt(jindo.$Element(elLayer).offset().top) - this.aBasePosition.top);
-		var nLeft = (this.toInt(jindo.$Element(elLayer).offset().left) - this.aBasePosition.left);
+		var nTop = (this.toInt(window.jQuery(elLayer).offset().top) - this.aBasePosition.top);
+		var nLeft = (this.toInt(window.jQuery(elLayer).offset().left) - this.aBasePosition.left);
 
 		var htXY = this._correctXY({x:nLeft, y:nTop});
 		
@@ -109,14 +109,14 @@ nhn.DraggableLayer = nhn.husky.createClass({
 		if(!oEl) return null;
 		if(oEl.tagName == "BODY") return oEl;
 		
-		if(jindo.$Element(oEl).css("position").match(/absolute|relative/i)) return oEl;
+		if(window.jQuery(oEl).css("position").match(/absolute|relative/i)) return oEl;
 
 		return this.findNonStatic(oEl.offsetParent);
 	},
 	
 	getBaseOffset : function(oEl){
 		var oBase = this.findNonStatic(oEl.offsetParent) || oEl.ownerDocument.body;
-		var tmp = jindo.$Element(oBase).offset();
+		var tmp = window.jQuery(oBase).offset();
 
 		return {top: tmp.top, left: tmp.left};
 	},
