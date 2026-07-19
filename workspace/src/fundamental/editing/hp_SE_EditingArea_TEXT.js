@@ -116,7 +116,7 @@ nhn.husky.SE_EditingArea_TEXT = nhn.husky.createClass({
 			sContent = sContent.substring(0, nIdx);
 		}
 		
-		sContent = jindo.$S(sContent).stripTags().toString();
+		sContent = nhn.husky.SE2M_Utils.stripStringTags(sContent, this.elEditingArea.ownerDocument);
 		sContent = this.unhtmlSpecialChars(sContent);
 		if (aTemp !== null) { // 제거했던sTmpStr를 추가해준다.
 			sContent = aTemp[0] + sContent;
@@ -159,7 +159,7 @@ nhn.husky.SE_EditingArea_TEXT = nhn.husky.createClass({
 			sTemp = "";
 		
 		for (var i = 0; i < aContentLng; i++) {
-			sTemp = jindo.$S(aContent[i]).trim().$value();
+			sTemp = aContent[i].trim();
 			if (i === aContentLng -1 && sTemp === "") {
 				break;
 			}

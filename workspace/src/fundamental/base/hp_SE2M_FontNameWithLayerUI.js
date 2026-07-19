@@ -330,7 +330,7 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 			elLi = this.aLIFontNames[i];
 			aFontFamily = this._getFontFamilyFromLI(elLi).toLowerCase().split(",");
 			for(var h=0; h < aFontFamily.length;h++){
-				if( !!aFontFamily[h] && jindo.$S(aFontFamily[h].replace(/['"]/ig, "")).trim().$value() == sFontName){
+				if( !!aFontFamily[h] && aFontFamily[h].replace(/['"]/ig, "").trim() == sFontName){
 					return elLi;
 				}
 			}

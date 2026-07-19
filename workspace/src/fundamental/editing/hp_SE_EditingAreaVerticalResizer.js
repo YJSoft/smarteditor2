@@ -50,7 +50,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 			// [SMARTEDITORSUS-906][SMARTEDITORSUS-1433] Resizbar 사용 여부 처리 (true:사용함/ false:사용하지 않음)
 			if(this.isUseVerticalResizer()){
 				this.oResizeGrip.style.display = 'block';
-				if(!!this.welNoticeLayer && !Number(jindo.$Cookie().get(this.sCookieNotice))){
+				if(!!this.welNoticeLayer && !Number(nhn.husky.Cookie.get(this.sCookieNotice))){
 					this.welNoticeLayer.delegate("click", "BUTTON.bt_clse", this._closeNotice.bind(this));
 					this.welNoticeLayer.show();
 				}
@@ -107,8 +107,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 	 * 입력창 크기 조절 바의 위치를 확인하여 브라우저 하단에 위치한 경우 자동확장을 멈춤
 	 */	
 	checkResizeGripPosition : function(bExpand){
-		var oDocument = jindo.$Document();
-		var nGap = (jindo.$Element(this.oResizeGrip).offset().top - oDocument.scrollPosition().top + 25) - oDocument.clientSize().height;
+		var nGap = (jindo.$Element(this.oResizeGrip).offset().top - nhn.husky.DOMMetrics.scrollPosition().top + 25) - nhn.husky.DOMMetrics.clientSize().height;
 		
 		if(nGap <= 0){
 			return;
@@ -186,7 +185,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 	
 	_closeNotice : function(){
 		this.welNoticeLayer.hide();
-		jindo.$Cookie().set(this.sCookieNotice, 1, 365*10);
+		nhn.husky.Cookie.set(this.sCookieNotice, 1, 365*10);
 	}
 });
 //}

@@ -826,7 +826,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 			}else if(oChild.nodeName === "TABLE"){
 				oNode.removeChild(oChild);
 				bRemoved = true;
-			}else if(oChild.nodeType === 1 && jindo.$S(oChild.innerHTML).trim() == ""){
+			}else if(oChild.nodeType === 1 && oChild.innerHTML.trim() == ""){
 				oNode.removeChild(oChild);
 				bRemoved = true;
 			}
@@ -1152,7 +1152,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 			return;
 		}
 		
-		var aEl = jindo.$$("p:empty()", this.oApp.getWYSIWYGDocument().body, { oneTimeOffCache:true });
+		var aEl = window.jQuery("p:empty", this.oApp.getWYSIWYGDocument().body).get();
 		
 		Array.from(aEl).forEach(function(value) {
 			value.innerHTML = "&nbsp;";
@@ -1161,7 +1161,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	
 	_pageUp : function(we){
 		var nEditorHeight = this._getEditorHeight(),
-			htPos = jindo.$Document(this.oApp.getWYSIWYGDocument()).scrollPosition(),
+			htPos = nhn.husky.DOMMetrics.scrollPosition(this.oApp.getWYSIWYGDocument()),
 			nNewTop;
 
 		if(htPos.top <= nEditorHeight){
@@ -1175,7 +1175,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	
 	_pageDown : function(we){
 		var nEditorHeight = this._getEditorHeight(),
-			htPos = jindo.$Document(this.oApp.getWYSIWYGDocument()).scrollPosition(),
+			htPos = nhn.husky.DOMMetrics.scrollPosition(this.oApp.getWYSIWYGDocument()),
 			nBodyHeight = this._getBodyHeight(),
 			nNewTop;
 

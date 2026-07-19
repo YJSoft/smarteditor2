@@ -1,4 +1,6 @@
 import "./BrowserCapabilities";
+import "./Cookie";
+import "./DOMMetrics";
 
 /*
 Copyright (C) NAVER corp.

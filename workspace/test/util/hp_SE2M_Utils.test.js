@@ -24,3 +24,16 @@ describe("StringBuffer", () => {
         expect(sb.toString()).toEqual("hello world");
     });
 });
+
+describe("SE2M_Utils native replacements", () => {
+    it("stripStringTags > DOM 텍스트로 태그를 제거한다.", () => {
+        expect(nhn.husky.SE2M_Utils.stripStringTags("<p>Hello <strong>world</strong> &amp;!</p>")).toEqual("Hello world &!");
+    });
+
+    it("getJsonDatafromXML > Jindo wrapper 없이 plain object를 반환한다.", () => {
+        const result = nhn.husky.SE2M_Utils.getJsonDatafromXML("<root><title>Hello</title></root>");
+
+        expect(result.constructor).toBe(Object);
+        expect(result.root.title).toBe("Hello");
+    });
+});

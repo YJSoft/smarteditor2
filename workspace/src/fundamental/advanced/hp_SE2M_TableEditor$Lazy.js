@@ -1200,7 +1200,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		this.elResizeCover.style.position = "fixed";
 		// --[SMARTEDITORSUS-1504]
 		
-		var size = jindo.$Document().clientSize();
+		var size = nhn.husky.DOMMetrics.clientSize();
 		this.elResizeCover.style.width = size.width - this.nPageLeftRightMargin + "px";
 		this.elResizeCover.style.height = size.height - this.nPageTopBottomMargin + "px";
 		//this.elResizeCover.style.width = size.width + "px";

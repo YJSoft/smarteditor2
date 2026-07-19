@@ -848,7 +848,17 @@ getFilteredHashTable({
 	},
 
 	getUniqueId : function(sPrefix) {
-		return (sPrefix || '') + jindo.$Date().time() + (Math.random() * 100000).toFixed();
+		return (sPrefix || '') + Date.now() + (Math.random() * 100000).toFixed();
+	},
+
+	stripStringTags : function(sHTML, oDocument){
+		if(typeof sHTML !== "string"){
+			return "";
+		}
+
+		var oContainer = (oDocument || document).createElement("div");
+		oContainer.innerHTML = sHTML;
+		return typeof oContainer.textContent === "string" ? oContainer.textContent : oContainer.innerText || "";
 	},
 	
 	/**
@@ -1053,7 +1063,7 @@ getFilteredHashTable({
 		sXML = sXML.replace(/<(\?|!-)[^>]*>/g, "");
 		sXML.replace(re, cb);
 		
-		return jindo.$Json(o);
+		return o;
 	},
 	/**
 	 * 문자열내 자주 사용되는 특수문자 5개 (", ', &, <, >)를 HTML Entity Code 로 변경하여 반환

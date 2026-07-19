@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 384개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash와 Ajax 전환으로 362개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`는 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 371개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax와 소형 wrapper 전환으로 375개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -119,7 +119,7 @@ workspace/test
 - [x] iframe body에 연결한 event 테스트
 - [ ] selector context와 선행 `>` 동작 테스트
 - [ ] `$Element` width/height/offset getter와 setter 결과 테스트
-- [ ] Ajax text/JSONP success, timeout, error 테스트
+- [x] Ajax text/JSONP success, timeout, error 테스트
 - [ ] lazy script 중복 요청, 순서, 성공, 실패 테스트
 - [ ] QuickEditor drag 시작/이동/종료/경계 테스트
 
@@ -336,16 +336,18 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-037 소형 wrapper 제거
 
-- [ ] `$S.trim()`을 native `trim()`으로 변경한다.
-- [ ] `$S.stripTags()`를 안전한 DOM 기반 변환으로 변경한다.
-- [ ] `$Document.scrollPosition/clientSize`를 document/defaultView 기반으로 변경한다.
-- [ ] `$Cookie`를 작은 cookie helper로 변경한다.
-- [ ] `$Date().time()`을 `Date.now()`로 변경한다.
-- [ ] `$Json` 반환값을 plain object로 변경하고 공개 API 영향을 확인한다.
+- [x] `$S.trim()`을 native `trim()`으로 변경한다.
+- [x] `$S.stripTags()`를 안전한 DOM 기반 변환으로 변경한다.
+- [x] `$Document.scrollPosition/clientSize`를 document/defaultView 기반으로 변경한다.
+- [x] `$Cookie`를 작은 cookie helper로 변경한다.
+- [x] `$Date().time()`을 `Date.now()`로 변경한다.
+- [x] `$Json` 반환값을 plain object로 변경하고 공개 API 영향을 확인한다.
 
 완료 기준:
 
 - `$S`, `$Document`, `$Cookie`, `$Date`, `$Json` 참조가 0이다.
+
+`Cookie.js`는 URL encoding, 만료일, path/domain을 지원하는 최소 cookie helper이며 `DOMMetrics.js`는 iframe document의 scroll position과 viewport size를 해당 document의 `defaultView` 기준으로 계산한다. 문자열 tag 제거는 detached DOM container의 text content를 사용하고, XML 변환 결과는 Jindo wrapper 없이 원래 plain object를 반환한다. 관련 trim, cookie, viewport, XML 반환 동작은 characterization test로 고정했다.
 
 ### MIG-038 `$Ajax` 제거
 
