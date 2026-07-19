@@ -30,7 +30,7 @@ nhn.husky.SE2M_EditingModeChanger = nhn.husky.createClass({
 	},
 
 	_assignHTMLElements : function(elAppContainer){
-		elAppContainer = jindo.$(elAppContainer) || document;
+		elAppContainer = nhn.husky.DOM.getElement(elAppContainer) || document;
 
 		//@ec[
 		this.elWYSIWYGButton = jindo.$$.getSingle("BUTTON.se2_to_editor", elAppContainer);

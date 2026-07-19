@@ -23,7 +23,7 @@ nhn.husky.HuskyCore.addLoadedFile("hp_DialogLayerManager$Lazy.js");
 nhn.husky.HuskyCore.mixin(nhn.husky.DialogLayerManager, {
 	//@lazyload_js SHOW_DIALOG_LAYER,TOGGLE_DIALOG_LAYER:N_DraggableLayer.js[
 	$ON_SHOW_DIALOG_LAYER : function(elLayer, htOptions){
-		elLayer = jindo.$(elLayer);
+		elLayer = nhn.husky.DOM.getElement(elLayer);
 		htOptions = htOptions || {};
 		
 		if(!elLayer){return;}
@@ -65,7 +65,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.DialogLayerManager, {
 	},
 
 	$ON_HIDE_DIALOG_LAYER : function(elLayer){
-		elLayer = jindo.$(elLayer);
+		elLayer = nhn.husky.DOM.getElement(elLayer);
 
 		if(elLayer){elLayer.style.display = "none";}
 		this.aOpenedLayers = this.aOpenedLayers.filter(function(elOpenedLayer){return elOpenedLayer !== elLayer;});

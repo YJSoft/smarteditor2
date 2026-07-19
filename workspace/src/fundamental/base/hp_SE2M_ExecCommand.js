@@ -696,10 +696,10 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 		// [SMARTEDITORSUS-793] 인용구 안에서 글머리기호/번호매기기하는 경우에 대한 처리 
 		while(elNode){
 			if(elNode.tagName == "BLOCKQUOTE"){
-				this.elP1 = jindo.$("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
+				this.elP1 = nhn.husky.DOM.getElement("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
 				elNode.parentNode.insertBefore(this.elP1, elNode);
 
-				this.elP2 = jindo.$("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
+				this.elP2 = nhn.husky.DOM.getElement("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
 				elNode.parentNode.insertBefore(this.elP2, elNode.nextSibling);
 				
 				break;
@@ -715,11 +715,11 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 				elNext = elNode.nextSibling;
 
 			if(elPrev && elPrev.tagName === "BLOCKQUOTE"){
-				this.elP1 = jindo.$("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
+				this.elP1 = nhn.husky.DOM.getElement("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
 				elPrev.parentNode.insertBefore(this.elP1, elPrev.nextSibling);
 			}
 			if(elNext && elNext.tagName === "BLOCKQUOTE"){
-				this.elP1 = jindo.$("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
+				this.elP1 = nhn.husky.DOM.getElement("<p>&nbsp;</p>", this.oApp.getWYSIWYGDocument());
 				elNext.parentNode.insertBefore(this.elP1, elNext);
 			}
 		}

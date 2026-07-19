@@ -90,7 +90,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 	},
 
 	_assignHTMLElements : function(oAppContainer){
-		oAppContainer = jindo.$(oAppContainer) || document;
+		oAppContainer = nhn.husky.DOM.getElement(oAppContainer) || document;
 		this.rxUI = new RegExp(this.sUIClassPrefix+"([^ ]+)");
 
 		this.toolbarArea = jindo.$$.getSingle(".se2_tool", oAppContainer);
@@ -318,9 +318,9 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 	$ON_POSITION_TOOLBAR_LAYER : function(elLayer, htOption){
 		var nLayerLeft, nLayerRight, nToolbarLeft, nToolbarRight;
 	
-		elLayer = jindo.$(elLayer);
+		elLayer = nhn.husky.DOM.getElement(elLayer);
 		htOption = htOption || {};
-		var elBtn = jindo.$(htOption.elBtn);
+		var elBtn = nhn.husky.DOM.getElement(htOption.elBtn);
 		var sAlign = htOption.sAlign;
 
 		var nMargin = -1;

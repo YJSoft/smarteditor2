@@ -25,7 +25,7 @@ nhn.husky.SE_ToolbarToggler = nhn.husky.createClass({
 	},
 
 	_assignHTMLObjects : function(oAppContainer, bUseToolbar){
-		oAppContainer = jindo.$(oAppContainer) || document;
+		oAppContainer = nhn.husky.DOM.getElement(oAppContainer) || document;
 	
 		this.toolbarArea = jindo.cssquery.getSingle(".se2_tool", oAppContainer);
 		

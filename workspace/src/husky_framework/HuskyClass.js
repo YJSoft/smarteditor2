@@ -1,5 +1,6 @@
 import "./BrowserCapabilities";
 import "./Cookie";
+import "./DOM";
 import "./DOMMetrics";
 
 /*

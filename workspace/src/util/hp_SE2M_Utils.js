@@ -933,7 +933,7 @@ getFilteredHashTable({
 			//	return;
 			//}
 			//새로운 div 노드 생성한다.
-			var welAfter = jindo.$Element(jindo.$('<div></div>', elWYSIWYGDoc));
+			var welAfter = jindo.$Element(nhn.husky.DOM.getElement('<div></div>', elWYSIWYGDoc));
 			welAfter.html(sHtml).attr('align', sAlign);			
 			wel.replace(welAfter);		
 		}		

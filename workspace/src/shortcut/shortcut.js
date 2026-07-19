@@ -28,7 +28,7 @@ function Shortcut(sKey,sId){
 		store.set("document",sKey,document);
 		return action.init(store.get("document"),sKey);
 	}else if(sId.constructor == String&&sKey.constructor == String){
-		store.set(sId,sKey,jindo.$(sId));
+		store.set(sId,sKey,nhn.husky.DOM.getElement(sId));
 		return action.init(store.get(sId),sKey);
 	}else if(sId.constructor != String&&sKey.constructor == String){
 		var fakeId = "nonID"+new Date().getTime();

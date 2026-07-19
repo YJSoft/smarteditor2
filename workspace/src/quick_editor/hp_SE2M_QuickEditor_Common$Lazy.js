@@ -277,9 +277,9 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	 * 레이어가 처음 뜰 때 이벤트를 등록한다.
 	 */
 	lazy_common : function(){
-		this.oApp.registerBrowserEvent(jindo.$(this._qe_wrap), "keyup", "QE_IN_KEYUP");
-		this.oApp.registerBrowserEvent(jindo.$(this._qe_wrap), "mousedown", "QE_IN_MOUSEDOWN");
-		this.oApp.registerBrowserEvent(jindo.$(this._qe_wrap), "mousewheel", "QE_IN_MOUSEWHEEL");
+		this.oApp.registerBrowserEvent(nhn.husky.DOM.getElement(this._qe_wrap), "keyup", "QE_IN_KEYUP");
+		this.oApp.registerBrowserEvent(nhn.husky.DOM.getElement(this._qe_wrap), "mousedown", "QE_IN_MOUSEDOWN");
+		this.oApp.registerBrowserEvent(nhn.husky.DOM.getElement(this._qe_wrap), "mousewheel", "QE_IN_MOUSEWHEEL");
 		this.lazy_common = function(){};
 	},
 	/**

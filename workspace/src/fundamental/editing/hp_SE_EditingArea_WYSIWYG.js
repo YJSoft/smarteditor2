@@ -73,7 +73,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	bWYSIWYGEnabled : false,
 	
 	$init : function(iframe){
-		this.iframe = jindo.$(iframe);		
+		this.iframe = nhn.husky.DOM.getElement(iframe);
 		var oAgent = nhn.husky.Browser.navigator();
 		// IE에서 에디터 초기화 시에 임의적으로 iframe에 포커스를 반쯤(IME 입력 안되고 커서만 깜박이는 상태) 주는 현상을 막기 위해서 일단 iframe을 숨겨 뒀다가 CHANGE_EDITING_MODE에서 위지윅 전환 시 보여준다.
 		// 이런 현상이 다양한 요소에 의해서 발생하며 발견된 몇가지 경우는,
@@ -976,7 +976,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	 */
 	$ON_FOCUS_N_CURSOR : function (bEndCursor, sId){
 		var el, oSelection;
-		if(sId && ( el = jindo.$(sId, this.getDocument()) )){
+		if(sId && ( el = nhn.husky.DOM.getElement(sId, this.getDocument()) )){
 			// ID가 지정된 경우, 무조건 해당 부분으로 커서 이동
 			clearTimeout(this._nTimerFocus);	// 연속 삽입될 경우, 미완료 타이머는 취소한다.
 			this._nTimerFocus = setTimeout((function(el){

@@ -66,7 +66,7 @@ nhn.husky.ActiveLayerManager = nhn.husky.createClass({
 	},
 	
 	$ON_SHOW_ACTIVE_LAYER : function(oLayer, sOnCloseCmd, aOnCloseParam){
-		oLayer = jindo.$(oLayer);
+		oLayer = nhn.husky.DOM.getElement(oLayer);
 
 		var oPrevLayer = this.oCurrentLayer;
 		if(oLayer == oPrevLayer){return;}

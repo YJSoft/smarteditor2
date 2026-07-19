@@ -44,7 +44,7 @@ nhn.husky.SE_OuterIFrameControl = nhn.husky.createClass({
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = jindo.$(oAppContainer) || document;
+		oAppContainer = nhn.husky.DOM.getElement(oAppContainer) || document;
 
 		this.oResizeGrip = jindo.cssquery.getSingle(".husky_seditor_editingArea_verticalResizer", oAppContainer);
 		

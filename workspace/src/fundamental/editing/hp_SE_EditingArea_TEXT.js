@@ -28,7 +28,7 @@ nhn.husky.SE_EditingArea_TEXT = nhn.husky.createClass({
 	nMinHeight : null,		// [SMARTEDITORSUS-677] 편집 영역의 최소 높이
 	
 	$init : function(sTextArea) {
-		this.elEditingArea = jindo.$(sTextArea);
+		this.elEditingArea = nhn.husky.DOM.getElement(sTextArea);
 	},
 
 	$BEFORE_MSG_APP_READY : function() {

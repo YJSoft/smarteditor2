@@ -138,7 +138,7 @@ nhn.husky.SE2M_Hyperlink = nhn.husky.createClass({
 		try{
 			oCopyNode.innerHTML;
 		}catch(e) {
-			oCopyNode = jindo.$(oTmpNode.outerHTML);
+			oCopyNode = nhn.husky.DOM.getElement(oTmpNode.outerHTML);
 		}
 
 		var oTmpRange = this.oApp.getEmptySelection();

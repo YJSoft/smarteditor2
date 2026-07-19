@@ -117,7 +117,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 	
 	$init : function(sDefaultEditingMode, elContentsField, oDimension, fOnBeforeUnload, elAppContainer){
 		this.sDefaultEditingMode = sDefaultEditingMode;
-		this.elContentsField = jindo.$(elContentsField);
+		this.elContentsField = nhn.husky.DOM.getElement(elContentsField);
 		this._assignHTMLElements(elAppContainer);
 		this.fOnBeforeUnload = fOnBeforeUnload;
 		

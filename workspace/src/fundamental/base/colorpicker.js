@@ -28,7 +28,7 @@ nhn.ColorPicker = nhn.husky.createClass({
 		this.elem = jindo.$Element(oElement).empty();
 		this.huePanel   = null;
 		this.cursor     = jindo.$Element("<div>").css("overflow", "hidden");
-		this.canvasType = jindo.$(oElement).filters?"Filter":jindo.$("<canvas>").getContext?"Canvas":null;
+		this.canvasType = nhn.husky.DOM.getElement(oElement).filters?"Filter":nhn.husky.DOM.getElement("<canvas>").getContext?"Canvas":null;
 
 		if(!this.canvasType) {
 			return false;

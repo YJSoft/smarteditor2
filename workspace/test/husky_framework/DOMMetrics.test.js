@@ -1,4 +1,20 @@
 import "@src/husky_framework/DOMMetrics";
+import "@src/husky_framework/DOM";
+
+describe("DOM helper", () => {
+    it("getElement > ID와 HTML 문자열을 raw DOM으로 반환한다.", () => {
+        const element = document.createElement("div");
+        element.id = "dom-helper-target";
+        document.body.appendChild(element);
+
+        expect(nhn.husky.DOM.getElement("dom-helper-target")).toBe(element);
+        const created = nhn.husky.DOM.getElement("<span>created</span>");
+        expect(created.tagName).toBe("SPAN");
+        expect(created.textContent).toBe("created");
+
+        element.remove();
+    });
+});
 
 describe("DOMMetrics", () => {
     const fakeDocument = {

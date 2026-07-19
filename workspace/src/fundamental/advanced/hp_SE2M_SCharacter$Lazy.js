@@ -23,7 +23,7 @@ nhn.husky.HuskyCore.addLoadedFile("hp_SE2M_SCharacter$Lazy.js");
 nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_SCharacter, {
 	//@lazyload_js TOGGLE_SCHARACTER_LAYER[
 	_assignHTMLObjects : function(oAppContainer){
-		oAppContainer = jindo.$(oAppContainer) || document;
+		oAppContainer = nhn.husky.DOM.getElement(oAppContainer) || document;
 
 		this.elDropdownLayer = jindo.$$.getSingle("DIV.husky_seditor_sCharacter_layer", oAppContainer);
 
@@ -166,16 +166,16 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_SCharacter, {
 
 		var button, span;
 		for(var ii=0; ii<len; ii++){
-			aLI[ii] = jindo.$("<LI>");
+			aLI[ii] = nhn.husky.DOM.getElement("<LI>");
 
 			if(this.bIE){
-				button = jindo.$("<BUTTON>");
+				button = nhn.husky.DOM.getElement("<BUTTON>");
 				button.setAttribute('type', 'button');	
 			}else{
-				button = jindo.$("<BUTTON>");
+				button = nhn.husky.DOM.getElement("<BUTTON>");
 				button.type = "button";
 			}
-			span = jindo.$("<SPAN>");
+			span = nhn.husky.DOM.getElement("<SPAN>");
 			span.innerHTML = unescape(this.charSet[i][ii]);
 			button.appendChild(span);
 

@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 371개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax와 소형 wrapper 전환으로 375개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 340개, `workspace/static/js/service` 5개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax, 소형 wrapper와 raw DOM lookup 전환으로 406개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$`, `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -247,15 +247,17 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-030 `jindo.$` 제거
 
-- [ ] ID lookup을 `getElementById` 또는 명확한 jQuery selector로 변경한다.
-- [ ] HTML 문자열 element 생성을 jQuery 또는 `createElement`로 변경한다.
-- [ ] 특정 iframe document에서 element를 생성하는 호출을 별도 검증한다.
-- [ ] raw DOM과 jQuery collection의 변수 이름을 구분한다.
+- [x] ID lookup을 `getElementById` 또는 명확한 jQuery selector로 변경한다.
+- [x] HTML 문자열 element 생성을 jQuery 또는 `createElement`로 변경한다.
+- [x] 특정 iframe document에서 element를 생성하는 호출을 별도 검증한다.
+- [x] raw DOM과 jQuery collection의 변수 이름을 구분한다.
 
 완료 기준:
 
 - `jindo.$` 참조 31곳이 제거된다.
 - raw DOM이 필요한 API에 jQuery collection이 전달되지 않는다.
+
+[`DOM.js`](../../src/husky_framework/DOM.js)의 `getElement()`는 ID 문자열과 HTML 문자열을 raw DOM으로 해석하며, HTML 생성 시 지정된 iframe document를 보존한다. jQuery collection이 필요한 호출부와 구분하기 위해 helper는 항상 단일 element를 반환한다.
 
 ### MIG-031 `jindo.$$`와 `cssquery` 제거
 
