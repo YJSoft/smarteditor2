@@ -92,14 +92,14 @@ Shortcut.Store = {
 	}, 
 	reset:function(sId){
 		var data = this.datas[sId];
-		Shortcut.Helper.bind(data.func,data.element,"detach");
+		Shortcut.Helper.detach(data.func, data.element);
 		
 		delete this.datas[sId];
 	},
 	allReset: function(){
-		jindo.$H(this.datas).forEach(jindo.$Fn(function(value,key) {
+		jindo.$H(this.datas).forEach((function(value,key) {
 			this.reset(key); 
-		},this).bind());
+		}).bind(this));
 	}
 };
 
@@ -107,9 +107,9 @@ Shortcut.Data = nhn.husky.createClass({
 	$init:function(sId,sKey,oElement){
 		this.id = sId;
 		this.element = oElement;
-		this.func = jindo.$Fn(this.fire,this).bind();
+		this.func = this.fire.bind(this);
 		
-		Shortcut.Helper.bind(this.func,oElement,"attach");
+		Shortcut.Helper.attach(this.func, oElement);
 		this.keys = {};
 		this.keyStemp = {};
 		this.createKey(sKey);		
@@ -222,7 +222,7 @@ Shortcut.Data = nhn.husky.createClass({
 		}
 		
 		if(hasNotKey){
-			Shortcut.Helper.bind(this.func,this.element,"detach");
+			Shortcut.Helper.detach(this.func, this.element);
 			delete Shortcut.Store.datas[this.id];
 		}
 		
@@ -289,22 +289,13 @@ Shortcut.Helper = {
 		}
 		return false;
 	},
-	bind:function(wfFunc,oElement,sType){
-		if(sType=="attach"){
-			window.domAttach(oElement,"keydown",wfFunc);
-		}else{
-			window.domDetach(oElement,"keydown",wfFunc);
-		}
+	attach:function(fn, oElement){
+		window.jQuery(oElement).on("keydown", fn);
+	},
+	detach:function(fn, oElement){
+		window.jQuery(oElement).off("keydown", fn);
 	}
 	
-};
-
-window.domAttach = function(dom,ev,fn){
-	dom.addEventListener(ev, fn, false);
-};
-
-window.domDetach = function(dom,ev,fn){
-	dom.removeEventListener(ev, fn, false);
 };
 
 

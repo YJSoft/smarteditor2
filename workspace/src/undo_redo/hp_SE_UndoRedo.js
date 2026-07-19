@@ -140,11 +140,11 @@ nhn.husky.SE_UndoRedo = nhn.husky.createClass({
 	
 	$BEFORE_MSG_APP_READY : function(){
 		this._historyLength = 0;
-		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoHistory", jindo.$Fn(this._getUndoHistory, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoStateIdx", jindo.$Fn(this._getUndoStateIdx, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["saveSnapShot", jindo.$Fn(this._saveSnapShot, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getLastKey", jindo.$Fn(this._getLastKey, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["setLastKey", jindo.$Fn(this._setLastKey, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoHistory", this._getUndoHistory.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getUndoStateIdx", this._getUndoStateIdx.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["saveSnapShot", this._saveSnapShot.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getLastKey", this._getLastKey.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setLastKey", this._setLastKey.bind(this)]);
 
 		this._saveSnapShot();
 		
@@ -328,7 +328,7 @@ nhn.husky.SE_UndoRedo = nhn.husky.createClass({
 		oCurHistory.sParentXPath[this.oCurStateIdx.nStep] = sParentXPath;
 
 		if(oBookmark && oBookmark.sType == "scroll"){
-			setTimeout(jindo.$Fn(function(){this.oApp.getWYSIWYGDocument().documentElement.scrollTop = oBookmark.nScrollTop;}, this).bind(), 0);
+			setTimeout((function(){this.oApp.getWYSIWYGDocument().documentElement.scrollTop = oBookmark.nScrollTop;}).bind(this), 0);
 		}else{
 			oSelection = this.oApp.getEmptySelection();
 			if(oSelection.selectionLoaded){

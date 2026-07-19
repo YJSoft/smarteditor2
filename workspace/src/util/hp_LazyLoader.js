@@ -72,7 +72,7 @@ nhn.husky.LazyLoader = nhn.husky.createClass({
 
 		htCurMsgInfo.bLoadingStatus = 1;
 		(new jindo.$Ajax(htCurMsgInfo.sURL, {
-			onload : jindo.$Fn(this._onload, this).bind(sMsg, aParams)
+			onload : this._onload.bind(this, sMsg, aParams)
 		})).request();
 
 		return true;

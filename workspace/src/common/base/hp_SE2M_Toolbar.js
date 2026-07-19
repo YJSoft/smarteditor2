@@ -72,11 +72,11 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			this._elAlertTxts.innerHTML = sMsgHTML || "";
 
 			// 각 버튼에 클릭이벤트 핸들러를 달아준다.
-			this._elAlertOk.onclick = jindo.$Fn(this._hideAlert, this).bind(htOption.fOkCallback);
-			this._elAlertClose.onclick = jindo.$Fn(this._hideAlert, this).bind(htOption.fCloseCallback);
+			this._elAlertOk.onclick = this._hideAlert.bind(this, htOption.fOkCallback);
+			this._elAlertClose.onclick = this._hideAlert.bind(this, htOption.fCloseCallback);
 			// 취소 콜백함수가 없는 경우는 버튼을 보여주지 않는다.
 			if(htOption.fCancelCallback){
-				this._elAlertCancel.onclick = jindo.$Fn(this._hideAlert, this).bind(htOption.fCancelCallback);
+				this._elAlertCancel.onclick = this._hideAlert.bind(this, htOption.fCancelCallback);
 				this._elAlertCancel.style.display = "";
 			}else{
 				this._elAlertCancel.style.display = "none";
@@ -157,7 +157,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 		}
 		this.oApp.registerBrowserEvent(this.toolbarArea, "mousedown", "EVENT_TOOLBAR_MOUSEDOWN");
 		
-		this.oApp.exec("ADD_APP_PROPERTY", ["getToolbarButtonByUIName", jindo.$Fn(this.getToolbarButtonByUIName, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getToolbarButtonByUIName", this.getToolbarButtonByUIName.bind(this)]);
 		
 		// [SMARTEDITORSUS-1679] 초기 disabled 처리가 필요한 버튼은 비활성화
 		if(this._htOptions.aDisabled){

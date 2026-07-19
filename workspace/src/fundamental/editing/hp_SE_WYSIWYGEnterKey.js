@@ -65,7 +65,8 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 		
 		this.oSelection = this.oApp.getEmptySelection();
 		this.tmpTextNode = this.oSelection._document.createTextNode(unescape("%u00A0"));	// 공백(&nbsp;) 추가 시 사용할 노드
-		jindo.$Fn(this._onKeyDown, this).attach(this.oApp.getWYSIWYGDocument(), "keydown");
+		this._fnOnKeyDown = nhn.husky.HuskyEvent.createHandler(this._onKeyDown, this);
+		window.jQuery(this.oApp.getWYSIWYGDocument()).on("keydown", this._fnOnKeyDown);
 	},
 	
 	_onKeyDown : function(oEvent){
@@ -88,7 +89,7 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 	 * [SMARTEDITORSUS-950] 에디터 적용 페이지의 Compatible meta IE=edge 설정 시 줄간격 벌어짐 이슈 (<BR>)
 	 */
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER", ["IR_TO_DB", jindo.$Fn(this.onIrToDB, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER", ["IR_TO_DB", this.onIrToDB.bind(this)]);
 	},
 	
 	/**
@@ -287,14 +288,14 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 				this.oApp.exec("CHECK_STYLE_CHANGE");
 				
 				sBM = oSelection.placeStringBookmark();
-				setTimeout(jindo.$Fn(function(sBM){
+				setTimeout((function(sBM){
 					var elBookmark = oSelection.getStringBookmark(sBM);
 					if(!elBookmark){return;}
 
 					oSelection.moveToStringBookmark(sBM);
 					oSelection.select();
 					oSelection.removeStringBookmark(sBM);
-				}, this).bind(sBM), 0);
+				}).bind(this, sBM), 0);
 				
 				return;
 			}
@@ -306,20 +307,20 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 		if(this.htBrowser.firefox){
 			if(elBookmark && elBookmark.nextSibling && elBookmark.nextSibling.tagName == "IFRAME"){
 				// [WOEDITOR-1603] FF에서 본문에 글감 삽입 후 엔터키 입력하면 글감이 복사되는 문제
-				setTimeout(jindo.$Fn(function(sBM){
+				setTimeout((function(sBM){
 					var elBookmark = oSelection.getStringBookmark(sBM);
 					if(!elBookmark){return;}
 
 					oSelection.moveToStringBookmark(sBM);
 					oSelection.select();
 					oSelection.removeStringBookmark(sBM);
-				}, this).bind(sBM), 0);
+				}).bind(this, sBM), 0);
 			}else{
 				// [SMARTEDITORSUS-1797] 엔터시 공백문자를 &nbsp; 로 변환
 				// FF의 경우 2번이상 엔터치면 앞쪽공백이 사라져서 setTimeout으로 처리
-				setTimeout(jindo.$Fn(function(elNext){
+				setTimeout((function(elNext){
 					this._convertHeadSpace(elNext);
-				}, this).bind(elBookmark.nextSibling), 0);
+				}).bind(this, elBookmark.nextSibling), 0);
 				// [SMARTEDITORSUS-2070] 북마크를 setTimeout 으로 지우면 연속 엔터시 글꼴이 풀리기 때문에 SMARTEDITORSUS-1797 이슈 처리 로직과 분리
 				oSelection.removeStringBookmark(sBM);
 			}
@@ -337,9 +338,9 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 			}
 
 			// [SMARTEDITORSUS-1973] 북마크를 바로 제거하면 커서 위치가 잘못되어 정렬이 풀리기 때문에 setTimeout 으로 제거
-			setTimeout(jindo.$Fn(function(){
+			setTimeout((function(){
 				this.oApp.getSelection().removeStringBookmark(sBM);
-			},this).bind(sBM),0);
+			}).bind(this, sBM),0);
 
 			bAddUnderline = (elParentNode.tagName === "U" || nhn.husky.SE2M_Utils.findAncestorByTagName("U", elParentNode) !== null);
 			bAddLineThrough = (elParentNode.tagName === "S" || elParentNode.tagName === "STRIKE" ||
@@ -347,13 +348,13 @@ nhn.husky.SE_WYSIWYGEnterKey = nhn.husky.createClass({
 			
 			// [SMARTEDITORSUS-26] Enter 후에 밑줄/취소선이 복사되지 않는 문제를 처리 (브라우저 Enter 처리 후 실행되도록 setTimeout 사용)
 			if(bAddUnderline || bAddLineThrough){
-				setTimeout(jindo.$Fn(this._addTextDecorationTag, this).bind(bAddUnderline, bAddLineThrough), 0);
+				setTimeout(this._addTextDecorationTag.bind(this, bAddUnderline, bAddLineThrough), 0);
 				
 				return;
 			}
 
 			// [SMARTEDITORSUS-180] 빈 SPAN 태그에 의해 엔터 후 엔터가 되지 않은 것으로 보이는 문제 (브라우저 Enter 처리 후 실행되도록 setTimeout 사용)
-			setTimeout(jindo.$Fn(this._addExtraCursorHolder, this).bind(elParentNode), 0);
+			setTimeout(this._addExtraCursorHolder.bind(this, elParentNode), 0);
 		}else{
 			elParentNode = elBookmark.parentNode;
 			var oNextSibling = this._getValidNextSibling(elBookmark);

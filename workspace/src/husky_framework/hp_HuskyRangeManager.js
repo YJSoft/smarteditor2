@@ -37,8 +37,8 @@ nhn.husky.HuskyRangeManager = nhn.husky.createClass({
 			nhn.CurrentSelection.setWindow(this.oWindow);
 		}
 
-		this.oApp.exec("ADD_APP_PROPERTY", ["getSelection", jindo.$Fn(this.getSelection, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEmptySelection", jindo.$Fn(this.getEmptySelection, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getSelection", this.getSelection.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEmptySelection", this.getEmptySelection.bind(this)]);
 	},
 
 	$ON_SET_EDITING_WINDOW : function(oWindow){

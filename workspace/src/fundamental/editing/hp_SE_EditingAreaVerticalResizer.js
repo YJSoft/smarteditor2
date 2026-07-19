@@ -35,7 +35,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["isUseVerticalResizer", jindo.$Fn(this.isUseVerticalResizer, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["isUseVerticalResizer", this.isUseVerticalResizer.bind(this)]);
 	},
 	
 	$ON_MSG_APP_READY : function(){
@@ -51,18 +51,19 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 			if(this.isUseVerticalResizer()){
 				this.oResizeGrip.style.display = 'block';
 				if(!!this.welNoticeLayer && !Number(jindo.$Cookie().get(this.sCookieNotice))){
-					this.welNoticeLayer.delegate("click", "BUTTON.bt_clse", jindo.$Fn(this._closeNotice, this).bind());
+					this.welNoticeLayer.delegate("click", "BUTTON.bt_clse", this._closeNotice.bind(this));
 					this.welNoticeLayer.show();
 				}
-				this.$FnMouseDown = jindo.$Fn(this._mousedown, this);
-				this.$FnMouseMove = jindo.$Fn(this._mousemove, this);
-				this.$FnMouseUp = jindo.$Fn(this._mouseup, this);
-				this.$FnMouseOver = jindo.$Fn(this._mouseover, this);
-				this.$FnMouseOut = jindo.$Fn(this._mouseout, this);
+				this._fnMouseDown = nhn.husky.HuskyEvent.createHandler(this._mousedown, this);
+				this._fnMouseMove = nhn.husky.HuskyEvent.createHandler(this._mousemove, this);
+				this._fnMouseUp = nhn.husky.HuskyEvent.createHandler(this._mouseup, this);
+				this._fnMouseOver = nhn.husky.HuskyEvent.createHandler(this._mouseover, this);
+				this._fnMouseOut = nhn.husky.HuskyEvent.createHandler(this._mouseout, this);
 				
-				this.$FnMouseDown.attach(this.oResizeGrip, "mousedown");
-				this.$FnMouseOver.attach(this.oResizeGrip, "mouseover");
-				this.$FnMouseOut.attach(this.oResizeGrip, "mouseout");
+				window.jQuery(this.oResizeGrip)
+					.on("mousedown", this._fnMouseDown)
+					.on("mouseover", this._fnMouseOver)
+					.on("mouseout", this._fnMouseOut);
 				
 			}else{
 				this.oResizeGrip.style.display = 'none';
@@ -72,7 +73,7 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 			}
 		}
 		
-		this.oApp.exec("ADD_APP_PROPERTY", ["checkResizeGripPosition", jindo.$Fn(this.checkResizeGripPosition, this).bind()]);	// [SMARTEDITORSUS-677]
+		this.oApp.exec("ADD_APP_PROPERTY", ["checkResizeGripPosition", this.checkResizeGripPosition.bind(this)]);	// [SMARTEDITORSUS-677]
 		
 		if(this.oApp.getEditingAreaHeight){
 			this.nEditingAreaMinHeight = this.oApp.getEditingAreaHeight();	// [SMARTEDITORSUS-677] 편집 영역의 최소 높이를 가져와 Gap 처리 시 사용
@@ -157,15 +158,16 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 		this.iStartHeight = oEvent.pos().clientY;
 		this.iStartHeightOffset = oEvent.pos().layerY;
 
-		this.$FnMouseMove.attach(document, "mousemove");
-		this.$FnMouseUp.attach(document, "mouseup");
+		window.jQuery(document)
+			.on("mousemove", this._fnMouseMove)
+			.on("mouseup", this._fnMouseUp);
 
 		this.iStartHeight = oEvent.pos().clientY;
 		
 		this.oApp.exec("HIDE_ACTIVE_LAYER");
 		this.oApp.exec("HIDE_ALL_DIALOG_LAYER");
 
-		this.oApp.exec("MSG_EDITING_AREA_RESIZE_STARTED", [this.$FnMouseDown, this.$FnMouseMove, this.$FnMouseUp]);
+		this.oApp.exec("MSG_EDITING_AREA_RESIZE_STARTED", [this._fnMouseDown, this._fnMouseMove, this._fnMouseUp]);
 	},
 
 	_mousemove : function(oEvent){
@@ -175,10 +177,11 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 	},
 
 	_mouseup : function(){
-		this.$FnMouseMove.detach(document, "mousemove");
-		this.$FnMouseUp.detach(document, "mouseup");
+		window.jQuery(document)
+			.off("mousemove", this._fnMouseMove)
+			.off("mouseup", this._fnMouseUp);
 
-		this.oApp.exec("MSG_EDITING_AREA_RESIZE_ENDED", [this.$FnMouseDown, this.$FnMouseMove, this.$FnMouseUp]);
+		this.oApp.exec("MSG_EDITING_AREA_RESIZE_ENDED", [this._fnMouseDown, this._fnMouseMove, this._fnMouseUp]);
 	},
 	
 	_closeNotice : function(){

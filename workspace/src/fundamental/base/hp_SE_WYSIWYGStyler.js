@@ -41,9 +41,9 @@ nhn.husky.SE_WYSIWYGStyler = nhn.husky.createClass({
 			this._sCursorHolder = "\u2060";
 			this.$ON_REGISTER_CONVERTERS = function(){
 				var rx2060 = /\u2060/g;
-				this.oApp.exec("ADD_CONVERTER", ["WYSIWYG_TO_IR", jindo.$Fn(function(sContents){
+				this.oApp.exec("ADD_CONVERTER", ["WYSIWYG_TO_IR", (function(sContents){
 					return sContents.replace(rx2060, "\uFEFF");
-				}, this).bind()]);
+				}).bind(this)]);
 			};
 		}
 	},

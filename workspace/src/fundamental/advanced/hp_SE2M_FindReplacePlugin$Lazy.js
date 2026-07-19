@@ -63,19 +63,20 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		this.oFindReplace = new nhn.FindReplace(this.oEditingWindow);
 
 		for(var i=0; i<this.aCloseButtons.length; i++){
-			// var func = jindo.$Fn(this.oApp.exec, this.oApp).bind("HIDE_DIALOG_LAYER", [this.elDropdownLayer]);
-			var func = jindo.$Fn(this.oApp.exec, this.oApp).bind("HIDE_FIND_REPLACE_LAYER", [this.elDropdownLayer]);
-			jindo.$Fn(func, this).attach(this.aCloseButtons[i], "click");
+			var func = nhn.husky.HuskyEvent.createHandler(
+				this.oApp.exec,
+				this.oApp,
+				["HIDE_FIND_REPLACE_LAYER", [this.elDropdownLayer]]
+			);
+			window.jQuery(this.aCloseButtons[i]).on("click", func);
 		}
 		
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("SHOW_FIND", []), this).attach(this.oFindTab, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("SHOW_REPLACE", []), this).attach(this.oReplaceTab, "click");
-		
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("FIND", []), this).attach(this.oFindNextButton, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("FIND", []), this).attach(this.oReplaceFindNextButton, "click");
-		
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("REPLACE", []), this).attach(this.oReplaceButton, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("REPLACE_ALL", []), this).attach(this.oReplaceAllButton, "click");
+		window.jQuery(this.oFindTab).on("click", nhn.husky.HuskyEvent.createHandler(this.oApp.exec, this.oApp, ["SHOW_FIND", []]));
+		window.jQuery(this.oReplaceTab).on("click", nhn.husky.HuskyEvent.createHandler(this.oApp.exec, this.oApp, ["SHOW_REPLACE", []]));
+		window.jQuery(this.oFindNextButton).on("click", nhn.husky.HuskyEvent.createHandler(this.oApp.exec, this.oApp, ["FIND", []]));
+		window.jQuery(this.oReplaceFindNextButton).on("click", nhn.husky.HuskyEvent.createHandler(this.oApp.exec, this.oApp, ["FIND", []]));
+		window.jQuery(this.oReplaceButton).on("click", nhn.husky.HuskyEvent.createHandler(this.oApp.exec, this.oApp, ["REPLACE", []]));
+		window.jQuery(this.oReplaceAllButton).on("click", nhn.husky.HuskyEvent.createHandler(this.oApp.exec, this.oApp, ["REPLACE_ALL", []]));
 		
 		this.oFindInput_Keyword.value = "";
 		this.oReplaceInput_Original.value = "";
@@ -121,8 +122,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		
 		this.oApp.exec("SHOW_DIALOG_LAYER", [this.elDropdownLayer, {
 			elHandle: this.elTitle,
-			fnOnDragStart : jindo.$Fn(this.oApp.exec, this.oApp).bind("SHOW_EDITING_AREA_COVER"),
-			fnOnDragEnd : jindo.$Fn(this.oApp.exec, this.oApp).bind("HIDE_EDITING_AREA_COVER"),
+			fnOnDragStart : this.oApp.exec.bind(this.oApp, "SHOW_EDITING_AREA_COVER"),
+			fnOnDragEnd : this.oApp.exec.bind(this.oApp, "HIDE_EDITING_AREA_COVER"),
 			nMinX : this.htTopLeftCorner.x,
 			nMinY : this.nDefaultTop,
 			nMaxX : this.htTopLeftCorner.x + this.oApp.getEditingAreaWidth() - this.nLayerWidth,

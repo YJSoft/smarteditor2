@@ -93,7 +93,7 @@ upstream Jindo 최신 문서만 기준으로 치환하면 SmartEditor 전용 pat
 
 전환 기간의 로딩 순서는 jQuery 3.7.1, Jindo core, Jindo Component, 설정과 creator, `smarteditor2.js` 순서다. Webpack이 Jindo를 module dependency로 묶는 구조가 아니라 `CopyWebpackPlugin`이 `workspace/static` 전체를 배포물로 복사한다. jQuery는 npm 개발 의존성의 `dist/jquery.min.js`를 배포물의 `js/lib/jquery.min.js`로 복사한다.
 
-[`SE2BasicCreator.js`](../../static/js/service/SE2BasicCreator.js)는 Jindo 존재 여부를 검사하고 `$`, `$$`, `$Agent`, `$Fn`을 사용한다. 따라서 `workspace/src` 전환만으로는 Jindo를 제거할 수 없다.
+[`SE2BasicCreator.js`](../../static/js/service/SE2BasicCreator.js)는 Jindo 존재 여부를 검사하고 `$`, `$$`, `$Agent`를 사용한다. 따라서 `workspace/src` 전환만으로는 Jindo를 제거할 수 없다.
 
 ### 4.3 iframe 런타임 경계
 
@@ -185,7 +185,7 @@ nhn.husky.PluginName = jindo.$Class({
 
 ### 6.2 `$Fn`, `$Event`, `registerBrowserEvent`
 
-`HuskyCore.registerBrowserEvent()`가 editor plugin 이벤트의 중심 경계다. 하지만 일부 파일은 `$Fn.attach()`를 직접 사용하므로 중앙 경계만 바꿔서는 충분하지 않다.
+`HuskyCore.registerBrowserEvent()`가 editor plugin 이벤트의 중심 경계다. 분석 당시에는 일부 파일이 `$Fn.attach()`를 직접 사용했으므로 중앙 경계와 직접 등록 지점을 함께 전환해야 했다.
 
 현재 plugin이 기대하는 event API는 다음과 같다.
 
@@ -202,7 +202,9 @@ jQuery Event의 대응값은 `target`, `currentTarget`, `relatedTarget`, `pageX`
 
 전환용 내부 API인 [`HuskyEvent.js`](../../src/husky_framework/HuskyEvent.js)는 위 규약과 원본 event를 제공한다. jQuery Event의 공개 필드와 메서드만 사용하며 jQuery private field에는 의존하지 않는다. `HuskyCore.registerBrowserEvent()`는 iframe 자신의 `window.jQuery`로 `.on()`을 호출하고, 반환된 등록 핸들의 `detach()`가 같은 함수 참조로 `.off()`를 수행한다. 일반 element, document, iframe body와 iframe document에 대한 연결, 지연 dispatch와 해제 동작을 테스트한다.
 
-현재 HuskyCore에는 editor 전체를 폐기하는 destroy lifecycle이 없다. 따라서 기존 lifetime을 유지하면서 등록별 `detach()` 핸들만 제공한다. 향후 destroy API를 추가할 때는 이 핸들을 core가 수집해 일괄 해제하는 방식으로 확장하고, 전역 event registry는 만들지 않는다. 중앙 경계 밖에서 직접 사용하는 `$Fn.attach()`/`detach()`는 MIG-024에서 별도로 전환한다.
+현재 HuskyCore에는 editor 전체를 폐기하는 destroy lifecycle이 없다. 따라서 기존 lifetime을 유지하면서 등록별 `detach()` 핸들만 제공한다. 향후 destroy API를 추가할 때는 이 핸들을 core가 수집해 일괄 해제하는 방식으로 확장하고, 전역 event registry는 만들지 않는다.
+
+MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로, 중앙 경계 밖 browser event는 `HuskyEvent.createHandler()`와 jQuery `.on()`/`.off()`로 전환했다. attach와 detach가 같은 handler reference를 사용하도록 정리했으며, 지원하지 않는 IE 전용 direct event 경로는 제거했다. 활성 runtime source와 service의 `jindo.$Fn` 참조는 0개이고 migration guard가 재도입을 금지한다.
 
 ### 6.3 selector 차이
 

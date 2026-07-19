@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 677개, `workspace/static/js/service` 8개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙 event 경계 전환으로 69개가 감소했다.
+현재 AST 기준 허용 상한은 `workspace/src` 517개, `workspace/static/js/service` 7개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계 전환으로 229개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`은 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -210,13 +210,17 @@ workspace/test
 
 ### MIG-024 직접 `$Fn.attach/detach` 전환
 
-- [ ] resize/drag document event 전환
-- [ ] iframe body event 전환
-- [ ] ColorPicker document mouse event 전환
-- [ ] toolbar와 dialog event 전환
-- [ ] shortcut event 전환
-- [ ] attach와 detach가 같은 function reference를 사용하도록 정리한다.
-- [ ] `jindo.$Fn` 참조가 0인지 확인한다.
+- [x] resize/drag document event 전환
+- [x] iframe body event 전환
+- [x] ColorPicker document mouse event 전환
+- [x] toolbar와 dialog event 전환
+- [x] shortcut event 전환
+- [x] attach와 detach가 같은 function reference를 사용하도록 정리한다.
+- [x] `jindo.$Fn` 참조가 0인지 확인한다.
+
+event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로 전환했다. browser event는 `HuskyEvent.createHandler()`로 기존 event 규약을 유지하며 jQuery `.on()`/`.off()`에 같은 handler reference를 전달한다. IE 전용 direct event 경로는 지원 범위에 맞춰 제거했다. 활성 runtime source와 service의 `jindo.$Fn` 참조는 0개이며 migration guard가 재도입을 막는다.
+
+`N_DraggableLayer` characterization test는 drag 종료 후 같은 `mouseup`이 다시 발생해도 종료 handler가 중복 실행되지 않는 것을 확인한다. editor 전체 destroy lifecycle과 iframe 반복 생성·제거 검증은 MIG-064의 통합 회귀 범위에서 계속 추적한다.
 
 완료 기준:
 

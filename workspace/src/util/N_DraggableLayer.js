@@ -43,11 +43,11 @@ nhn.DraggableLayer = nhn.husky.createClass({
 		elLayer.style.top = htXY.y+"px";
 		elLayer.style.left = htXY.x+"px";
 
-		this.$FnMouseDown = jindo.$Fn(jindo.$Fn(this._mousedown, this).bind(elLayer), this);
-		this.$FnMouseMove = jindo.$Fn(jindo.$Fn(this._mousemove, this).bind(elLayer), this);
-		this.$FnMouseUp = jindo.$Fn(jindo.$Fn(this._mouseup, this).bind(elLayer), this);
+		this._fnMouseDown = nhn.husky.HuskyEvent.createHandler(this._mousedown, this, [elLayer]);
+		this._fnMouseMove = nhn.husky.HuskyEvent.createHandler(this._mousemove, this, [elLayer]);
+		this._fnMouseUp = nhn.husky.HuskyEvent.createHandler(this._mouseup, this, [elLayer]);
 
-		this.$FnMouseDown.attach(this.elHandle, "mousedown");
+		window.jQuery(this.elHandle).on("mousedown", this._fnMouseDown);
 		this.elHandle.ondragstart = new Function('return false');
 		this.elHandle.onselectstart = new Function('return false');
 	},
@@ -60,8 +60,9 @@ nhn.DraggableLayer = nhn.husky.createClass({
 		this.MouseOffsetY = (oEvent.pos().clientY-this.toInt(elLayer.style.top)-this.aBasePosition['top']);
 		this.MouseOffsetX = (oEvent.pos().clientX-this.toInt(elLayer.style.left)-this.aBasePosition['left']);
 
-		this.$FnMouseMove.attach(elLayer.ownerDocument, "mousemove");
-		this.$FnMouseUp.attach(elLayer.ownerDocument, "mouseup");
+		window.jQuery(elLayer.ownerDocument)
+			.on("mousemove", this._fnMouseMove)
+			.on("mouseup", this._fnMouseUp);
 
 		this.elHandle.style.cursor = "move";
 	},
@@ -79,8 +80,9 @@ nhn.DraggableLayer = nhn.husky.createClass({
 	_mouseup : function(elLayer/*, oEvent*/){
 		this.oOptions.fnOnDragEnd();
 
-		this.$FnMouseMove.detach(elLayer.ownerDocument, "mousemove");
-		this.$FnMouseUp.detach(elLayer.ownerDocument, "mouseup");
+		window.jQuery(elLayer.ownerDocument)
+			.off("mousemove", this._fnMouseMove)
+			.off("mouseup", this._fnMouseUp);
 		
 		this.elHandle.style.cursor = "";
 	},

@@ -204,6 +204,13 @@ if(!nhn.husky) { nhn.husky = {}; }
 		return this.originalEvent;
 	};
 
+	HuskyEvent.createHandler = function(fHandler, oContext, aLeadingArguments){
+		aLeadingArguments = aLeadingArguments || [];
+		return function(oEvent){
+			return fHandler.apply(oContext, aLeadingArguments.concat(new HuskyEvent(oEvent)));
+		};
+	};
+
 	HuskyEvent.CANCEL_BUBBLE = 1;
 	HuskyEvent.CANCEL_DEFAULT = 2;
 	HuskyEvent.CANCEL_ALL = 3;

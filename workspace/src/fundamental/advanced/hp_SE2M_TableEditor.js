@@ -46,7 +46,7 @@ nhn.husky.SE2M_TableEditor = nhn.husky.createClass({
 
 	$ON_REGISTER_CONVERTERS : function(){
 		// remove the cell selection class
-		this.oApp.exec("ADD_CONVERTER_DOM", ["WYSIWYG_TO_IR", jindo.$Fn(function(elTmpNode){
+		this.oApp.exec("ADD_CONVERTER_DOM", ["WYSIWYG_TO_IR", (function(elTmpNode){
 			if(this.aSelectedCells.length < 1){
 				//return sContents;
 				return;
@@ -75,7 +75,7 @@ nhn.husky.SE2M_TableEditor = nhn.husky.createClass({
 
 //			return elTmpNode.innerHTML;
 //			var rxSelectionColor = new RegExp("<(TH|TD)[^>]*)("+this.TMP_BGC_ATTR+"=[^> ]*)([^>]*>)", "gi");
-		}, this).bind()]);
+		}).bind(this)]);
 	},
 
 	$ON_MSG_APP_READY : function(){

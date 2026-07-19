@@ -55,9 +55,9 @@ window.createSEditor2 = function(elIRField, htParams, elSeAppContainer){
 		oEditor.registerPlugin({
 			_rxFilter:/<\/*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*?>/gi,
 			$ON_REGISTER_CONVERTERS : function() {
-				var fXssFilter = jindo.$Fn(function(sHtml){
+				var fXssFilter = (function(sHtml){
 					return sHtml.replace(this._rxFilter, "");
-				}, this).bind();
+				}).bind(this);
 				this.oApp.exec("ADD_CONVERTER",["HTMLSrc_TO_IR", fXssFilter]);
 				this.oApp.exec("ADD_CONVERTER",["IR_TO_DB", fXssFilter]);
 			}

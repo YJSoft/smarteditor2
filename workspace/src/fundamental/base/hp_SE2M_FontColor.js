@@ -39,7 +39,7 @@ nhn.husky.SE2M_FontColor = nhn.husky.createClass({
 	},
 
 	$BEFORE_MSG_APP_READY : function() {
-		this.oApp.exec("ADD_APP_PROPERTY", ["getLastUsedFontColor", jindo.$Fn(this.getLastUsedFontColor, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getLastUsedFontColor", this.getLastUsedFontColor.bind(this)]);
 	},
 
 	$ON_MSG_APP_READY : function(){

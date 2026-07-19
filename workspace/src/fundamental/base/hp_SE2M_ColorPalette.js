@@ -197,10 +197,10 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 		this.elColorPaletteLayerColorPicker.style.display = "";
 
 		this.cpp = new nhn.ColorPicker(this.elCP_ColPanel, {huePanel:this.elCP_HuePanel});
-		var fn = jindo.$Fn(function(oEvent) {
+		var fn = (function(oEvent) {
 			this.elPreview.style.backgroundColor = oEvent.hexColor;
 			this.elInputColorCode.value = oEvent.hexColor;
-		}, this).bind();
+		}).bind(this);
 		this.cpp.attach("colorchange", fn);
 
 		this.$ON_SHOW_COLOR_PICKER = this._showColorPickerMain;
@@ -349,7 +349,7 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 	_ajaxRecentColor : function(fCallback){
 		jindo.$Ajax(this.URL_COLOR_LIST, {
 			type : "jsonp",
-			onload : jindo.$Fn(fCallback, this).bind()
+			onload : fCallback.bind(this)
 		}).request();
 	},
 

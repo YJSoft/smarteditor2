@@ -24,7 +24,7 @@ nhn.husky.SE2M_LineStyler = nhn.husky.createClass({
 	name : "SE2M_LineStyler",
 	
 	$BEFORE_MSG_APP_READY : function() {
-		this.oApp.exec("ADD_APP_PROPERTY", ["getLineStyle", jindo.$Fn(this.getLineStyle, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getLineStyle", this.getLineStyle.bind(this)]);
 	},
 
 	$ON_SET_LINE_STYLE : function(sStyleName, styleValue, htOptions){
@@ -95,7 +95,7 @@ nhn.husky.SE2M_LineStyler = nhn.husky.createClass({
 
 		var lastNode = this.oSelection.getEndNode();
 
-		setTimeout(jindo.$Fn(function(firstNode, lastNode){
+		setTimeout((function(firstNode, lastNode){
 			// [SMARTEDITORSUS-1606] 테이블 셀 일부가 선택되었는지 확인
 			var aNodes = this._getSelectedTDs();
 			if(aNodes.length > 0){
@@ -112,7 +112,7 @@ nhn.husky.SE2M_LineStyler = nhn.husky.createClass({
 			this.oSelection.select();
 			
 			this.oApp.exec("CHECK_STYLE_CHANGE", []);
-		}, this).bind(firstNode, lastNode), 0);
+		}).bind(this, firstNode, lastNode), 0);
 
 		return sStyleValue;
 	},
@@ -195,7 +195,7 @@ nhn.husky.SE2M_LineStyler = nhn.husky.createClass({
 		endNode = curWrapper || startNode;
 
 		if(bWrapperCreated && (!htOptions || !htOptions.bDoNotSelect)) {
-			setTimeout(jindo.$Fn(function(startNode, endNode, htOptions){
+			setTimeout((function(startNode, endNode, htOptions){
 				if(startNode == endNode){
 					this.oSelection.selectNodeContents(startNode);
 
@@ -211,7 +211,7 @@ nhn.husky.SE2M_LineStyler = nhn.husky.createClass({
 				if((!htOptions || !htOptions["bDontAddUndoHistory"])){
 					this.oApp.exec("RECORD_UNDO_AFTER_ACTION", ["LINE STYLE"]);
 				}
-			}, this).bind(startNode, endNode, htOptions), 0);
+			}).bind(this, startNode, endNode, htOptions), 0);
 		}
 	},
 	

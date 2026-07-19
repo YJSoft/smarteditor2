@@ -245,9 +245,9 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 
 		if( bSelectedBlock){
 			if(sCommand == "indent"){
-				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, jindo.$Fn(this._indentMargin, this).bind()]);
+				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, this._indentMargin.bind(this)]);
 			}else if(sCommand == "outdent"){
-				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, jindo.$Fn(this._outdentMargin, this).bind()]);
+				this.oApp.exec("SET_LINE_BLOCK_STYLE", [null, this._outdentMargin.bind(this)]);
 			}else{ 
 				this._setBlockExecCommand(sCommand, bUserInterface, vValue);
 			}
@@ -261,18 +261,18 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 				var sBookmark = oSelection.placeStringBookmark();
 
 				if(sCommand === "indent"){
-					this.oApp.exec("SET_LINE_STYLE", [null, jindo.$Fn(this._indentMargin, this).bind(), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
+					this.oApp.exec("SET_LINE_STYLE", [null, this._indentMargin.bind(this), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
 				}else{
-					this.oApp.exec("SET_LINE_STYLE", [null, jindo.$Fn(this._outdentMargin, this).bind(), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
+					this.oApp.exec("SET_LINE_STYLE", [null, this._outdentMargin.bind(this), {bDoNotSelect : true, bDontAddUndoHistory : true}]);
 				}
 
 				oSelection.moveToStringBookmark(sBookmark);
 				oSelection.select();
 				oSelection.removeStringBookmark(sBookmark); //bookmark 삭제
 
-				setTimeout(jindo.$Fn(function(sCommand){
+				setTimeout((function(sCommand){
 					this.oApp.exec("RECORD_UNDO_AFTER_ACTION", [sCommand]);
-				}, this).bind(sCommand), 25);
+				}).bind(this, sCommand), 25);
 
 				break;
 			

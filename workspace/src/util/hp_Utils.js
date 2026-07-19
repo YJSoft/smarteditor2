@@ -53,22 +53,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 		
 		if(!aElms) return;
 		
-		var wfAddClass = jindo.$Fn(function(wev){
+		var fnAddClass = nhn.husky.HuskyEvent.createHandler(function(wev){
 			jindo.$Element(fnElmToTarget(wev.currentElement)).addClass(sHoverClass);
 		}, this);
 		
-		var wfRemoveClass = jindo.$Fn(function(wev){
+		var fnRemoveClass = nhn.husky.HuskyEvent.createHandler(function(wev){
 			jindo.$Element(fnElmToTarget(wev.currentElement)).removeClass(sHoverClass);
 		}, this);
 		
 		for(var i=0, len = aElms.length; i<len; i++){
 			var elSource = fnElmToSrc(aElms[i]);
 			
-			wfAddClass.attach(elSource, "mouseover");
-			wfRemoveClass.attach(elSource, "mouseout");
-			
-			wfAddClass.attach(elSource, "focus");
-			wfRemoveClass.attach(elSource, "blur");
+			window.jQuery(elSource)
+				.on("mouseover focus", fnAddClass)
+				.on("mouseout blur", fnRemoveClass);
 		}
 	}
 });

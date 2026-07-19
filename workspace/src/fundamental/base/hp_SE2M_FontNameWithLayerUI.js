@@ -106,20 +106,16 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 	$ON_MSG_APP_READY : function(){
 		this.bDoNotRecordUndo = false;
 
-		this.oApp.exec("ADD_APP_PROPERTY", ["addFont", jindo.$Fn(this.addFont, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["addFontInUse", jindo.$Fn(this.addFontInUse, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addFont", this.addFont.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addFontInUse", this.addFontInUse.bind(this)]);
 		// 블로그등 팩토리 폰트 포함 용
-		this.oApp.exec("ADD_APP_PROPERTY", ["setMainFont", jindo.$Fn(this.setMainFont, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setMainFont", this.setMainFont.bind(this)]);
 		// 메일등 단순 폰트 지정 용
-		this.oApp.exec("ADD_APP_PROPERTY", ["setDefaultFont", jindo.$Fn(this.setDefaultFont, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setDefaultFont", this.setDefaultFont.bind(this)]);
 		
 		this.oApp.exec("REGISTER_UI_EVENT", ["fontName", "click", "SE2M_TOGGLE_FONTNAME_LAYER"]);
 
 		this._initFontName();	// [SMARTEDITORSUS-2111] 메일쪽 요청으로 글꼴목록 초기화시점 변경
-	},
-	
-	$AFTER_MSG_APP_READY : function(){
-		this._attachIEEvent();
 	},
 	
 	_assignHTMLElements : function(elAppContainer){
@@ -196,130 +192,6 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 		}
 	},
 
-	_attachIEEvent : function(){
-		if(!this.htBrowser.ie){			
-			return;
-		}
-		
-		if(this.htBrowser.nativeVersion < 9){		// [SMARTEDITORSUS-187] [< IE9] 최초 paste 시점에 웹폰트 파일을 로드
-			this._wfOnPasteWYSIWYGBody = jindo.$Fn(this._onPasteWYSIWYGBody, this);
-			this._wfOnPasteWYSIWYGBody.attach(this.oApp.getWYSIWYGDocument().body, "paste");
-			
-			return;
-		}
-		
-		if(document.documentMode < 9){	// [SMARTEDITORSUS-169] [>= IE9] 최초 포커스 시점에 웹폰트 로드
-			this._wfOnFocusWYSIWYGBody = jindo.$Fn(this._onFocusWYSIWYGBody, this);
-			this._wfOnFocusWYSIWYGBody.attach(this.oApp.getWYSIWYGDocument().body, "focus");
-			
-			return;
-		}
-
-		// documentMode === 9
-		// http://blogs.msdn.com/b/ie/archive/2010/08/17/ie9-opacity-and-alpha.aspx	// opacity:0.0;
-		this.welEditingAreaCover = jindo.$Element('<DIV style="width:100%; height:100%; position:absolute; top:0px; left:0px; z-index:1000;"></DIV>');
-
-		this.oApp.welEditingAreaContainer.prepend(this.welEditingAreaCover);
-		jindo.$Fn(this._onMouseupCover, this).attach(this.welEditingAreaCover.$value(), "mouseup");
-	},
-	
-	_onFocusWYSIWYGBody : function(){
-		this._wfOnFocusWYSIWYGBody.detach(this.oApp.getWYSIWYGDocument().body, "focus");
-		this._loadAllBaseFont();
-	},
-	
-	_onPasteWYSIWYGBody : function(){
-		this._wfOnPasteWYSIWYGBody.detach(this.oApp.getWYSIWYGDocument().body, "paste");
-		this._loadAllBaseFont();
-	},
-	
-	_onMouseupCover : function(e){
-		e.stop();
-
-		// [SMARTEDITORSUS-1632] 문서 모드가 9 이상일 때, 경우에 따라 this.welEditingAreaContainer가 없을 때 스크립트 오류 발생
-		if(this.welEditingAreaCover){
-			this.welEditingAreaCover.leave();
-		}
-		//this.welEditingAreaCover.leave();
-		// --[SMARTEDITORSUS-1632]
-		
-		var oMouse = e.mouse(),
-			elBody = this.oApp.getWYSIWYGDocument().body,
-			welBody = jindo.$Element(elBody),
-			oSelection = this.oApp.getEmptySelection();
-		
-		// [SMARTEDITORSUS-363] 강제로 Selection 을 주도록 처리함
-		oSelection.selectNode(elBody);
-		oSelection.collapseToStart();
-		oSelection.select();
-
-		welBody.fireEvent("mousedown", {left : oMouse.left, middle : oMouse.middle, right : oMouse.right});
-		welBody.fireEvent("mouseup", {left : oMouse.left, middle : oMouse.middle, right : oMouse.right});
-		
-		/**
-		 * [SMARTEDITORSUS-1691]
-		 * [IE 10-] 에디터가 초기화되고 나서 <p></p>로만 innerHTML을 설정하는데,
-		 * 이 경우 실제 커서는 <p></p> 내부에 있는 것이 아니라 그 앞에 위치한다.
-		 * 따라서 임시 북마크를 사용해서 <p></p> 내부로 커서를 이동시켜 준다.
-		 * 
-		 * [SMARTEDITORSUS-1781]
-		 * [IE 11] 문서 모드가 Edge인 경우에 한하여
-		 * <p><br></p>로 innerHTML을 설정하는데,
-		 * 실제 커서는 <p><br></p> 앞에 위치한다.
-		 * 이 경우에는 임시 북마크를 삽입할 필요 없이 <br> 앞에 커서를 위치시켜 준다.
-		 * */
-		if(this.oApp.oNavigator.ie && document.documentMode < 11 && this.oApp.getEditingMode() === "WYSIWYG"){
-			if(this.oApp.getWYSIWYGDocument().body.innerHTML == "<p></p>"){
-				this.oApp.getWYSIWYGDocument().body.innerHTML = '<p><span id="husky_bookmark_start_INIT"></span><span id="husky_bookmark_end_INIT"></span></p>';
-				oSelection = this.oApp.getSelection();
-				oSelection.moveToStringBookmark("INIT");
-				oSelection.select();
-				oSelection.removeStringBookmark("INIT");
-			}
-		}else if(this.oApp.oNavigator.ie && this.oApp.oNavigator.nativeVersion == 11 && document.documentMode == 11 && this.oApp.getEditingMode() === "WYSIWYG"){
-			if(this.oApp.getWYSIWYGDocument().body.innerHTML == "<p><br></p>"){
-				var elCursorHolder_br = jindo.$$.getSingle("br", elBody);
-				oSelection.setStartBefore(elCursorHolder_br);
-				oSelection.setEndBefore(elCursorHolder_br);
-				oSelection.select();
-			}
-		}
-		// --[SMARTEDITORSUS-1781][SMARTEDITORSUS-1691]
-	},
-
-	$ON_EVENT_TOOLBAR_MOUSEDOWN : function(){
-		if(this.htBrowser.nativeVersion < 9 || document.documentMode < 9){
-			return;
-		}
-		
-		// [SMARTEDITORSUS-1632] 문서 모드가 9 이상일 때, 경우에 따라 this.welEditingAreaContainer가 없을 때 스크립트 오류 발생
-		if(this.welEditingAreaCover){
-			this.welEditingAreaCover.leave();
-		}
-		//this.welEditingAreaCover.leave();
-		// --[SMARTEDITORSUS-1632]
-	},
-	
-	_loadAllBaseFont : function(){
-		var i, nFontLen;
-		
-		if(!this.htBrowser.ie){
-			return;
-		}
-		
-		if(this.htBrowser.nativeVersion < 9){
-			for(i=0, nFontLen=this.aBaseFontList.length; i<nFontLen; i++){
-				this.aBaseFontList[i].loadCSS(this.oApp.getWYSIWYGDocument());
-			}	
-		}else if(document.documentMode < 9){
-			for(i=0, nFontLen=this.aBaseFontList.length; i<nFontLen; i++){
-				this.aBaseFontList[i].loadCSSToMenu();
-			}
-		}
-	
-		this._loadAllBaseFont = function(){};
-	},
-	
 	_addFontToMenu: function(sDisplayName, sFontFamily, sSampleText){
 		var elItem = document.createElement("LI");
 		elItem.innerHTML = this.elFontItemTemplate.innerHTML.replace("@DisplayName@",  sDisplayName).replace("FontFamily", sFontFamily).replace("@SampleText@", sSampleText);

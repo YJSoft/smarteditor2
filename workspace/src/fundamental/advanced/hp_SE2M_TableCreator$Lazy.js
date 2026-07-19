@@ -88,15 +88,24 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableCreator, {
 		
 		this.oApp.registerBrowserEvent(this.elBtn_rowInc, "click", "TABLE_INC_ROW");
 		this.oApp.registerBrowserEvent(this.elBtn_rowDec, "click", "TABLE_DEC_ROW");
-		jindo.$Fn(this._numRowKeydown, this).attach(this.elText_row.parentNode, "keydown");
+		window.jQuery(this.elText_row.parentNode).on(
+			"keydown",
+			nhn.husky.HuskyEvent.createHandler(this._numRowKeydown, this)
+		);
 
 		this.oApp.registerBrowserEvent(this.elBtn_colInc, "click", "TABLE_INC_COLUMN");
 		this.oApp.registerBrowserEvent(this.elBtn_colDec, "click", "TABLE_DEC_COLUMN");
-		jindo.$Fn(this._numColKeydown, this).attach(this.elText_col.parentNode, "keydown");
+		window.jQuery(this.elText_col.parentNode).on(
+			"keydown",
+			nhn.husky.HuskyEvent.createHandler(this._numColKeydown, this)
+		);
 
 		this.oApp.registerBrowserEvent(this.elBtn_incBorderSize, "click", "TABLE_INC_BORDER_SIZE");
 		this.oApp.registerBrowserEvent(this.elBtn_decBorderSize, "click", "TABLE_DEC_BORDER_SIZE");
-		jindo.$Fn(this._borderSizeKeydown, this).attach(this.elText_borderSize.parentNode, "keydown");
+		window.jQuery(this.elText_borderSize.parentNode).on(
+			"keydown",
+			nhn.husky.HuskyEvent.createHandler(this._borderSizeKeydown, this)
+		);
 
 		this.oApp.registerBrowserEvent(this.elBtn_borderStyle, "click", "TABLE_TOGGLE_BORDER_STYLE_LAYER");
 		this.oApp.registerBrowserEvent(this.elBtn_tableStyle, "click", "TABLE_TOGGLE_STYLE_LAYER");

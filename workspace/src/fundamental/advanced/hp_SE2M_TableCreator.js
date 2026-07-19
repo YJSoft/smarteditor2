@@ -56,8 +56,8 @@ nhn.husky.SE2M_TableCreator = nhn.husky.createClass({
 	// [SMARTEDITORSUS-365] 테이블퀵에디터 > 속성 직접입력 > 테두리 스타일
 	//		- 테두리 없음을 선택하는 경우 본문에 삽입하는 표에 가이드 라인을 표시해 줍니다. 보기 시에는 테두리가 보이지 않습니다.
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", jindo.$Fn(this.irToDbDOM, this).bind()]);
-		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", jindo.$Fn(this.dbToIrDOM, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", this.irToDbDOM.bind(this)]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", this.dbToIrDOM.bind(this)]);
 	},
 	
 	irToDbDOM : function(oTmpNode){

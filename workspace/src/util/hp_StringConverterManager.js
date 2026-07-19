@@ -32,9 +32,9 @@ nhn.husky.StringConverterManager = nhn.husky.createClass({
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["applyConverter", jindo.$Fn(this.applyConverter, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter", jindo.$Fn(this.addConverter, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter_DOM", jindo.$Fn(this.addConverter_DOM, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["applyConverter", this.applyConverter.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter", this.addConverter.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["addConverter_DOM", this.addConverter_DOM.bind(this)]);
 	},
 	
 	applyConverter : function(sRuleName, sContents, oDocument){

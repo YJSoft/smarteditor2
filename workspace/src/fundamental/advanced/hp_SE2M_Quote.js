@@ -51,18 +51,18 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 	},
 	
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER", ["DB_TO_IR", jindo.$Fn(function(sContents){
+		this.oApp.exec("ADD_CONVERTER", ["DB_TO_IR", (function(sContents){
 			sContents = sContents.replace(/<(blockquote)[^>]*class=['"]?(se2_quote[0-9]+)['"]?[^>]*>/gi, "<$1 class=$2>");
 			return sContents;
-		}, this).bind()]);
+		}).bind(this)]);
 		
-		this.oApp.exec("ADD_CONVERTER", ["IR_TO_DB", jindo.$Fn(function(sContents){
+		this.oApp.exec("ADD_CONVERTER", ["IR_TO_DB", (function(sContents){
 			var htQuoteStyles_view = this.htQuoteStyles_view;
 			sContents = sContents.replace(/<(blockquote)[^>]*class=['"]?(se2_quote[0-9]+)['"]?[^>]*>/gi, function(sAll, sTag, sClassName){
 				return '<'+sTag+' class='+sClassName+' style="'+htQuoteStyles_view[sClassName]+'">';
 			});
 			return sContents;
-		}, this).bind()]);
+		}).bind(this)]);
 
 		this.htSE1toSE2Map = {
 			"01" : "1",
@@ -73,23 +73,6 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 			"07" : "3",
 			"08" : "5"
 		};
-		// convert SE1's quotes to SE2's
-		// -> 블로그 개발 쪽에서 처리 하기로 함.
-		/*
-		this.oApp.exec("ADD_CONVERTER", ["DB_TO_IR", jindo.$Fn(function(sContents){
-			return sContents.replace(/<blockquote[^>]* class="?vview_quote([0-9]+)"?[^>]*>((?:\s|.)*?)<\/blockquote>/ig, jindo.$Fn(function(m0,sQuoteType,sQuoteContents){
-				if (/<!--quote_txt-->((?:\s|.)*?)<!--\/quote_txt-->/ig.test(sQuoteContents)){
-					if(!this.htSE1toSE2Map[sQuoteType]){
-						return m0;
-					}
-					
-					return '<blockquote class="se2_quote'+this.htSE1toSE2Map[sQuoteType]+'">'+RegExp.$1+'</blockquote>';
-				}else{
-					return '';
-				}
-			}, this).bind());
-		}, this).bind()]);
-		*/
 	},
 
 	$LOCAL_BEFORE_FIRST : function(){
@@ -167,12 +150,12 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 			
 			jindo.$Element(elParentQuote).after(oP);
 						
-			setTimeout(jindo.$Fn(function(oSelection){
+			setTimeout((function(oSelection){
 				var sBookmarkID = oSelection.placeStringBookmark();
 				
 				oSelection.select();
 				oSelection.removeStringBookmark(sBookmarkID);
-			},this).bind(oSelection), 0);
+			}).bind(this, oSelection), 0);
 		}
 	},
 	
@@ -247,7 +230,7 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 	},
 		
 	_findParentQuote : function(el){
-		return this._findAncestor(jindo.$Fn(function(elNode){
+		return this._findAncestor((function(elNode){
 			if(!elNode){return false;}
 			if(elNode.tagName !== "BLOCKQUOTE"){return false;}
 			if(!elNode.className){return false;}
@@ -256,7 +239,7 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 			if(!this.htQuoteStyles_view[sClassName]){return false;}
 			
 			return true;
-		}, this).bind(), el);
+		}).bind(this), el);
 	},
 	
 	_findAncestor : function(fnCondition, elNode){

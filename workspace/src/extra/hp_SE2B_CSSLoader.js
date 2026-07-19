@@ -34,24 +34,24 @@ nhn.husky.SE2B_CSSLoader = nhn.husky.createClass({
 			
 		// only IE's slow
 		if(!jindo.$Agent().navigator().ie){
-			this.$ON_MSG_APP_READY = jindo.$Fn(function(){
+			this.$ON_MSG_APP_READY = (function(){
 				this.loadSE2CSS();
-			}, this).bind()
+			}).bind(this)
 		}else{
 			for(var i=0, nLen = this.aInstantLoadTrigger.length; i<nLen; i++){
-				this["$BEFORE_"+this.aInstantLoadTrigger[i]] = jindo.$Fn(function(){
+				this["$BEFORE_"+this.aInstantLoadTrigger[i]] = (function(){
 					this.loadSE2CSS();
-				}, this).bind();
+				}).bind(this);
 			}
 			
 			for(i=0, nLen = this.aDelayedLoadTrigger.length; i<nLen; i++){
 				var sMsg = this.aDelayedLoadTrigger[i];
 
-				this["$BEFORE_"+this.aDelayedLoadTrigger[i]] = jindo.$Fn(function(sMsg){
+				this["$BEFORE_"+this.aDelayedLoadTrigger[i]] = (function(sMsg){
 					var aArgs = jindo.$A(arguments).$value();
 					aArgs = aArgs.splice(1, aArgs.length-1);
 					return this.loadSE2CSS(sMsg, aArgs);
-				}, this).bind(sMsg);
+				}).bind(this, sMsg);
 			}
 		}
 	},
@@ -99,7 +99,7 @@ nhn.husky.SE2B_CSSLoader = nhn.husky.createClass({
 
 		var fnCallback = null;
 		if(sMsg){
-			fnCallback = jindo.$Fn(this.oApp.exec, this.oApp).bind(sMsg, oArgs);
+			fnCallback = this.oApp.exec.bind(this.oApp, sMsg, oArgs);
 		}
 		
 		//nhn.husky.SE2M_Utils.loadCSS("css/smart_editor2.css");

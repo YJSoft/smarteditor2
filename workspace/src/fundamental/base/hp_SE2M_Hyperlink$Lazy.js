@@ -213,7 +213,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 			}
 			
 			this.oApp.exec("HIDE_ACTIVE_LAYER");
-			setTimeout(jindo.$Fn(function(){
+			setTimeout((function(){
 				var oSelection = this.oApp.getEmptySelection();
 				oSelection.moveToBookmark(sBM);
 				oSelection.collapseToEnd();
@@ -222,7 +222,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Hyperlink, {
 	
 				this.oApp.exec("FOCUS");
 				this.oApp.exec("RECORD_UNDO_AFTER_ACTION", ["HYPERLINK", {sSaveTarget:(this.bModify ? "A" : null)}]);
-			}, this).bind(), 17);			
+			}).bind(this), 17);
 		}else{
 			alert(this.oApp.$MSG("SE_Hyperlink.invalidURL"));
 			this.oLinkInput.focus();

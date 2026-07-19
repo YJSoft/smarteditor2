@@ -80,13 +80,13 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		
 		this.oApp.exec("SE2_ATTACH_HOVER_EVENTS", [this.aElBtn_tableStyle]);
 		
-		this._wfnOnMouseDownResizeCover = jindo.$Fn(this._fnOnMouseDownResizeCover, this);
-		this._wfnOnMouseMoveResizeCover = jindo.$Fn(this._fnOnMouseMoveResizeCover, this);
-		this._wfnOnMouseUpResizeCover = jindo.$Fn(this._fnOnMouseUpResizeCover, this);
-		this._wfnOnMouseDownResizeCover.attach(this.elResizeCover, "mousedown");
+		this._fnHandleMouseDownResizeCover = nhn.husky.HuskyEvent.createHandler(this._fnOnMouseDownResizeCover, this);
+		this._fnHandleMouseMoveResizeCover = nhn.husky.HuskyEvent.createHandler(this._fnOnMouseMoveResizeCover, this);
+		this._fnHandleMouseUpResizeCover = nhn.husky.HuskyEvent.createHandler(this._fnOnMouseUpResizeCover, this);
+		window.jQuery(this.elResizeCover).on("mousedown", this._fnHandleMouseDownResizeCover);
 		
 		if((htBrowser.ie) && (htBrowser.version > 8)){
-			this._wfnOnResizeEndTable = jindo.$Fn(this._fnOnResizeEndTable, this).bind();
+			this._fnHandleResizeEndTable = this._fnOnResizeEndTable.bind(this);
 		}
 		
 //		this.oApp.registerBrowserEvent(doc, "click", "EVENT_EDITING_AREA_CLICK");
@@ -1040,10 +1040,10 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		sResizeEndEvent = 'onresizeend';
 		if(htBrowser.ie && elTable && elTable.tagName && (elTable.tagName.toUpperCase() === 'TABLE')){ // [IE]
 			if(sPointerUpEvent in elTable){ // [IE 11] resizeend 이벤트 deprecated
-				elTable[sPointerUpEvent] = this._wfnOnResizeEndTable;
+				elTable[sPointerUpEvent] = this._fnHandleResizeEndTable;
 			}else if(sResizeEndEvent in elTable){
 				if(htBrowser.version > 8){
-					elTable[sResizeEndEvent] = this._wfnOnResizeEndTable;
+					elTable[sResizeEndEvent] = this._fnHandleResizeEndTable;
 				}else{
 					// [IE 8-] event 객체가 handler로 전달되지 않는 문제가 있어서 별도의 handler 사용
 					elTable[sResizeEndEvent] = this._getTableResizeEndHandler(elTable);
@@ -1372,8 +1372,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		this.bResizingCover = true;
 		// --[SMARTEDITORSUS-1504]
 		
-		this._wfnOnMouseMoveResizeCover.attach(this.elResizeCover, "mousemove");
-		this._wfnOnMouseUpResizeCover.attach(document, "mouseup");
+		window.jQuery(this.elResizeCover).on("mousemove", this._fnHandleMouseMoveResizeCover);
+		window.jQuery(document).on("mouseup", this._fnHandleMouseUpResizeCover);
 
 		this._coverResizeLayer();
 		this.elResizeGrid.style.border = "1px dotted black";
@@ -1437,8 +1437,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		this._uncoverResizeLayer();
 		this.elResizeGrid.style.border = "";
 
-		this._wfnOnMouseMoveResizeCover.detach(this.elResizeCover, "mousemove");
-		this._wfnOnMouseUpResizeCover.detach(document, "mouseup");
+		window.jQuery(this.elResizeCover).off("mousemove", this._fnHandleMouseMoveResizeCover);
+		window.jQuery(document).off("mouseup", this._fnHandleMouseUpResizeCover);
 
 		var nHeightChange = 0;
 		var nWidthChange = 0;
@@ -1545,7 +1545,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	 * [SMARTEDITORSUS-2136] [IE 8-] resizeend 이벤트 handler
 	 * */
 	_getTableResizeEndHandler : function(elTable){
-		return jindo.$Fn(this._markResizedMetric, this).bind(elTable);
+		return this._markResizedMetric.bind(this, elTable);
 	},
 	
 	/**

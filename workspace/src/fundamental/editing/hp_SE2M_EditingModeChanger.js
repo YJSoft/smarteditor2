@@ -45,7 +45,7 @@ nhn.husky.SE2M_EditingModeChanger = nhn.husky.createClass({
 	},
 	
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["isUseModeChanger", jindo.$Fn(this.isUseModeChanger, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["isUseModeChanger", this.isUseModeChanger.bind(this)]);
 	},
 	
 	$ON_MSG_APP_READY : function(){

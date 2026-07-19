@@ -79,7 +79,7 @@ nhn.husky.SE2M_Hyperlink = nhn.husky.createClass({
 	},
 	
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", jindo.$Fn(this.irToDb, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["IR_TO_DB", this.irToDb.bind(this)]);
 	},
 	
 	$LOCAL_BEFORE_FIRST : function(sMsg){

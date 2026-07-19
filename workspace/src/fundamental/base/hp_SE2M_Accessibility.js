@@ -85,8 +85,16 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 	},
 	
 	$LOCAL_BEFORE_FIRST : function(/*sMsg*/){
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("CLOSE_HELP_POPUP", [this.oCloseButton]), this).attach(this.oCloseButton, "click");
-		jindo.$Fn(jindo.$Fn(this.oApp.exec, this.oApp).bind("CLOSE_HELP_POPUP", [this.oCloseButton2]), this).attach(this.oCloseButton2, "click");
+		window.jQuery(this.oCloseButton).on("click", nhn.husky.HuskyEvent.createHandler(
+			this.oApp.exec,
+			this.oApp,
+			["CLOSE_HELP_POPUP", [this.oCloseButton]]
+		));
+		window.jQuery(this.oCloseButton2).on("click", nhn.husky.HuskyEvent.createHandler(
+			this.oApp.exec,
+			this.oApp,
+			["CLOSE_HELP_POPUP", [this.oCloseButton2]]
+		));
 	
 		//레이어의 이동 범위 설정.
 		var elIframe = this.oApp.getWYSIWYGWindow().frameElement;

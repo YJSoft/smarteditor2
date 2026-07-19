@@ -37,22 +37,10 @@ nhn.husky.SE_OuterIFrameControl = nhn.husky.createClass({
 		this._assignHTMLObjects(oAppContainer);
 
 		//키보드 이벤트
-		this.$FnKeyDown = jindo.$Fn(this._keydown, this);
+		this._fnKeyDown = nhn.husky.HuskyEvent.createHandler(this._keydown, this);
 		if(this.oResizeGrip){
-			this.$FnKeyDown.attach(this.oResizeGrip, "keydown");
+			window.jQuery(this.oResizeGrip).on("keydown", this._fnKeyDown);
 		}
-		
-		//마우스 이벤트 
-		if(jindo.$Agent().navigator().ie){
-			this.$FnMouseDown = jindo.$Fn(this._mousedown, this);
-			this.$FnMouseMove = jindo.$Fn(this._mousemove, this);
-			this.$FnMouseMove_Parent = jindo.$Fn(this._mousemove_parent, this);
-			this.$FnMouseUp = jindo.$Fn(this._mouseup, this);
-			
-			if(this.oResizeGrip){
-				this.$FnMouseDown.attach(this.oResizeGrip, "mousedown");
-			}
-		}	
 	},
 
 	_assignHTMLObjects : function(oAppContainer){
@@ -61,7 +49,6 @@ nhn.husky.SE_OuterIFrameControl = nhn.husky.createClass({
 		this.oResizeGrip = jindo.cssquery.getSingle(".husky_seditor_editingArea_verticalResizer", oAppContainer);
 		
 		this.elIFrame = window.frameElement;
-		this.welIFrame = jindo.$Element(this.elIFrame);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -91,38 +78,5 @@ nhn.husky.SE_OuterIFrameControl = nhn.husky.createClass({
 
 			oEvent.stop();
 		}
-	},
-		
-	_mousedown : function(oEvent){
-		this.iStartHeight = oEvent.pos().clientY;
-		this.iStartHeightOffset = oEvent.pos().layerY;
-
-		this.$FnMouseMove.attach(document, "mousemove");
-		this.$FnMouseMove_Parent.attach(parent.document, "mousemove");
-		
-		this.$FnMouseUp.attach(document, "mouseup");		
-		this.$FnMouseUp.attach(parent.document, "mouseup");
-
-		this.iStartHeight = oEvent.pos().clientY;
-		this.oApp.exec("MSG_EDITING_AREA_RESIZE_STARTED", [this.$FnMouseDown, this.$FnMouseMove, this.$FnMouseUp]);
-	},
-
-	_mousemove : function(oEvent){
-		var iHeightChange = oEvent.pos().clientY - this.iStartHeight;
-		this.oApp.exec("RESIZE_EDITING_AREA_BY", [0, iHeightChange]);
-	},
-
-	_mousemove_parent : function(oEvent){
-		var iHeightChange = oEvent.pos().pageY - (this.welIFrame.offset().top + this.iStartHeight);
-		this.oApp.exec("RESIZE_EDITING_AREA_BY", [0, iHeightChange]);
-	},
-
-	_mouseup : function(/* oEvent */){
-		this.$FnMouseMove.detach(document, "mousemove");
-		this.$FnMouseMove_Parent.detach(parent.document, "mousemove");
-		this.$FnMouseUp.detach(document, "mouseup");
-		this.$FnMouseUp.detach(parent.document, "mouseup");
-
-		this.oApp.exec("MSG_EDITING_AREA_RESIZE_ENDED", [this.$FnMouseDown, this.$FnMouseMove, this.$FnMouseUp]);
 	}
 });

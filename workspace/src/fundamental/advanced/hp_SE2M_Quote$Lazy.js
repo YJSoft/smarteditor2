@@ -297,14 +297,14 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_Quote, {
 		}
 
 		//oSelection.select();
-		setTimeout(jindo.$Fn(function(oSelection){
+		setTimeout((function(oSelection){
 			sBookmarkID = oSelection.placeStringBookmark();
 			
 			oSelection.select();
 			oSelection.removeStringBookmark(sBookmarkID);
 			
 			this.oApp.exec("FOCUS");	// [SMARTEDITORSUS-469] [SMARTEDITORSUS-434] 에디터 로드 후 최초 삽입한 인용구 안에 포커스가 가지 않는 문제
-		},this).bind(oSelection), 0);
+		}).bind(this, oSelection), 0);
 
 		this.oApp.exec("RECORD_UNDO_AFTER_ACTION", ["BLOCK QUOTE", {sSaveTarget:"BODY"}]);
 		

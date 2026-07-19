@@ -50,13 +50,13 @@ nhn.ColorPicker = nhn.husky.createClass({
 		// event binding
 		for(var name in this) {
 			if (/^_on[A-Z][a-z]+[A-Z][a-z]+$/.test(name)) {
-				this[name+"Fn"] = jindo.$Fn(this[name], this);
+				this[name+"Fn"] = nhn.husky.HuskyEvent.createHandler(this[name], this);
 			}	
 		}
 
-		this._onDownColorFn.attach(this.elem, "mousedown");
+		window.jQuery(this.elem.$value()).on("mousedown", this._onDownColorFn);
 		if (this.huePanel) {
-			this._onDownHueFn.attach(this.huePanel, "mousedown");
+			window.jQuery(this.huePanel.$value()).on("mousedown", this._onDownHueFn);
 		}	
 
 		// paint
@@ -395,14 +395,16 @@ nhn.ColorPicker = nhn.husky.createClass({
 		this._colPagePos = [pos.pageX, pos.pageY];
 		this._colLayerPos = [pos.layerX, pos.layerY];
 
-		this._onUpColorFn.attach(document, "mouseup");
-		this._onMoveColorFn.attach(document, "mousemove");
+		window.jQuery(document)
+			.on("mouseup", this._onUpColorFn)
+			.on("mousemove", this._onMoveColorFn);
 
 		this._onMoveColor(e);
 	},
 	_onUpColor : function() {
-		this._onUpColorFn.detach(document, "mouseup");
-		this._onMoveColorFn.detach(document, "mousemove");
+		window.jQuery(document)
+			.off("mouseup", this._onUpColorFn)
+			.off("mousemove", this._onMoveColorFn);
 	},
 	_onMoveColor : function(e) {
 		var hsv = this._hsvColor;
@@ -446,14 +448,16 @@ nhn.ColorPicker = nhn.husky.createClass({
 		this._huePagePos  = [pos.pageX, pos.pageY];
 		this._hueLayerPos = [pos.layerX, pos.layerY];
 
-		this._onUpHueFn.attach(document, "mouseup");
-		this._onMoveHueFn.attach(document, "mousemove");
+		window.jQuery(document)
+			.on("mouseup", this._onUpHueFn)
+			.on("mousemove", this._onMoveHueFn);
 
 		this._onMoveHue(e);
 	},
 	_onUpHue : function() {
-		this._onUpHueFn.detach(document, "mouseup");
-		this._onMoveHueFn.detach(document, "mousemove");
+		window.jQuery(document)
+			.off("mouseup", this._onUpHueFn)
+			.off("mousemove", this._onMoveHueFn);
 	},
 	_onMoveHue : function(e) {
 		var hsv = this._hsvColor;

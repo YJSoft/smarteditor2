@@ -7,12 +7,12 @@ const sourceGroups = [
     {
         name: "workspace/src",
         root: path.join(projectRoot, "workspace/src"),
-        maximumJindoReferences: 677
+        maximumJindoReferences: 517
     },
     {
         name: "workspace/static/js/service",
         root: path.join(projectRoot, "workspace/static/js/service"),
-        maximumJindoReferences: 8
+        maximumJindoReferences: 7
     }
 ];
 
@@ -30,6 +30,7 @@ const prohibitedJQueryPatterns = [
         pattern: /(?:jQuery|\$)\s*\([^;\n]*\)\s*\.\s*(?:bind|unbind|delegate|undelegate)\s*\(/
     }
 ];
+const removedJindoMembers = ["$Class", "$Event", "$Fn"];
 
 function listJavaScriptFiles(root) {
     const files = [];
@@ -116,19 +117,25 @@ function stripComments(source) {
     return result;
 }
 
-function countJindoReferences(source) {
+function analyzeJindoReferences(source) {
     const syntaxTree = espree.parse(source, {
         ecmaVersion: 2020,
         sourceType: "module"
     });
-    let count = 0;
+    const references = {
+        total: 0,
+        members: {}
+    };
 
     function visit(node) {
         if (!node || typeof node !== "object") {
             return;
         }
         if (node.type === "MemberExpression" && node.object && node.object.type === "Identifier" && node.object.name === "jindo") {
-            count += 1;
+            references.total += 1;
+            if (!node.computed && node.property && node.property.type === "Identifier") {
+                references.members[node.property.name] = (references.members[node.property.name] || 0) + 1;
+            }
         }
         Object.keys(node).forEach((key) => {
             const child = node[key];
@@ -141,7 +148,7 @@ function countJindoReferences(source) {
     }
 
     visit(syntaxTree);
-    return count;
+    return references;
 }
 
 let hasError = false;
@@ -153,7 +160,14 @@ sourceGroups.forEach((group) => {
         const relativeFilename = path.relative(projectRoot, filename);
         const originalSource = fs.readFileSync(filename, "utf8");
         const source = stripComments(originalSource);
-        jindoReferenceCount += countJindoReferences(originalSource);
+        const references = analyzeJindoReferences(originalSource);
+        jindoReferenceCount += references.total;
+        removedJindoMembers.forEach((member) => {
+            if (references.members[member]) {
+                console.error(`[migration] ${relativeFilename} restored removed jindo.${member}.`);
+                hasError = true;
+            }
+        });
 
         prohibitedJQueryPatterns.forEach((prohibited) => {
             if (prohibited.pattern.test(source)) {

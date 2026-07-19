@@ -126,14 +126,14 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 			}
 		});
 		
-		var imgFn = jindo.$Fn(this.toggle,this).bind("img");
-		var tableFn = jindo.$Fn(this.toggle,this).bind("table");
+		var imgFn = nhn.husky.HuskyEvent.createHandler(this.toggle, this, ["img"]);
+		var tableFn = nhn.husky.HuskyEvent.createHandler(this.toggle, this, ["table"]);
 		
-		jindo.$Fn(imgFn,this).attach(jindo.$$.getSingle(".q_open_img_fold", this.oApp.htOptions.elAppContainer),"click");
-		jindo.$Fn(imgFn,this).attach(jindo.$$.getSingle(".q_open_img_full", this.oApp.htOptions.elAppContainer),"click");
+		window.jQuery(jindo.$$.getSingle(".q_open_img_fold", this.oApp.htOptions.elAppContainer)).on("click", imgFn);
+		window.jQuery(jindo.$$.getSingle(".q_open_img_full", this.oApp.htOptions.elAppContainer)).on("click", imgFn);
 		
-		jindo.$Fn(tableFn,this).attach(jindo.$$.getSingle(".q_open_table_fold", this.oApp.htOptions.elAppContainer),"click");
-		jindo.$Fn(tableFn,this).attach(jindo.$$.getSingle(".q_open_table_full", this.oApp.htOptions.elAppContainer),"click");  
+		window.jQuery(jindo.$$.getSingle(".q_open_table_fold", this.oApp.htOptions.elAppContainer)).on("click", tableFn);
+		window.jQuery(jindo.$$.getSingle(".q_open_table_full", this.oApp.htOptions.elAppContainer)).on("click", tableFn);
 	},
 	/**
 	 * 레이어의 최대화/최소화를 토글링 하는 함수.

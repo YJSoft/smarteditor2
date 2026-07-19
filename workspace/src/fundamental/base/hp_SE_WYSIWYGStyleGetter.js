@@ -95,7 +95,7 @@ nhn.husky.SE_WYSIWYGStyleGetter = nhn.husky.createClass({
 	
 	$ON_MSG_APP_READY : function(){
 		this.oDocument = this.oApp.getWYSIWYGDocument();
-		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", jindo.$Fn(this.getCurrentStyle, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getCurrentStyle", this.getCurrentStyle.bind(this)]);
 		
 		if(jindo.$Agent().navigator().safari || jindo.$Agent().navigator().chrome || jindo.$Agent().navigator().ie){
 			this.oStyleMap.textAlign = {

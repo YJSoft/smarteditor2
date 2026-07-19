@@ -30,7 +30,7 @@ nhn.husky.Hotkey = nhn.husky.createClass({
 	$ON_ADD_HOTKEY : function(sHotkey, sCMD, aArgs, elTarget){
 		if(!aArgs){aArgs = [];}
 		
-		var func = jindo.$Fn(this.oApp.exec, this.oApp).bind(sCMD, aArgs);
+		var func = this.oApp.exec.bind(this.oApp, sCMD, aArgs);
 		this.oShortcut(sHotkey, elTarget).addEvent(func);		
 	}
 });

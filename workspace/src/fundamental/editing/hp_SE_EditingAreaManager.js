@@ -204,14 +204,14 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 		this.oApp.exec("ADD_APP_PROPERTY", ["version", nhn.husky.SE_EditingAreaManager.version]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["elEditingAreaContainer", this.elEditingAreaContainer]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["welEditingAreaContainer", jindo.$Element(this.elEditingAreaContainer)]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaHeight", jindo.$Fn(this.getEditingAreaHeight, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaWidth", jindo.$Fn(this.getEditingAreaWidth, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getRawContents", jindo.$Fn(this.getRawContents, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getContents", jindo.$Fn(this.getContents, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getIR", jindo.$Fn(this.getIR, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaHeight", this.getEditingAreaHeight.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingAreaWidth", this.getEditingAreaWidth.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getRawContents", this.getRawContents.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getContents", this.getContents.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getIR", this.getIR.bind(this)]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["setContents", this.setContents]);
 		this.oApp.exec("ADD_APP_PROPERTY", ["setIR", this.setIR]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingMode", jindo.$Fn(this.getEditingMode, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getEditingMode", this.getEditingMode.bind(this)]);
 	},
 
 	$ON_MSG_APP_READY : function(){
@@ -227,7 +227,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 			if(this.fOnBeforeUnload){
 				window.onbeforeunload = this.fOnBeforeUnload;
 			}else{
-				window.onbeforeunload = jindo.$Fn(function(){
+				window.onbeforeunload = (function(){
 					// [SMARTEDITORSUS-1028][SMARTEDITORSUS-1517] QuickEditor 설정 API 개선으로, submit 이후 발생하게 되는 beforeunload 이벤트 핸들링 제거
 					//this.oApp.exec("MSG_BEFOREUNLOAD_FIRED");
 					// --// [SMARTEDITORSUS-1028][SMARTEDITORSUS-1517]
@@ -235,7 +235,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 					if(this.getRawContents() != this.sCurrentRawContents || this.bIsDirty){
 						return this.oApp.$MSG("SE_EditingAreaManager.onExit");
 					}
-				}, this).bind();
+				}).bind(this);
 			}
 		}
 	},

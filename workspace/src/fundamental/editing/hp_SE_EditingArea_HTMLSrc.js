@@ -87,7 +87,7 @@ nhn.husky.SE_EditingArea_HTMLSrc = nhn.husky.createClass({
 	startAutoResize : function(){
 		var htOption = {
 			nMinHeight : this.nMinHeight,
-			wfnCallback : jindo.$Fn(this.oApp.checkResizeGripPosition, this).bind()
+			wfnCallback : this.oApp.checkResizeGripPosition.bind(this)
 		};
 		//[SMARTEDITORSUS-941][iOS5대응]아이패드의 자동 확장 기능이 동작하지 않을 때 에디터 창보다 긴 내용을 작성하면 에디터를 뚫고 나오는 현상 
 		//원인 : 자동확장 기능이 정지 될 경우 iframe에 스크롤이 생기지 않고, 창을 뚫고 나옴

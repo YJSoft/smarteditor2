@@ -94,8 +94,8 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 
 		iframe = this.iframe;
 		var sIFrameSrc = this.sIFrameSrc,
-			fHandlerSuccess = jindo.$Fn(this.initIframe, this).bind(),
-			fHandlerFail =jindo.$Fn(function(){this.iframe.src = sIFrameSrc;}, this).bind();
+			fHandlerSuccess = this.initIframe.bind(this),
+			fHandlerFail =(function(){this.iframe.src = sIFrameSrc;}).bind(this);
 			
 		iframe.addEventListener("load", fHandlerSuccess, false);
 		iframe.addEventListener("error", fHandlerFail, false);
@@ -106,11 +106,11 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	$BEFORE_MSG_APP_READY : function(){
 		this.oEditingArea = this.iframe.contentWindow.document;
 		this.oApp.exec("REGISTER_EDITING_AREA", [this]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGWindow", jindo.$Fn(this.getWindow, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGDocument", jindo.$Fn(this.getDocument, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["isWYSIWYGEnabled", jindo.$Fn(this.isWYSIWYGEnabled, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["getRawHTMLContents", jindo.$Fn(this.getRawHTMLContents, this).bind()]);
-		this.oApp.exec("ADD_APP_PROPERTY", ["setRawHTMLContents", jindo.$Fn(this.setRawHTMLContents, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGWindow", this.getWindow.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getWYSIWYGDocument", this.getDocument.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["isWYSIWYGEnabled", this.isWYSIWYGEnabled.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["getRawHTMLContents", this.getRawHTMLContents.bind(this)]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["setRawHTMLContents", this.setRawHTMLContents.bind(this)]);
 		
 		if (this.isWYSIWYGEnabled()) {
 			this.oApp.exec('ENABLE_WYSIWYG_RULER');
@@ -134,38 +134,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		// mousedown on iframe -> focus goes into the iframe doc -> beforedeactivate is fired -> empty selection is saved by the plugin -> empty selection is recovered in RESTORE_IE_SELECTION
 		this._bIERangeReset = true;
 
-		// [SMARTEDITORSUS-2149] win10_edge 추가 (TODO: 추후 win10 정식릴리즈시 ua 재확인필요)
-		if(this.oApp.oNavigator.ie || navigator.userAgent.indexOf("Edge") > -1){
-			this._bIECursorHide = true;
-			jindo.$Fn(
-				function(weEvent){
-					var oSelection = this.iframe.contentWindow.document.selection;
-					if(oSelection && oSelection.type.toLowerCase() === 'control' && weEvent.key().keyCode === 8){
-						this.oApp.exec("EXECCOMMAND", ['delete', false, false]);
-						weEvent.stop();
-					}
-					
-					this._bIERangeReset = false;
-				}, this
-			).attach(this.iframe.contentWindow.document, "keydown");
-			jindo.$Fn(
-				function(){
-					this._oIERange = null;
-					this._bIERangeReset = true;
-				}, this
-			).attach(this.iframe.contentWindow.document.body, "mousedown");
-
-			// [SMARTEDITORSUS-1810] document.createRange 가 없는 경우만(IE8이하) beforedeactivate 이벤트 등록
-			if(!this.getDocument().createRange){
-				jindo.$Fn(this._onIEBeforeDeactivate, this).attach(this.iframe.contentWindow.document.body, "beforedeactivate");
-			}
-			
-			jindo.$Fn(
-				function(){
-					this._bIERangeReset = false;
-				}, this
-			).attach(this.iframe.contentWindow.document.body, "mouseup");
-		}else if(this.oApp.oNavigator.bGPadBrowser){
+		if(this.oApp.oNavigator.bGPadBrowser){
 			// [SMARTEDITORSUS-1802] GPad 에서만 툴바 터치시 셀렉션을 저장해둔다.
 			this.$ON_EVENT_TOOLBAR_TOUCHSTART = function(){
 				this._oIERange = this.oApp.getSelection().cloneRange();
@@ -174,8 +143,8 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		
 		// DTD가 quirks가 아닐 경우 body 높이 100%가 제대로 동작하지 않아서 타임아웃을 돌며 높이를 수동으로 계속 할당 해 줌 
 		// body 높이가 제대로 설정 되지 않을 경우, 보기에는 이상없어 보이나 마우스로 텍스트 선택이 잘 안된다든지 하는 이슈가 있음
-		this.fnSetBodyHeight = jindo.$Fn(this._setBodyHeight, this).bind();
-		this.fnCheckBodyChange = jindo.$Fn(this._checkBodyChange, this).bind();
+		this.fnSetBodyHeight = this._setBodyHeight.bind(this);
+		this.fnCheckBodyChange = this._checkBodyChange.bind(this);
 
 		this.fnSetBodyHeight();
 		this._nContainerHeight = this.oApp.getEditingAreaHeight();	// 편집영역이 리사이즈되었는지 체크하기 위해 초기값 할당
@@ -184,7 +153,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 	},
 
 	$ON_REGISTER_CONVERTERS : function(){
-		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", jindo.$Fn(this._dbToIrDOM, this).bind()]);
+		this.oApp.exec("ADD_CONVERTER_DOM", ["DB_TO_IR", this._dbToIrDOM.bind(this)]);
 	},
 
 	/**
@@ -1010,10 +979,10 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		if(sId && ( el = jindo.$(sId, this.getDocument()) )){
 			// ID가 지정된 경우, 무조건 해당 부분으로 커서 이동
 			clearTimeout(this._nTimerFocus);	// 연속 삽입될 경우, 미완료 타이머는 취소한다.
-			this._nTimerFocus = setTimeout(jindo.$Fn(function(el){
+			this._nTimerFocus = setTimeout((function(el){
 				this._scrollIntoView(el);
 				this.oApp.exec("FOCUS");
-			}, this).bind(el), 300);
+			}).bind(this, el), 300);
 			return;
 		}
 
@@ -1255,7 +1224,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 				linkNode.type = 'text/css';
 				linkNode.rel = 'stylesheet';
 				linkNode.href = sCssUrl;
-				linkNode.onload = jindo.$Fn(function(){
+				linkNode.onload = (function(){
 					// [SMARTEDITORSUS-1853] IE의 경우 css가 로드되어 반영되는데 시간이 걸려서 브라우저 기본폰트가 세팅되는 경우가 있음
 					// 때문에 css가 로드되면 SE_WYSIWYGStylerGetter 플러그인의 스타일정보를 RESET 해준다.
 					// 주의: 크롬의 경우, css 로딩이 더 먼저 발생해서 SE_WYSIWYGStylerGetter 플러그인에서 오류가 발생할 수 있기 때문에 RESET_STYLE_STATUS 메시지 호출이 가능한 상태인지 체크함
@@ -1268,7 +1237,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 					 * 때문에 한번 실행되고 난 후에는 연결된 이벤트핸들러를 클리어처리함
 					 */
 					linkNode.onload = null;
-				}, this).bind();
+				}).bind(this);
 				headNode.appendChild(linkNode);
 			}
 			
@@ -1277,7 +1246,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 			this.status = nhn.husky.PLUGIN_STATUS.READY;
 		} catch(e) {
 			if(this._nIFrameReadyCount-- > 0){
-				setTimeout(jindo.$Fn(this.initIframe, this).bind(), 100);
+				setTimeout(this.initIframe.bind(this), 100);
 			}else{
 				throw("iframe for WYSIWYG editing mode can't be initialized. Please check if the iframe document exists and is also accessable(cross-domain issues). ");
 			}
@@ -1411,10 +1380,10 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 				
 		this.bWYSIWYGEnabled = true;		
 		if(jindo.$Agent().navigator().firefox){
-			setTimeout(jindo.$Fn(function(){
+			setTimeout((function(){
 				//enableInlineTableEditing : Enables or disables the table row and column insertion and deletion controls. 
 				this.iframe.contentWindow.document.execCommand('enableInlineTableEditing', false, false);
-			}, this).bind(), 0);
+			}).bind(this), 0);
 		}
 	},
 	

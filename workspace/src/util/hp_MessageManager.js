@@ -70,7 +70,7 @@ nhn.husky.MessageManager = nhn.husky.createClass({
 	},
 
 	$BEFORE_MSG_APP_READY : function(){
-		this.oApp.exec("ADD_APP_PROPERTY", ["$MSG", jindo.$Fn(this.getMessage, this).bind()]);
+		this.oApp.exec("ADD_APP_PROPERTY", ["$MSG", this.getMessage.bind(this)]);
 	},
 
 	/**

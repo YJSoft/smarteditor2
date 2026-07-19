@@ -1120,7 +1120,7 @@ nhn.husky.AutoResizer = nhn.husky.createClass({
 		this.welTextArea = jindo.$Element(el);	// autoresize를 적용할 TextArea
 		this.welHiddenDiv = jindo.$Element('<div>');
 
-		this.wfnResize = jindo.$Fn(this._resize, this);
+		this.fnResize = nhn.husky.HuskyEvent.createHandler(this._resize, this);
 
 		this.sOverflow = this.welTextArea.css("overflow");
 		this.welTextArea.css("overflow", "hidden");
@@ -1136,13 +1136,13 @@ nhn.husky.AutoResizer = nhn.husky.createClass({
 	bind : function(){
 		this.welCloneDiv = jindo.$Element(this.welHiddenDiv.$value().cloneNode(false));
 		
-		this.wfnResize.attach(this.welTextArea, "keyup");
+		window.jQuery(this.welTextArea.$value()).on("keyup", this.fnResize);
 		this.welCloneDiv.appendTo(this.elContainer);
 		
 		this._resize();
 	},
 	unbind : function(){
-		this.wfnResize.detach(this.welTextArea, "keyup");
+		window.jQuery(this.welTextArea.$value()).off("keyup", this.fnResize);
 		this.welTextArea.css("overflow", this.sOverflow);
 		
 		if(this.welCloneDiv){

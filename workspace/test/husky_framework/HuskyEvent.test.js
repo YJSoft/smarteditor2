@@ -111,4 +111,23 @@ describe("HuskyEvent", () => {
         expect(nativeEvent.stopPropagation).toHaveBeenCalledTimes(1);
         expect(event.canceled).toBe(true);
     });
+
+	it("creates a stable jQuery handler with leading arguments and a Husky event", () => {
+		const context = {};
+		const listener = jest.fn();
+		const handler = nhn.husky.HuskyEvent.createHandler(listener, context, ["leading"]);
+		const nativeEvent = {
+			type: "click",
+			target: document.body
+		};
+
+		handler({
+			type: "click",
+			target: document.body,
+			originalEvent: nativeEvent
+		});
+
+		expect(listener).toHaveBeenCalledWith("leading", expect.any(nhn.husky.HuskyEvent));
+		expect(listener.mock.instances[0]).toBe(context);
+	});
 });
