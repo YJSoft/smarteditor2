@@ -26,35 +26,35 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_FindReplacePlugin, {
 		var oAppContainer = this.oApp.htOptions.elAppContainer;
 
 		this.oApp.exec("LOAD_HTML", ["find_and_replace"]);
-//		this.oEditingWindow = jindo.$$.getSingle("IFRAME", oAppContainer);
-		this.elDropdownLayer = jindo.$$.getSingle("DIV.husky_se2m_findAndReplace_layer", oAppContainer);
+//		this.oEditingWindow = nhn.husky.DOM.querySingle("IFRAME", oAppContainer);
+		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_findAndReplace_layer", oAppContainer);
 		this.welDropdownLayer = jindo.$Element(this.elDropdownLayer);
-		var oTmp = jindo.$$("LI", this.elDropdownLayer);
+		var oTmp = nhn.husky.DOM.queryAll("LI", this.elDropdownLayer);
 		
 		this.oFindTab = oTmp[0];
 		this.oReplaceTab = oTmp[1];
 		
-		oTmp = jindo.$$(".container > .bx", this.elDropdownLayer);
+		oTmp = nhn.husky.DOM.queryAll(".container > .bx", this.elDropdownLayer);
 
-		this.oFindInputSet = jindo.$$.getSingle(".husky_se2m_find_ui", this.elDropdownLayer);
-		this.oReplaceInputSet = jindo.$$.getSingle(".husky_se2m_replace_ui", this.elDropdownLayer);
+		this.oFindInputSet = nhn.husky.DOM.querySingle(".husky_se2m_find_ui", this.elDropdownLayer);
+		this.oReplaceInputSet = nhn.husky.DOM.querySingle(".husky_se2m_replace_ui", this.elDropdownLayer);
 		
-		this.elTitle = jindo.$$.getSingle("H3", this.elDropdownLayer);
+		this.elTitle = nhn.husky.DOM.querySingle("H3", this.elDropdownLayer);
 
-		this.oFindInput_Keyword = jindo.$$.getSingle("INPUT", this.oFindInputSet);
+		this.oFindInput_Keyword = nhn.husky.DOM.querySingle("INPUT", this.oFindInputSet);
 
-		oTmp = jindo.$$("INPUT", this.oReplaceInputSet);
+		oTmp = nhn.husky.DOM.queryAll("INPUT", this.oReplaceInputSet);
 		this.oReplaceInput_Original = oTmp[0];
 		this.oReplaceInput_Replacement = oTmp[1];
 
-		this.oFindNextButton = jindo.$$.getSingle("BUTTON.husky_se2m_find_next", this.elDropdownLayer);
+		this.oFindNextButton = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_find_next", this.elDropdownLayer);
 
-		this.oReplaceFindNextButton = jindo.$$.getSingle("BUTTON.husky_se2m_replace_find_next", this.elDropdownLayer);		
+		this.oReplaceFindNextButton = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_replace_find_next", this.elDropdownLayer);
 
-		this.oReplaceButton = jindo.$$.getSingle("BUTTON.husky_se2m_replace", this.elDropdownLayer);
-		this.oReplaceAllButton = jindo.$$.getSingle("BUTTON.husky_se2m_replace_all", this.elDropdownLayer);
+		this.oReplaceButton = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_replace", this.elDropdownLayer);
+		this.oReplaceAllButton = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_replace_all", this.elDropdownLayer);
 		
-		this.aCloseButtons = jindo.$$("BUTTON.husky_se2m_cancel", this.elDropdownLayer);
+		this.aCloseButtons = nhn.husky.DOM.queryAll("BUTTON.husky_se2m_cancel", this.elDropdownLayer);
 	},
 
 	$LOCAL_BEFORE_FIRST : function(/* sMsg */){

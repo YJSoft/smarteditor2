@@ -31,6 +31,23 @@ if(!nhn.husky) { nhn.husky = {}; }
 			}
 
 			return oDoc.getElementById(sValue);
+		},
+
+		queryAll : function(sSelector, oContext){
+			var sQuery = sSelector.trim(),
+				$Context = window.jQuery(oContext || document);
+
+			if(sQuery.charAt(0) === ">"){
+				return sQuery.substring(1).split(">").reduce(function($Current, sPart){
+					return $Current.children(sPart.trim());
+				}, $Context).get();
+			}
+
+			return window.jQuery(sQuery, oContext || document).get();
+		},
+
+		querySingle : function(sSelector, oContext){
+			return this.queryAll(sSelector, oContext)[0] || null;
 		}
 	};
 })();

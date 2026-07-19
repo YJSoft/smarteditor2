@@ -50,32 +50,32 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 			this.URL_COLOR_LIST = htConfiguration.colorListURL || sDomainCommonAPI + "/1/colortable/TextList.nhn";
 		}
 		
-		this.elColorPaletteLayer = jindo.$$.getSingle("DIV.husky_se2m_color_palette", oAppContainer);
+		this.elColorPaletteLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_color_palette", oAppContainer);
 
-		this.elColorPaletteLayerColorPicker = jindo.$$.getSingle("DIV.husky_se2m_color_palette_colorpicker", this.elColorPaletteLayer);
-		this.elRecentColorForm = jindo.$$.getSingle("form", this.elColorPaletteLayerColorPicker);
+		this.elColorPaletteLayerColorPicker = nhn.husky.DOM.querySingle("DIV.husky_se2m_color_palette_colorpicker", this.elColorPaletteLayer);
+		this.elRecentColorForm = nhn.husky.DOM.querySingle("form", this.elColorPaletteLayerColorPicker);
 		
-		this.elBackgroundColor = jindo.$$.getSingle("ul.husky_se2m_bgcolor_list", oAppContainer);
-		this.elInputColorCode = jindo.$$.getSingle("INPUT.husky_se2m_cp_colorcode", this.elColorPaletteLayerColorPicker);
+		this.elBackgroundColor = nhn.husky.DOM.querySingle("ul.husky_se2m_bgcolor_list", oAppContainer);
+		this.elInputColorCode = nhn.husky.DOM.querySingle("INPUT.husky_se2m_cp_colorcode", this.elColorPaletteLayerColorPicker);
 		
-		this.elPreview = jindo.$$.getSingle("SPAN.husky_se2m_cp_preview", this.elColorPaletteLayerColorPicker);
-		this.elCP_ColPanel = jindo.$$.getSingle("DIV.husky_se2m_cp_colpanel", this.elColorPaletteLayerColorPicker);
-		this.elCP_HuePanel = jindo.$$.getSingle("DIV.husky_se2m_cp_huepanel", this.elColorPaletteLayerColorPicker);
+		this.elPreview = nhn.husky.DOM.querySingle("SPAN.husky_se2m_cp_preview", this.elColorPaletteLayerColorPicker);
+		this.elCP_ColPanel = nhn.husky.DOM.querySingle("DIV.husky_se2m_cp_colpanel", this.elColorPaletteLayerColorPicker);
+		this.elCP_HuePanel = nhn.husky.DOM.querySingle("DIV.husky_se2m_cp_huepanel", this.elColorPaletteLayerColorPicker);
 
 		this.elCP_ColPanel.style.position = "relative";
 		this.elCP_HuePanel.style.position = "relative";
 
 		this.elColorPaletteLayerColorPicker.style.display = "none";
 		
-		this.elMoreBtn = jindo.$$.getSingle("BUTTON.husky_se2m_color_palette_more_btn", this.elColorPaletteLayer);
+		this.elMoreBtn = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_color_palette_more_btn", this.elColorPaletteLayer);
 		this.welMoreBtn = jindo.$Element(this.elMoreBtn);
 		
-		this.elOkBtn = jindo.$$.getSingle("BUTTON.husky_se2m_color_palette_ok_btn", this.elColorPaletteLayer);
+		this.elOkBtn = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_color_palette_ok_btn", this.elColorPaletteLayer);
 		
 		if(this.bUseRecentColor){
-			this.elColorPaletteLayerRecent = jindo.$$.getSingle("DIV.husky_se2m_color_palette_recent", this.elColorPaletteLayer);
-			this.elRecentColor = jindo.$$.getSingle("ul.se2_pick_color", this.elColorPaletteLayerRecent);
-			this.elDummyNode = jindo.$$.getSingle("ul.se2_pick_color > li", this.elColorPaletteLayerRecent) || null;
+			this.elColorPaletteLayerRecent = nhn.husky.DOM.querySingle("DIV.husky_se2m_color_palette_recent", this.elColorPaletteLayer);
+			this.elRecentColor = nhn.husky.DOM.querySingle("ul.se2_pick_color", this.elColorPaletteLayerRecent);
+			this.elDummyNode = nhn.husky.DOM.querySingle("ul.se2_pick_color > li", this.elColorPaletteLayerRecent) || null;
 			
 			this.elColorPaletteLayerRecent.style.display = "none";
 		}
@@ -85,7 +85,7 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 		this._assignHTMLElements(this.elAppContainer);
 		
 		if(this.elDummyNode){
-			jindo.$Element(jindo.$$.getSingle("ul.se2_pick_color > li", this.elColorPaletteLayerRecent)).leave();
+			jindo.$Element(nhn.husky.DOM.querySingle("ul.se2_pick_color > li", this.elColorPaletteLayerRecent)).leave();
 		}
 
 		if( this.bUseRecentColor ){

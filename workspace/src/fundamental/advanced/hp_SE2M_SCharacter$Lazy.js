@@ -25,14 +25,14 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_SCharacter, {
 	_assignHTMLObjects : function(oAppContainer){
 		oAppContainer = nhn.husky.DOM.getElement(oAppContainer) || document;
 
-		this.elDropdownLayer = jindo.$$.getSingle("DIV.husky_seditor_sCharacter_layer", oAppContainer);
+		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_seditor_sCharacter_layer", oAppContainer);
 
-		this.oTextField = jindo.$$.getSingle("INPUT", this.elDropdownLayer);
-		this.oInsertButton =  jindo.$$.getSingle("BUTTON.se2_confirm", this.elDropdownLayer);
-		this.aCloseButton = jindo.$$("BUTTON.husky_se2m_sCharacter_close", this.elDropdownLayer);
-		this.aSCharList = jindo.$$("UL.husky_se2m_sCharacter_list", this.elDropdownLayer);
-		var oLabelUL = jindo.$$.getSingle("UL.se2_char_tab", this.elDropdownLayer);
-		this.aLabel = jindo.$$(">LI", oLabelUL);
+		this.oTextField = nhn.husky.DOM.querySingle("INPUT", this.elDropdownLayer);
+		this.oInsertButton =  nhn.husky.DOM.querySingle("BUTTON.se2_confirm", this.elDropdownLayer);
+		this.aCloseButton = nhn.husky.DOM.queryAll("BUTTON.husky_se2m_sCharacter_close", this.elDropdownLayer);
+		this.aSCharList = nhn.husky.DOM.queryAll("UL.husky_se2m_sCharacter_list", this.elDropdownLayer);
+		var oLabelUL = nhn.husky.DOM.querySingle("UL.se2_char_tab", this.elDropdownLayer);
+		this.aLabel = nhn.husky.DOM.queryAll(">LI", oLabelUL);
 	},
 	
 	$LOCAL_BEFORE_FIRST : function(/* sFullMsg */){
@@ -186,7 +186,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_SCharacter, {
 			this.aSCharList[i].appendChild(aLI[ii]);
 		}
 
-		//this.oApp.delayedExec("SE2_ATTACH_HOVER_EVENTS", [jindo.$$(">LI", this.aSCharList[i]), 0]);
+		//this.oApp.delayedExec("SE2_ATTACH_HOVER_EVENTS", [nhn.husky.DOM.queryAll(">LI", this.aSCharList[i]), 0]);
 	}
 	//@lazyload_js]
 });

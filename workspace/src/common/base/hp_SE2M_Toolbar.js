@@ -93,17 +93,17 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 		oAppContainer = nhn.husky.DOM.getElement(oAppContainer) || document;
 		this.rxUI = new RegExp(this.sUIClassPrefix+"([^ ]+)");
 
-		this.toolbarArea = jindo.$$.getSingle(".se2_tool", oAppContainer);
-		this.aAllUI = jindo.$$("[class*=" + this.sUIClassPrefix + "]", this.toolbarArea);
-		this.elTextTool = jindo.$$.getSingle("div.husky_seditor_text_tool", this.toolbarArea);	// [SMARTEDITORSUS-1124] 텍스트 툴바 버튼의 라운드 처리
+		this.toolbarArea = nhn.husky.DOM.querySingle(".se2_tool", oAppContainer);
+		this.aAllUI = nhn.husky.DOM.queryAll("[class*=" + this.sUIClassPrefix + "]", this.toolbarArea);
+		this.elTextTool = nhn.husky.DOM.querySingle("div.husky_seditor_text_tool", this.toolbarArea);	// [SMARTEDITORSUS-1124] 텍스트 툴바 버튼의 라운드 처리
 
 		// alert 레이어 할당
-		this._elAlertLayer = jindo.$$.getSingle(".se2_alert_wrap", oAppContainer);
+		this._elAlertLayer = nhn.husky.DOM.querySingle(".se2_alert_wrap", oAppContainer);
 		if(this._elAlertLayer){
-			this._elAlertTxts = jindo.$$.getSingle(".se2_alert_txts", this._elAlertLayer);
-			this._elAlertOk = jindo.$$.getSingle(".se2_confirm", this._elAlertLayer);
-			this._elAlertCancel = jindo.$$.getSingle(".se2_cancel", this._elAlertLayer);
-			this._elAlertClose = jindo.$$.getSingle(".btn_close", this._elAlertLayer);
+			this._elAlertTxts = nhn.husky.DOM.querySingle(".se2_alert_txts", this._elAlertLayer);
+			this._elAlertOk = nhn.husky.DOM.querySingle(".se2_confirm", this._elAlertLayer);
+			this._elAlertCancel = nhn.husky.DOM.querySingle(".se2_cancel", this._elAlertLayer);
+			this._elAlertClose = nhn.husky.DOM.querySingle(".btn_close", this._elAlertLayer);
 		}
 
 		this.welToolbarArea = jindo.$Element(this.toolbarArea);		
@@ -119,13 +119,13 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 			}
 		}
  
-		if (jindo.$$.getSingle("div.se2_icon_tool") != null) {
-			this.elFirstToolbarItem = jindo.$$.getSingle("div.se2_icon_tool ul.se2_itool1>li>button");
+		if (nhn.husky.DOM.querySingle("div.se2_icon_tool") != null) {
+			this.elFirstToolbarItem = nhn.husky.DOM.querySingle("div.se2_icon_tool ul.se2_itool1>li>button");
 		}
 	},
 
 	_registerNavigateToolbar : function() {
-		var aToolItems = jindo.$$(">ul>li[class*=" + this.sUIClassPrefix + "]>button", this.elTextTool);
+		var aToolItems = nhn.husky.DOM.queryAll(">ul>li[class*=" + this.sUIClassPrefix + "]>button", this.elTextTool);
 		var nItemLength = aToolItems.length;
 
 		this.elFirstToolbarItem = this.elFirstToolbarItem || aToolItems[0];
@@ -537,14 +537,14 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 		//[SMARTEDITORSUS-901]플러그인 태그 코드 추가 시 <li>태그와<button>태그 사이에 개행이 있으면 이벤트가 등록되지 않는 현상
 		//원인 : IE9, Chrome, FF, Safari 에서는 태그를 개행 시 그 개행을 text node로 인식하여 firstchild가 text 노드가 되어 버튼 이벤트가 할당되지 않음 
 		//해결 : firstchild에 이벤트를 거는 것이 아니라, child 중 button 인 것에 이벤트를 걸도록 변경
-		elButton = jindo.$$.getSingle('button', this.htUIList[sUIName]);
+		elButton = nhn.husky.DOM.querySingle('button', this.htUIList[sUIName]);
 	
 		if(!elButton){return;}
 		this.oApp.registerBrowserEvent(elButton, sEvent, sCmd, aParams);
 	},
 
 	getToolbarButtonByUIName : function(sUIName){
-		return jindo.$$.getSingle("BUTTON", this.htUIList[sUIName]);
+		return nhn.husky.DOM.querySingle("BUTTON", this.htUIList[sUIName]);
 	}
 });
 //}

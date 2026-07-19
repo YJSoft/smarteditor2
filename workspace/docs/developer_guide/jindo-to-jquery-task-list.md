@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 340개, `workspace/static/js/service` 5개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax, 소형 wrapper와 raw DOM lookup 전환으로 406개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$`, `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 164개, `workspace/static/js/service` 0개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability, Array/Hash, Ajax, 소형 wrapper, raw DOM lookup과 selector 전환으로 582개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$`, `jindo.$$`, `jindo.cssquery`, `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`, `jindo.$Ajax`, `jindo.$S`, `jindo.$Document`, `jindo.$Cookie`, `jindo.$Date`, `jindo.$Json`은 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -261,17 +261,19 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-031 `jindo.$$`와 `cssquery` 제거
 
-- [ ] `getSingle`을 context 기반 `.find().get(0)` 등으로 변경한다.
-- [ ] 복수 selector 결과를 `.get()` 또는 jQuery collection 중 의도에 맞게 변경한다.
-- [ ] 선행 `>` selector 14곳을 `.children()` 또는 명시적인 selector로 변경한다.
-- [ ] `p:empty()`를 `p:empty`로 변경한다.
-- [ ] `oneTimeOffCache` 옵션을 제거한다.
-- [ ] DOM 변경 직후 selector 결과가 갱신되는지 테스트한다.
+- [x] `getSingle`을 context 기반 `.find().get(0)` 등으로 변경한다.
+- [x] 복수 selector 결과를 `.get()` 또는 jQuery collection 중 의도에 맞게 변경한다.
+- [x] 선행 `>` selector 14곳을 `.children()` 또는 명시적인 selector로 변경한다.
+- [x] `p:empty()`를 `p:empty`로 변경한다.
+- [x] `oneTimeOffCache` 옵션을 제거한다.
+- [x] DOM 변경 직후 selector 결과가 갱신되는지 테스트한다.
 
 완료 기준:
 
 - `jindo.$$`, `jindo.cssquery` 참조가 0이다.
 - selector 결과의 raw DOM/collection 형태가 호출부 기대와 일치한다.
+
+[`DOM.js`](../../src/husky_framework/DOM.js)의 `queryAll()`/`querySingle()`은 jQuery 결과를 raw DOM 배열·단일 element로 변환하고, 선행 `>` selector는 각 단계의 `.children()`으로 처리한다. Jindo selector cache 옵션은 제거했으며 DOM 변경 후 호출마다 결과를 다시 계산한다.
 
 ### MIG-032 `$Element` class/style/attribute API 전환
 

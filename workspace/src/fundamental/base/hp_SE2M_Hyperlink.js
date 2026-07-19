@@ -24,14 +24,14 @@ nhn.husky.SE2M_Hyperlink = nhn.husky.createClass({
 	sATagMarker : "HTTP://HUSKY_TMP.MARKER/",
 	
 	_assignHTMLElements : function(elAppContainer){
-		this.oHyperlinkButton = jindo.$$.getSingle("li.husky_seditor_ui_hyperlink", elAppContainer);
-		this.oHyperlinkLayer = jindo.$$.getSingle("div.se2_layer", this.oHyperlinkButton);
-		this.oLinkInput = jindo.$$.getSingle("INPUT[type=text]", this.oHyperlinkLayer);
+		this.oHyperlinkButton = nhn.husky.DOM.querySingle("li.husky_seditor_ui_hyperlink", elAppContainer);
+		this.oHyperlinkLayer = nhn.husky.DOM.querySingle("div.se2_layer", this.oHyperlinkButton);
+		this.oLinkInput = nhn.husky.DOM.querySingle("INPUT[type=text]", this.oHyperlinkLayer);
 		
-		this.oBtnConfirm = jindo.$$.getSingle("button.se2_apply", this.oHyperlinkLayer);
-		this.oBtnCancel = jindo.$$.getSingle("button.se2_cancel", this.oHyperlinkLayer);
+		this.oBtnConfirm = nhn.husky.DOM.querySingle("button.se2_apply", this.oHyperlinkLayer);
+		this.oBtnCancel = nhn.husky.DOM.querySingle("button.se2_cancel", this.oHyperlinkLayer);
 		
-		this.oCbNewWin = jindo.$$.getSingle("INPUT[type=checkbox]", this.oHyperlinkLayer) || null;
+		this.oCbNewWin = nhn.husky.DOM.querySingle("INPUT[type=checkbox]", this.oHyperlinkLayer) || null;
 	},
 
 	_generateAutoLink : function(sAll, sBreaker, sURL, sWWWURL, sHTTPURL) {

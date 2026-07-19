@@ -97,7 +97,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 		
 		this.woEditor = jindo.$Element(this.oApp.elEditingAreaContainer);
 		this.woStandard = jindo.$Element(this.oApp.htOptions.elAppContainer).offset();
-		this._qe_wrap = jindo.$$.getSingle("DIV.quick_wrap", this.oApp.htOptions.elAppContainer);
+		this._qe_wrap = nhn.husky.DOM.querySingle("DIV.quick_wrap", this.oApp.htOptions.elAppContainer);
 		
 		var that = this;
 		
@@ -129,11 +129,11 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 		var imgFn = nhn.husky.HuskyEvent.createHandler(this.toggle, this, ["img"]);
 		var tableFn = nhn.husky.HuskyEvent.createHandler(this.toggle, this, ["table"]);
 		
-		window.jQuery(jindo.$$.getSingle(".q_open_img_fold", this.oApp.htOptions.elAppContainer)).on("click", imgFn);
-		window.jQuery(jindo.$$.getSingle(".q_open_img_full", this.oApp.htOptions.elAppContainer)).on("click", imgFn);
+		window.jQuery(nhn.husky.DOM.querySingle(".q_open_img_fold", this.oApp.htOptions.elAppContainer)).on("click", imgFn);
+		window.jQuery(nhn.husky.DOM.querySingle(".q_open_img_full", this.oApp.htOptions.elAppContainer)).on("click", imgFn);
 		
-		window.jQuery(jindo.$$.getSingle(".q_open_table_fold", this.oApp.htOptions.elAppContainer)).on("click", tableFn);
-		window.jQuery(jindo.$$.getSingle(".q_open_table_full", this.oApp.htOptions.elAppContainer)).on("click", tableFn);
+		window.jQuery(nhn.husky.DOM.querySingle(".q_open_table_fold", this.oApp.htOptions.elAppContainer)).on("click", tableFn);
+		window.jQuery(nhn.husky.DOM.querySingle(".q_open_table_full", this.oApp.htOptions.elAppContainer)).on("click", tableFn);
 	},
 	/**
 	 * 레이어의 최대화/최소화를 토글링 하는 함수.
@@ -142,7 +142,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	 */
 	toggle : function(sType,weEvent){
 		sType = this._currentType;
-//		var oBefore = jindo.$Element(jindo.$$.getSingle("._"+this._environmentData[sType].type,this.currentEle));
+//		var oBefore = jindo.$Element(nhn.husky.DOM.querySingle("._"+this._environmentData[sType].type,this.currentEle));
 //		var beforeX = oBefore.css("left");
 //		var beforeY = oBefore.css("top");
 		
@@ -184,7 +184,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	 * @param {Element} sAfterEle
 	 */
 	positionCopy:function(beforeX, beforeY, sAfterEle){
-		jindo.$Element(jindo.$$.getSingle("._"+sAfterEle,this.currentEle)).css({
+		jindo.$Element(nhn.husky.DOM.querySingle("._"+sAfterEle,this.currentEle)).css({
 			top : beforeY,
 			left : beforeX
 		});
@@ -270,7 +270,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	layer_hide : function(/* weEvent */){
 		this.setOpenType(this._currentType,false);
 		
-		jindo.$Element(jindo.$$.getSingle("._"+this._environmentData[this._currentType].type,this.currentEle)).hide();
+		jindo.$Element(nhn.husky.DOM.querySingle("._"+this._environmentData[this._currentType].type,this.currentEle)).hide();
 	},
 	/**
 	 * 늦게 이벤트 바인딩 하는 함수.
@@ -290,7 +290,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	layer_show : function(sType,oEle){
 		this._currentType = sType;
 		this.setOpenType(this._currentType,true);
-		var  layer = jindo.$$.getSingle("._"+this._environmentData[this._currentType].type,this.currentEle);
+		var  layer = nhn.husky.DOM.querySingle("._"+this._environmentData[this._currentType].type,this.currentEle);
 		jindo.$Element(layer)
 			.show()
 			.css( this.get_position_layer(oEle , layer) );

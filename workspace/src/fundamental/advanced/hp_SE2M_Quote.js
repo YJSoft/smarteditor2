@@ -46,8 +46,8 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 
 	_assignHTMLElements : function(){
 		//@ec
-		this.elDropdownLayer = jindo.$$.getSingle("DIV.husky_seditor_blockquote_layer", this.oApp.htOptions.elAppContainer);
-		this.aLI = jindo.$$("LI", this.elDropdownLayer);
+		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_seditor_blockquote_layer", this.oApp.htOptions.elAppContainer);
+		this.aLI = nhn.husky.DOM.queryAll("LI", this.elDropdownLayer);
 	},
 	
 	$ON_REGISTER_CONVERTERS : function(){
@@ -191,7 +191,7 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 				return false;
 			},
 			isBlankTable = function(oNode){
-				if((jindo.$$("tr", oNode)).length === 0){
+				if((nhn.husky.DOM.queryAll("tr", oNode)).length === 0){
 					return true;
 				}
 				
@@ -203,7 +203,7 @@ nhn.husky.SE2M_Quote = nhn.husky.createClass({
 		}
 		
 		if(bChrome || bSafari){	// [SMARTEDITORSUS-352], [SMARTEDITORSUS-502]
-			var aTable = jindo.$$("TABLE", elParentQuote),
+			var aTable = nhn.husky.DOM.queryAll("TABLE", elParentQuote),
 				nTable = aTable.length,
 				elTable;
 			

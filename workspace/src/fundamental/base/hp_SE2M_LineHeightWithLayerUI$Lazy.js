@@ -23,14 +23,14 @@ nhn.husky.HuskyCore.addLoadedFile("hp_SE2M_LineHeightWithLayerUI$Lazy.js");
 nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_LineHeightWithLayerUI, {
 	//@lazyload_js SE2M_TOGGLE_LINEHEIGHT_LAYER[
 	_assignHTMLObjects : function(elAppContainer) {
-		//this.elLineHeightSelect = jindo.$$.getSingle("SELECT.husky_seditor_ui_lineHeight_select", elAppContainer);
-		this.oDropdownLayer = jindo.$$.getSingle("DIV.husky_se2m_lineHeight_layer", elAppContainer);
-		this.aLIOptions = Array.from(jindo.$$("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild !== null);});
+		//this.elLineHeightSelect = nhn.husky.DOM.querySingle("SELECT.husky_seditor_ui_lineHeight_select", elAppContainer);
+		this.oDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_lineHeight_layer", elAppContainer);
+		this.aLIOptions = Array.from(nhn.husky.DOM.queryAll("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild !== null);});
 		
-		this.oInput = jindo.$$.getSingle("INPUT", this.oDropdownLayer);
+		this.oInput = nhn.husky.DOM.querySingle("INPUT", this.oDropdownLayer);
 
-		var tmp = jindo.$$.getSingle(".husky_se2m_lineHeight_direct_input", this.oDropdownLayer);
-		tmp = jindo.$$("BUTTON", tmp);
+		var tmp = nhn.husky.DOM.querySingle(".husky_se2m_lineHeight_direct_input", this.oDropdownLayer);
+		tmp = nhn.husky.DOM.queryAll("BUTTON", tmp);
 		this.oBtn_up = tmp[0];
 		this.oBtn_down = tmp[1];
 		this.oBtn_ok = tmp[2];

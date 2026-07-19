@@ -115,7 +115,7 @@ nhn.husky.SE_PasteHandler = nhn.husky.createClass({
 		}
 
 		var sRemoveClass = aClassSelector.join(" ").replace(this._rxClassSelectorStart, "");
-		var aelTarget = jindo.$$(sSelector, el);
+		var aelTarget = nhn.husky.DOM.queryAll(sSelector, el);
 		for(var i = 0, elTarget; (elTarget = aelTarget[i]); i++){
 			this._applyInlineStyle(elTarget, oStyle);
 			if(sRemoveClass){
@@ -157,7 +157,7 @@ nhn.husky.SE_PasteHandler = nhn.husky.createClass({
 	 * @param {Element} el 태그정제를 제한할 상위 요소
 	 */
 	_removeLineHeightInSpan : function(el){
-		var aelSpans = jindo.$$('span[style*="line-height:"]', el);
+		var aelSpans = nhn.husky.DOM.queryAll('span[style*="line-height:"]', el);
 		for(var i = 0, elSpan; (elSpan = aelSpans[i]); i++){
 			elSpan.style.lineHeight = null;
 		}

@@ -26,10 +26,10 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableCreator, {
 		this.oApp.exec("LOAD_HTML", ["create_table"]);
 		var tmp = null;
 
-		this.elDropdownLayer = jindo.$$.getSingle("DIV.husky_se2m_table_layer", oAppContainer);
+		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_table_layer", oAppContainer);
 		this.welDropdownLayer = jindo.$Element(this.elDropdownLayer);
 
-		tmp = jindo.$$("INPUT", this.elDropdownLayer);
+		tmp = nhn.husky.DOM.queryAll("INPUT", this.elDropdownLayer);
 		this.elText_row = tmp[0];
 		this.elText_col = tmp[1];
 		this.elRadio_manualStyle = tmp[2];
@@ -38,43 +38,43 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableCreator, {
 		this.elText_BGColor = tmp[5];
 		this.elRadio_templateStyle = tmp[6];
 
-		tmp = jindo.$$("BUTTON", this.elDropdownLayer);
+		tmp = nhn.husky.DOM.queryAll("BUTTON", this.elDropdownLayer);
 		this.elBtn_rowInc = tmp[0];
 		this.elBtn_rowDec = tmp[1];
 		this.elBtn_colInc = tmp[2];
 		this.elBtn_colDec = tmp[3];
 		this.elBtn_borderStyle = tmp[4];
-		this.elBtn_incBorderSize = jindo.$$.getSingle("BUTTON.se2m_incBorder", this.elDropdownLayer);
-		this.elBtn_decBorderSize = jindo.$$.getSingle("BUTTON.se2m_decBorder", this.elDropdownLayer);
+		this.elBtn_incBorderSize = nhn.husky.DOM.querySingle("BUTTON.se2m_incBorder", this.elDropdownLayer);
+		this.elBtn_decBorderSize = nhn.husky.DOM.querySingle("BUTTON.se2m_decBorder", this.elDropdownLayer);
 
-		this.elLayer_Dim1 = jindo.$$.getSingle("DIV.se2_t_dim0", this.elDropdownLayer);
-		this.elLayer_Dim2 = jindo.$$.getSingle("DIV.se2_t_dim3", this.elDropdownLayer);
+		this.elLayer_Dim1 = nhn.husky.DOM.querySingle("DIV.se2_t_dim0", this.elDropdownLayer);
+		this.elLayer_Dim2 = nhn.husky.DOM.querySingle("DIV.se2_t_dim3", this.elDropdownLayer);
 		
 		// border style layer contains btn elm's
 		
-		tmp = jindo.$$("SPAN.se2_pre_color>BUTTON", this.elDropdownLayer);
+		tmp = nhn.husky.DOM.queryAll("SPAN.se2_pre_color>BUTTON", this.elDropdownLayer);
 
 		this.elBtn_borderColor = tmp[0];
 		this.elBtn_BGColor = tmp[1];
 		
-		this.elBtn_tableStyle =  jindo.$$.getSingle("DIV.se2_select_ty2>BUTTON", this.elDropdownLayer);
+		this.elBtn_tableStyle =  nhn.husky.DOM.querySingle("DIV.se2_select_ty2>BUTTON", this.elDropdownLayer);
 		
-		tmp = jindo.$$("P.se2_btn_area>BUTTON", this.elDropdownLayer);
+		tmp = nhn.husky.DOM.queryAll("P.se2_btn_area>BUTTON", this.elDropdownLayer);
 		this.elBtn_apply = tmp[0];
 		this.elBtn_cancel = tmp[1];
 
-		this.elTable_preview = jindo.$$.getSingle("TABLE.husky_se2m_table_preview", this.elDropdownLayer);
-		this.elLayer_borderStyle = jindo.$$.getSingle("DIV.husky_se2m_table_border_style_layer", this.elDropdownLayer);
-		this.elPanel_borderStylePreview = jindo.$$.getSingle("SPAN.husky_se2m_table_border_style_preview", this.elDropdownLayer);
-		this.elPanel_borderColorPallet = jindo.$$.getSingle("DIV.husky_se2m_table_border_color_pallet", this.elDropdownLayer);
-		this.elPanel_bgColorPallet = jindo.$$.getSingle("DIV.husky_se2m_table_bgcolor_pallet", this.elDropdownLayer);
-		this.elLayer_tableStyle = jindo.$$.getSingle("DIV.husky_se2m_table_style_layer", this.elDropdownLayer);
-		this.elPanel_tableStylePreview = jindo.$$.getSingle("SPAN.husky_se2m_table_style_preview", this.elDropdownLayer);
+		this.elTable_preview = nhn.husky.DOM.querySingle("TABLE.husky_se2m_table_preview", this.elDropdownLayer);
+		this.elLayer_borderStyle = nhn.husky.DOM.querySingle("DIV.husky_se2m_table_border_style_layer", this.elDropdownLayer);
+		this.elPanel_borderStylePreview = nhn.husky.DOM.querySingle("SPAN.husky_se2m_table_border_style_preview", this.elDropdownLayer);
+		this.elPanel_borderColorPallet = nhn.husky.DOM.querySingle("DIV.husky_se2m_table_border_color_pallet", this.elDropdownLayer);
+		this.elPanel_bgColorPallet = nhn.husky.DOM.querySingle("DIV.husky_se2m_table_bgcolor_pallet", this.elDropdownLayer);
+		this.elLayer_tableStyle = nhn.husky.DOM.querySingle("DIV.husky_se2m_table_style_layer", this.elDropdownLayer);
+		this.elPanel_tableStylePreview = nhn.husky.DOM.querySingle("SPAN.husky_se2m_table_style_preview", this.elDropdownLayer);
 
-		this.aElBtn_borderStyle = jindo.$$("BUTTON", this.elLayer_borderStyle);
-		this.aElBtn_tableStyle = jindo.$$("BUTTON", this.elLayer_tableStyle);
+		this.aElBtn_borderStyle = nhn.husky.DOM.queryAll("BUTTON", this.elLayer_borderStyle);
+		this.aElBtn_tableStyle = nhn.husky.DOM.queryAll("BUTTON", this.elLayer_tableStyle);
 
-		this.sNoBorderText = jindo.$$.getSingle("SPAN.se2m_no_border", this.elDropdownLayer).innerHTML;
+		this.sNoBorderText = nhn.husky.DOM.querySingle("SPAN.se2m_no_border", this.elDropdownLayer).innerHTML;
 
 		this.rxLastDigits = RegExp("([0-9]+)$");
 	},

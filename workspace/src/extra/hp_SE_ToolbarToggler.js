@@ -27,7 +27,7 @@ nhn.husky.SE_ToolbarToggler = nhn.husky.createClass({
 	_assignHTMLObjects : function(oAppContainer, bUseToolbar){
 		oAppContainer = nhn.husky.DOM.getElement(oAppContainer) || document;
 	
-		this.toolbarArea = jindo.cssquery.getSingle(".se2_tool", oAppContainer);
+		this.toolbarArea = nhn.husky.DOM.querySingle(".se2_tool", oAppContainer);
 		
 		//설정이 없거나, 사용하겠다고 표시한 경우 block 처리
 		if( typeof(bUseToolbar) == 'undefined' || bUseToolbar === true){

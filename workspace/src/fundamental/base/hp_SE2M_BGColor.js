@@ -30,11 +30,11 @@ nhn.husky.SE2M_BGColor = nhn.husky.createClass({
 	
 	_assignHTMLElements : function(elAppContainer){
 		//@ec[
-		this.elLastUsed = jindo.$$.getSingle("SPAN.husky_se2m_BGColor_lastUsed", elAppContainer);
+		this.elLastUsed = nhn.husky.DOM.querySingle("SPAN.husky_se2m_BGColor_lastUsed", elAppContainer);
 	
-		this.elDropdownLayer = jindo.$$.getSingle("DIV.husky_se2m_BGColor_layer", elAppContainer);
-		this.elBGColorList = jindo.$$.getSingle("UL.husky_se2m_bgcolor_list", elAppContainer);
-		this.elPaletteHolder = jindo.$$.getSingle("DIV.husky_se2m_BGColor_paletteHolder", this.elDropdownLayer);
+		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_BGColor_layer", elAppContainer);
+		this.elBGColorList = nhn.husky.DOM.querySingle("UL.husky_se2m_bgcolor_list", elAppContainer);
+		this.elPaletteHolder = nhn.husky.DOM.querySingle("DIV.husky_se2m_BGColor_paletteHolder", this.elDropdownLayer);
 		//@ec]
 
 		this._setLastUsedBGColor("#777777");

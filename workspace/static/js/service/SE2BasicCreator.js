@@ -33,11 +33,11 @@ window.createSEditor2 = function(elIRField, htParams, elSeAppContainer){
 	}
 
 	var elAppContainer = (elSeAppContainer || document.getElementById("smart_editor2"));
-	var elEditingArea = jindo.$$.getSingle("DIV.husky_seditor_editing_area_container", elAppContainer);
-	var oWYSIWYGIFrame = jindo.$$.getSingle("IFRAME.se2_input_wysiwyg", elEditingArea);
-	var oIRTextarea = elIRField?elIRField:jindo.$$.getSingle("TEXTAREA.blind", elEditingArea);
-	var oHTMLSrc = jindo.$$.getSingle("TEXTAREA.se2_input_htmlsrc", elEditingArea);
-	var oTextArea = jindo.$$.getSingle("TEXTAREA.se2_input_text", elEditingArea);
+	var elEditingArea = nhn.husky.DOM.querySingle("DIV.husky_seditor_editing_area_container", elAppContainer);
+	var oWYSIWYGIFrame = nhn.husky.DOM.querySingle("IFRAME.se2_input_wysiwyg", elEditingArea);
+	var oIRTextarea = elIRField?elIRField:nhn.husky.DOM.querySingle("TEXTAREA.blind", elEditingArea);
+	var oHTMLSrc = nhn.husky.DOM.querySingle("TEXTAREA.se2_input_htmlsrc", elEditingArea);
+	var oTextArea = nhn.husky.DOM.querySingle("TEXTAREA.se2_input_text", elEditingArea);
 	
 	if(!htParams){ 
 		htParams = {}; 

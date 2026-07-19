@@ -135,11 +135,11 @@ nhn.husky.SE_EditingAreaVerticalResizer = nhn.husky.createClass({
 	
 	_assignHTMLElements : function(elAppContainer){
 		//@ec[
-		this.oResizeGrip = jindo.$$.getSingle("BUTTON.husky_seditor_editingArea_verticalResizer", elAppContainer);
-		this.elModeToolbar = jindo.$$.getSingle("DIV.se2_conversion_mode", elAppContainer);
+		this.oResizeGrip = nhn.husky.DOM.querySingle("BUTTON.husky_seditor_editingArea_verticalResizer", elAppContainer);
+		this.elModeToolbar = nhn.husky.DOM.querySingle("DIV.se2_conversion_mode", elAppContainer);
 		//@ec]
 		
-		this.welNoticeLayer = jindo.$Element(jindo.$$.getSingle("DIV.husky_seditor_resize_notice", elAppContainer));
+		this.welNoticeLayer = jindo.$Element(nhn.husky.DOM.querySingle("DIV.husky_seditor_resize_notice", elAppContainer));
 		this.welConversionMode = jindo.$Element(this.oResizeGrip.parentNode);
 	},
 	

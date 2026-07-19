@@ -33,10 +33,10 @@ nhn.husky.SE2M_EditingModeChanger = nhn.husky.createClass({
 		elAppContainer = nhn.husky.DOM.getElement(elAppContainer) || document;
 
 		//@ec[
-		this.elWYSIWYGButton = jindo.$$.getSingle("BUTTON.se2_to_editor", elAppContainer);
-		this.elHTMLSrcButton = jindo.$$.getSingle("BUTTON.se2_to_html", elAppContainer);
-		this.elTEXTButton = jindo.$$.getSingle("BUTTON.se2_to_text", elAppContainer);
-		this.elModeToolbar = jindo.$$.getSingle("DIV.se2_conversion_mode", elAppContainer);		
+		this.elWYSIWYGButton = nhn.husky.DOM.querySingle("BUTTON.se2_to_editor", elAppContainer);
+		this.elHTMLSrcButton = nhn.husky.DOM.querySingle("BUTTON.se2_to_html", elAppContainer);
+		this.elTEXTButton = nhn.husky.DOM.querySingle("BUTTON.se2_to_text", elAppContainer);
+		this.elModeToolbar = nhn.husky.DOM.querySingle("DIV.se2_conversion_mode", elAppContainer);
 		//@ec]
 
 		this.welWYSIWYGButtonLi = jindo.$Element(this.elWYSIWYGButton.parentNode);

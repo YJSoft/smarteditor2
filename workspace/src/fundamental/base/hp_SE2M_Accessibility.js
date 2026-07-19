@@ -40,12 +40,12 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 	},          
 
 	_assignHTMLElements : function(elAppContainer){
-		this.elHelpPopupLayer = jindo.$$.getSingle("DIV.se2_accessibility", elAppContainer);
+		this.elHelpPopupLayer = nhn.husky.DOM.querySingle("DIV.se2_accessibility", elAppContainer);
 		this.welHelpPopupLayer = jindo.$Element(this.elHelpPopupLayer);	
 
 		//close buttons
-		this.oCloseButton = jindo.$$.getSingle("BUTTON.se2_close", this.elHelpPopupLayer);
-		this.oCloseButton2 = jindo.$$.getSingle("BUTTON.se2_close2", this.elHelpPopupLayer);
+		this.oCloseButton = nhn.husky.DOM.querySingle("BUTTON.se2_close", this.elHelpPopupLayer);
+		this.oCloseButton2 = nhn.husky.DOM.querySingle("BUTTON.se2_close2", this.elHelpPopupLayer);
 		
 		this.nDefaultTop = 150;
 		
@@ -375,7 +375,7 @@ nhn.husky.SE2M_Accessibility = nhn.husky.createClass({
 	},
 	
 	$ON_FOCUS_TOOLBAR_AREA : function(){
-		this.oButton = jindo.$$.getSingle("BUTTON.se2_font_family", this.elAppContainer);
+		this.oButton = nhn.husky.DOM.querySingle("BUTTON.se2_font_family", this.elAppContainer);
 		if(this.oButton && !this.oButton.disabled){	// [SMARTEDITORSUS-1369] IE9이하에서 disabled 요소에 포커스를 주면 오류 발생
 			window.focus();
 			this.oButton.focus();

@@ -29,11 +29,11 @@ nhn.husky.SE2M_FontSizeWithLayerUI = nhn.husky.createClass({
 	
 	_assignHTMLElements : function(elAppContainer){
 		//@ec
-		this.oDropdownLayer = jindo.$$.getSingle("DIV.husky_se_fontSize_layer", elAppContainer);
+		this.oDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se_fontSize_layer", elAppContainer);
 
 		//@ec[
-		this.elFontSizeLabel = jindo.$$.getSingle("SPAN.husky_se2m_current_fontSize", elAppContainer);
-		this.aLIFontSizes = Array.from(jindo.$$("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild != null);});
+		this.elFontSizeLabel = nhn.husky.DOM.querySingle("SPAN.husky_se2m_current_fontSize", elAppContainer);
+		this.aLIFontSizes = Array.from(nhn.husky.DOM.queryAll("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild != null);});
 		//@ec]
 		
 		this.sDefaultText = this.elFontSizeLabel.innerHTML;

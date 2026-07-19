@@ -162,7 +162,7 @@ nhn.husky.SE2M_Utils = {
 	 * @param {Element} el 태그제거를 제한할 상위 요소
 	 */
 	_removeInvalidFontInTable : function(el){
-		var aelFonts = jindo.$$("table font", el);
+		var aelFonts = nhn.husky.DOM.queryAll("table font", el);
 		for(var i = 0, elFont; (elFont = aelFonts[i]); i++){
 			this.removeInvalidNodeInTable(elFont);
 		}
@@ -173,7 +173,7 @@ nhn.husky.SE2M_Utils = {
 	 * @param {Element} el 태그제거를 제한할 상위 요소
 	 */
 	_removeEmptyFont : function(el){
-		var aelFonts = jindo.$$("font", el);
+		var aelFonts = nhn.husky.DOM.queryAll("font", el);
 		for(var i = 0, elFont, sInner; (elFont = aelFonts[i]); i++){
 			sInner = elFont.innerHTML || "";
 			sInner = sInner.replace(this._rxSpaceOnly, "");
@@ -194,7 +194,7 @@ nhn.husky.SE2M_Utils = {
 		}
 
 		var oDoc = el.ownerDocument || document;
-		var aelTarget = jindo.$$("font", el);
+		var aelTarget = nhn.husky.DOM.queryAll("font", el);
 
 		for(var i = 0, elTarget, elSpan, sAttrValue; (elTarget = aelTarget[i]); i++){
 			elSpan = elTarget.parentNode;
@@ -263,7 +263,7 @@ nhn.husky.SE2M_Utils = {
 	 * @param {String}	sTagName	제거 대상 태그명 (대문자)
 	 */
 	stripTags :function(el, sTagName){
-		var aelTarget = jindo.$$(sTagName, el);
+		var aelTarget = nhn.husky.DOM.queryAll(sTagName, el);
 		for(var i = 0, elTarget; (elTarget = aelTarget[i]); i++){
 			this.stripTag(elTarget);
 		}

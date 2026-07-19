@@ -29,47 +29,47 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	_assignHTMLObjects : function(){
 		this.oApp.exec("LOAD_HTML", ["qe_table"]);
 
-		this.elQELayer = jindo.$$.getSingle("DIV.q_table_wrap", this.oApp.htOptions.elAppContainer);
+		this.elQELayer = nhn.husky.DOM.querySingle("DIV.q_table_wrap", this.oApp.htOptions.elAppContainer);
 		this.elQELayer.style.zIndex = 150;
-		this.elBtnAddRowBelow = jindo.$$.getSingle("BUTTON.se2_addrow", this.elQELayer);
-		this.elBtnAddColumnRight = jindo.$$.getSingle("BUTTON.se2_addcol", this.elQELayer);
-		this.elBtnSplitRow = jindo.$$.getSingle("BUTTON.se2_seprow", this.elQELayer);
-		this.elBtnSplitColumn = jindo.$$.getSingle("BUTTON.se2_sepcol", this.elQELayer);
-		this.elBtnDeleteRow = jindo.$$.getSingle("BUTTON.se2_delrow", this.elQELayer);
-		this.elBtnDeleteColumn = jindo.$$.getSingle("BUTTON.se2_delcol", this.elQELayer);
-		this.elBtnMergeCell = jindo.$$.getSingle("BUTTON.se2_merrow", this.elQELayer);
-		this.elBtnBGPalette = jindo.$$.getSingle("BUTTON.husky_se2m_table_qe_bgcolor_btn", this.elQELayer);
-		this.elBtnBGIMGPalette = jindo.$$.getSingle("BUTTON.husky_se2m_table_qe_bgimage_btn", this.elQELayer);
+		this.elBtnAddRowBelow = nhn.husky.DOM.querySingle("BUTTON.se2_addrow", this.elQELayer);
+		this.elBtnAddColumnRight = nhn.husky.DOM.querySingle("BUTTON.se2_addcol", this.elQELayer);
+		this.elBtnSplitRow = nhn.husky.DOM.querySingle("BUTTON.se2_seprow", this.elQELayer);
+		this.elBtnSplitColumn = nhn.husky.DOM.querySingle("BUTTON.se2_sepcol", this.elQELayer);
+		this.elBtnDeleteRow = nhn.husky.DOM.querySingle("BUTTON.se2_delrow", this.elQELayer);
+		this.elBtnDeleteColumn = nhn.husky.DOM.querySingle("BUTTON.se2_delcol", this.elQELayer);
+		this.elBtnMergeCell = nhn.husky.DOM.querySingle("BUTTON.se2_merrow", this.elQELayer);
+		this.elBtnBGPalette = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_table_qe_bgcolor_btn", this.elQELayer);
+		this.elBtnBGIMGPalette = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_table_qe_bgimage_btn", this.elQELayer);
 
-		this.elPanelBGPaletteHolder = jindo.$$.getSingle("DIV.husky_se2m_tbl_qe_bg_paletteHolder", this.elQELayer);
-		this.elPanelBGIMGPaletteHolder = jindo.$$.getSingle("DIV.husky_se2m_tbl_qe_bg_img_paletteHolder", this.elQELayer);	
+		this.elPanelBGPaletteHolder = nhn.husky.DOM.querySingle("DIV.husky_se2m_tbl_qe_bg_paletteHolder", this.elQELayer);
+		this.elPanelBGIMGPaletteHolder = nhn.husky.DOM.querySingle("DIV.husky_se2m_tbl_qe_bg_img_paletteHolder", this.elQELayer);
 		
-		this.elPanelTableBGArea = jindo.$$.getSingle("DIV.se2_qe2", this.elQELayer);
-		this.elPanelTableTemplateArea = jindo.$$.getSingle("DL.se2_qe3", this.elQELayer);
-		this.elPanelReviewBGArea = jindo.$$.getSingle("DL.husky_se2m_tbl_qe_review_bg", this.elQELayer);	
+		this.elPanelTableBGArea = nhn.husky.DOM.querySingle("DIV.se2_qe2", this.elQELayer);
+		this.elPanelTableTemplateArea = nhn.husky.DOM.querySingle("DL.se2_qe3", this.elQELayer);
+		this.elPanelReviewBGArea = nhn.husky.DOM.querySingle("DL.husky_se2m_tbl_qe_review_bg", this.elQELayer);
 		
-		this.elPanelBGImg = jindo.$$.getSingle("DD", this.elPanelReviewBGArea);
+		this.elPanelBGImg = nhn.husky.DOM.querySingle("DD", this.elPanelReviewBGArea);
 		
 		this.welPanelTableBGArea = jindo.$Element(this.elPanelTableBGArea);
 		this.welPanelTableTemplateArea = jindo.$Element(this.elPanelTableTemplateArea);
 		this.welPanelReviewBGArea = jindo.$Element(this.elPanelReviewBGArea);
 		
-		//		this.elPanelReviewBtnArea = jindo.$$.getSingle("DIV.se2_btn_area", this.elQELayer); 	//My리뷰 버튼 레이어
-		this.elPanelDim1 = jindo.$$.getSingle("DIV.husky_se2m_tbl_qe_dim1", this.elQELayer);
-		this.elPanelDim2 = jindo.$$.getSingle("DIV.husky_se2m_tbl_qe_dim2", this.elQELayer);
-		this.elPanelDimDelCol = jindo.$$.getSingle("DIV.husky_se2m_tbl_qe_dim_del_col", this.elQELayer);
-		this.elPanelDimDelRow = jindo.$$.getSingle("DIV.husky_se2m_tbl_qe_dim_del_row", this.elQELayer);
+		//		this.elPanelReviewBtnArea = nhn.husky.DOM.querySingle("DIV.se2_btn_area", this.elQELayer); 	//My리뷰 버튼 레이어
+		this.elPanelDim1 = nhn.husky.DOM.querySingle("DIV.husky_se2m_tbl_qe_dim1", this.elQELayer);
+		this.elPanelDim2 = nhn.husky.DOM.querySingle("DIV.husky_se2m_tbl_qe_dim2", this.elQELayer);
+		this.elPanelDimDelCol = nhn.husky.DOM.querySingle("DIV.husky_se2m_tbl_qe_dim_del_col", this.elQELayer);
+		this.elPanelDimDelRow = nhn.husky.DOM.querySingle("DIV.husky_se2m_tbl_qe_dim_del_row", this.elQELayer);
 		
-		this.elInputRadioBGColor = jindo.$$.getSingle("INPUT.husky_se2m_radio_bgc", this.elQELayer);		
-		this.elInputRadioBGImg = jindo.$$.getSingle("INPUT.husky_se2m_radio_bgimg", this.elQELayer);		
+		this.elInputRadioBGColor = nhn.husky.DOM.querySingle("INPUT.husky_se2m_radio_bgc", this.elQELayer);
+		this.elInputRadioBGImg = nhn.husky.DOM.querySingle("INPUT.husky_se2m_radio_bgimg", this.elQELayer);
 		
-		this.elSelectBoxTemplate = jindo.$$.getSingle("DIV.se2_select_ty2", this.elQELayer);
-		this.elInputRadioTemplate = jindo.$$.getSingle("INPUT.husky_se2m_radio_template", this.elQELayer);
-		this.elPanelQETemplate = jindo.$$.getSingle("DIV.se2_layer_t_style", this.elQELayer);
-		this.elBtnQETemplate = jindo.$$.getSingle("BUTTON.husky_se2m_template_more", this.elQELayer);
-		this.elPanelQETemplatePreview = jindo.$$.getSingle("SPAN.se2_t_style1", this.elQELayer);
+		this.elSelectBoxTemplate = nhn.husky.DOM.querySingle("DIV.se2_select_ty2", this.elQELayer);
+		this.elInputRadioTemplate = nhn.husky.DOM.querySingle("INPUT.husky_se2m_radio_template", this.elQELayer);
+		this.elPanelQETemplate = nhn.husky.DOM.querySingle("DIV.se2_layer_t_style", this.elQELayer);
+		this.elBtnQETemplate = nhn.husky.DOM.querySingle("BUTTON.husky_se2m_template_more", this.elQELayer);
+		this.elPanelQETemplatePreview = nhn.husky.DOM.querySingle("SPAN.se2_t_style1", this.elQELayer);
 		
-		this.aElBtn_tableStyle = jindo.$$("BUTTON", this.elPanelQETemplate);
+		this.aElBtn_tableStyle = nhn.husky.DOM.queryAll("BUTTON", this.elPanelQETemplate);
 		for(var i = 0; i < this.aElBtn_tableStyle.length; i++){
 			this.oApp.registerBrowserEvent(this.aElBtn_tableStyle[i], "click", "TABLE_QE_SELECT_TEMPLATE");
 		}
@@ -853,7 +853,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			return;
 		}
 		
-		var aTR = jindo.$$(">TBODY>TR", this.elSelectionStartTable, {oneTimeOffCache:true});
+		var aTR = nhn.husky.DOM.queryAll(">TBODY>TR", this.elSelectionStartTable);
 		this._removeClassFromSelection();
 //top.document.title = this.htSelectionSPos.x+","+this.htSelectionSPos.y+"::"+this.htSelectionEPos.x+","+this.htSelectionEPos.y;
 
@@ -885,7 +885,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			}
 		}
 
-		aTR = jindo.$$(">TBODY>TR", this.elSelectionStartTable, {oneTimeOffCache:true});
+		aTR = nhn.husky.DOM.queryAll(">TBODY>TR", this.elSelectionStartTable);
 		
 		var htPos1, htPos2;
 		for(i = 0, nLen = this.aSelectedCells.length; i < nLen; i++){
@@ -1218,8 +1218,8 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	
 	_reassignCellSizes : function(elTable){
 		var allCells = new Array(2);
-		allCells[0] = jindo.$$(">TBODY>TR>TD", elTable, {oneTimeOffCache:true});
-		allCells[1] = jindo.$$(">TBODY>TR>TH", elTable, {oneTimeOffCache:true});
+		allCells[0] = nhn.husky.DOM.queryAll(">TBODY>TR>TD", elTable);
+		allCells[1] = nhn.husky.DOM.queryAll(">TBODY>TR>TH", elTable);
 		
 		var aAllCellsWithSizeInfo = new Array(allCells[0].length + allCells[1].length);
 		var numCells = 0;
@@ -1692,7 +1692,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			var _isFirstRow = false,
 			_elRow = this.htResizing.elCell.parentNode;
 			var _elTbody = _elRow.parentNode;
-			var _aRow = jindo.$$('tr', _elTbody, {oneTimeOffCache : true});
+			var _aRow = nhn.husky.DOM.queryAll('tr', _elTbody);
 			if(_aRow[0] == _elRow){
 				_isFirstRow = true;
 			}
@@ -1867,7 +1867,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		// [SMARTEDITORSUS-1504] gripper를 WYSIWYG 편집 영역 위치 정보에 기반하여 배치하도록 개선
 		//document.body.appendChild(this.elResizeGrid);
 		// document.body 대신 WYSIWYG 편집 영역을 둘러싼 container div에 추가
-		var oContainer = jindo.$$.getSingle(".husky_seditor_editing_area_container");
+		var oContainer = nhn.husky.DOM.querySingle(".husky_seditor_editing_area_container");
 		oContainer.appendChild(this.elResizeGrid);
 		// --[SMARTEDITORSUS-1504]
 	},
@@ -1900,7 +1900,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			elTmp.parentNode.removeChild(elTmp);
 		}
 
-		var aTR = jindo.$$(">TBODY>TR", this.elSelectionStartTable, {oneTimeOffCache:true});
+		var aTR = nhn.husky.DOM.queryAll(">TBODY>TR", this.elSelectionStartTable);
 		var nSelectionWidth = this.htSelectionEPos.x - this.htSelectionSPos.x + 1;
 		var nWidth = this.htMap.length;
 		if(nSelectionWidth == nWidth){
@@ -1920,7 +1920,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 				}
 			}
 
-			aTR = jindo.$$(">TBODY>TR", this.elSelectionStartTable, {oneTimeOffCache:true});
+			aTR = nhn.husky.DOM.queryAll(">TBODY>TR", this.elSelectionStartTable);
 		}
 
 		if(aTR.length < 1){
@@ -1934,7 +1934,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		this._removeClassFromSelection();
 		this._hideTableTemplate(this.elSelectionStartTable);
 
-		var aTR = jindo.$$(">TBODY>TR", this.elSelectionStartTable, {oneTimeOffCache:true});
+		var aTR = nhn.husky.DOM.queryAll(">TBODY>TR", this.elSelectionStartTable);
 		// var sInserted;
 		var sTmpAttr_Inserted = "_tmp_inserted";
 		var elCell, elCellClone, elCurTR, elInsertionPt;
@@ -2025,7 +2025,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		var elRowClone;
 		var elTBody = this.htMap[0][0].parentNode.parentNode;
 		
-		var aTRs = jindo.$$(">TR", elTBody, {oneTimeOffCache:true});
+		var aTRs = nhn.husky.DOM.queryAll(">TR", elTBody);
 		var elInsertionPt = aTRs[this.htSelectionEPos.y + 1] || null;
 
 		// [SMARTEDITORSUS-991] IE는 insertionPt의 previousSibling에도 배경색을 적용해줘야 할 필요가 있음.
@@ -2152,7 +2152,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	},
 
 	_getCellMapping : function(elTable){
-		var aTR = jindo.$$(">TBODY>TR", elTable, {oneTimeOffCache:true});
+		var aTR = nhn.husky.DOM.queryAll(">TBODY>TR", elTable);
 		var nTD = 0;
 		var aTD_FirstRow = aTR[0].childNodes;
 /*
@@ -2490,7 +2490,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 		elTable.style.backgroundColor = "";
 		elTable.style.color = "";
 		
-		var aTD = jindo.$$(">TBODY>TR>TD", elTable, {oneTimeOffCache:true});
+		var aTD = nhn.husky.DOM.queryAll(">TBODY>TR>TD", elTable);
 		for(var i = 0, nLen = aTD.length; i < nLen; i++){
 			aTD[i].style.padding = "";
 			aTD[i].style.border = "";
@@ -2498,7 +2498,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			aTD[i].style.color = "";
 		}
 		// [SMARTEDITORSUS-1672]
-		var aTH = jindo.$$(">TBODY>TR>TH", elTable, {oneTimeOffCache:true});
+		var aTH = nhn.husky.DOM.queryAll(">TBODY>TR>TH", elTable);
 		for(i = 0, nLen = aTH.length; i < nLen; i++){
 			aTH[i].style.padding = "";
 			aTH[i].style.border = "";
@@ -2537,7 +2537,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 			this._copyStylesTo(elTable, htTableStyle, bClearStyle);
 		}
 
-		var aTR = jindo.$$(">TBODY>TR", elTable, {oneTimeOffCache:true});
+		var aTR = nhn.husky.DOM.queryAll(">TBODY>TR", elTable);
 
 		var nStartRowNum = 0;
 		if(ht1stRowStyle){

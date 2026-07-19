@@ -189,11 +189,11 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 	},
 
 	_assignHTMLElements : function(elAppContainer){
-		this.elEditingAreaContainer = jindo.$$.getSingle("DIV.husky_seditor_editing_area_container", elAppContainer);
+		this.elEditingAreaContainer = nhn.husky.DOM.querySingle("DIV.husky_seditor_editing_area_container", elAppContainer);
 
 		// [SMARTEDITORSUS-2036] 로딩 레이어는 하위 호환을 위해 마크업이 존재하는 경우만 동작하도록 한다.
 		var f = function(){};
-		this.elLoadingLayer = jindo.$$.getSingle(".se2_content_loading", elAppContainer);
+		this.elLoadingLayer = nhn.husky.DOM.querySingle(".se2_content_loading", elAppContainer);
 		if(!this.elLoadingLayer){
 			this.$ON_SHOW_LOADING_LAYER = f;
 			this.$ON_HIDE_LOADING_LAYER = f;
@@ -645,7 +645,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 		elBrParent;
 		
 		// br:last-child 탐색
-		aBr = jindo.$$('br:last-child', elBody, {oneTimeOffCache : true});
+		aBr = nhn.husky.DOM.queryAll('br:last-child', elBody);
 		for(var i = 0, len = aBr.length; i < len; i++){
 			elImg = null;
 			elBrParent = null;
@@ -676,7 +676,7 @@ nhn.husky.SE_EditingAreaManager = nhn.husky.createClass({
 				elImg = elImgContainer;
 			}else{
 				// previousSibling의 img:last-child 탐색
-				aImg = jindo.$$('img:last-child', elImgContainer, {oneTimeOffCache : true});
+				aImg = nhn.husky.DOM.queryAll('img:last-child', elImgContainer);
 				
 				// 가장 마지막 <img>가 고려 대상이다. 즉, <br> 바로 앞에 위치하고 있을 것으로 추정되는 img
 				if(aImg.length > 0){

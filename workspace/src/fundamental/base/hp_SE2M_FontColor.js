@@ -29,10 +29,10 @@ nhn.husky.SE2M_FontColor = nhn.husky.createClass({
 	
 	_assignHTMLElements : function(elAppContainer){
 		//@ec[
-		this.elLastUsed = jindo.$$.getSingle("SPAN.husky_se2m_fontColor_lastUsed", elAppContainer);
+		this.elLastUsed = nhn.husky.DOM.querySingle("SPAN.husky_se2m_fontColor_lastUsed", elAppContainer);
 
-		this.elDropdownLayer = jindo.$$.getSingle("DIV.husky_se2m_fontcolor_layer", elAppContainer);
-		this.elPaletteHolder = jindo.$$.getSingle("DIV.husky_se2m_fontcolor_paletteHolder", this.elDropdownLayer);
+		this.elDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se2m_fontcolor_layer", elAppContainer);
+		this.elPaletteHolder = nhn.husky.DOM.querySingle("DIV.husky_se2m_fontcolor_paletteHolder", this.elDropdownLayer);
 		//@ec]
 
 		this._setLastUsedFontColor("#000000");

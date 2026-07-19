@@ -12,6 +12,13 @@ describe("DOM helper", () => {
         expect(created.tagName).toBe("SPAN");
         expect(created.textContent).toBe("created");
 
+        const list = document.createElement("div");
+        list.innerHTML = "<div><span class='first'></span><span class='second'></span></div>";
+        expect(nhn.husky.DOM.queryAll(">div>span", list)).toHaveLength(2);
+        expect(nhn.husky.DOM.querySingle("span.second", list).className).toBe("second");
+        list.firstChild.appendChild(document.createElement("span"));
+        expect(nhn.husky.DOM.queryAll(">div>span", list)).toHaveLength(3);
+
         element.remove();
     });
 });

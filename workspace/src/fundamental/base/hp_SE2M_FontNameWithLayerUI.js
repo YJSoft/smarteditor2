@@ -120,15 +120,15 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 	
 	_assignHTMLElements : function(elAppContainer){
 		//@ec[
-		this.oDropdownLayer = jindo.$$.getSingle("DIV.husky_se_fontName_layer", elAppContainer);
+		this.oDropdownLayer = nhn.husky.DOM.querySingle("DIV.husky_se_fontName_layer", elAppContainer);
 
-		this.elFontNameLabel = jindo.$$.getSingle("SPAN.husky_se2m_current_fontName", elAppContainer);
+		this.elFontNameLabel = nhn.husky.DOM.querySingle("SPAN.husky_se2m_current_fontName", elAppContainer);
 
-		this.elFontNameList = jindo.$$.getSingle("UL", this.oDropdownLayer);
+		this.elFontNameList = nhn.husky.DOM.querySingle("UL", this.oDropdownLayer);
 		this.elInnerLayer = this.elFontNameList.parentNode;
-		this.aelFontInMarkup = jindo.$$("LI", this.oDropdownLayer);	// 마크업에 있는 LI
+		this.aelFontInMarkup = nhn.husky.DOM.queryAll("LI", this.oDropdownLayer);	// 마크업에 있는 LI
 		this.elFontItemTemplate = this.aelFontInMarkup.shift();		// 맨앞에 있는 LI 는 템플릿
-		this.aLIFontNames = Array.from(jindo.$$("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild !== null);});
+		this.aLIFontNames = Array.from(nhn.husky.DOM.queryAll("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild !== null);});
 		//@ec]
 		
 		this.sDefaultText = this.elFontNameLabel.innerHTML;
