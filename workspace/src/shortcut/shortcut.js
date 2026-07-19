@@ -48,13 +48,15 @@ Shortcut.Store = {
 	searchId:function(sId,oElement){
 		// [SMARTEDITORSUS-2103]
 		var isElementInData = false;
-		jindo.$H(this.datas).forEach(function(oValue,sKey){
+		Object.keys(this.datas).some(function(sKey){
+			var oValue = this.datas[sKey];
 			if(oElement == oValue.element){
 				sId = sKey;
 				isElementInData = true;
-				jindo.$H.Break();
+				return true;
 			}
-		});
+			return false;
+		}, this);
 
 		/*
 		 * element context는 서로 다르지만
@@ -97,7 +99,7 @@ Shortcut.Store = {
 		delete this.datas[sId];
 	},
 	allReset: function(){
-		jindo.$H(this.datas).forEach((function(value,key) {
+		Object.keys(this.datas).forEach((function(key) {
 			this.reset(key); 
 		}).bind(this));
 	}
@@ -155,7 +157,7 @@ Shortcut.Data = nhn.husky.createClass({
 		var data = this.keys[sRawKey];
 		
 		if(staticFun.notCommonException(weEvent,data.commonExceptions)){
-			jindo.$A(data.events).forEach(function(v){
+			data.events.some(function(v){
 				if(data.stopDefalutBehavior){
 					var leng = v.exceptions.length;
 					if(leng){
@@ -169,13 +171,14 @@ Shortcut.Data = nhn.husky.createClass({
 							v.event(weEvent);
 							weEvent.stop();
 						}else{
-							jindo.$A.Break();
+							return true;
 						}
 					}else{
 						v.event(weEvent);
 						weEvent.stop();
 					}
 				}
+				return false;
 			});
 		}
 	},
@@ -197,16 +200,16 @@ Shortcut.Data = nhn.husky.createClass({
 	removeException:function(fpException,sRawKey){
 		// TODO: 이게 대체 뭘하는 걸까???
 		var commonExceptions = this.keys[sRawKey].commonExceptions;
-		jindo.$A(commonExceptions).filter(function(exception){
+		this.keys[sRawKey].commonExceptions = commonExceptions.filter(function(exception){
 			return exception!=fpException;
-		}).$value();
+		});
 	},
 	removeEvent:function(fpEvent,sRawKey){
 		// TODO: 이게 대체 뭘하는 걸까???
 		var events = this.keys[sRawKey].events;
-		jindo.$A(events).filter(function(event) {
+		this.keys[sRawKey].events = events.filter(function(event) {
 			return event!=fpEvent;
-		}).$value();
+		});
 		this.unRegister(sRawKey);
 	},
 	unRegister:function(sRawKey){
@@ -241,19 +244,19 @@ Shortcut.Data = nhn.husky.createClass({
 Shortcut.Helper = {
 	keyInterpretor:function(sKey){
 		var keyArray = sKey.split("+");
-		var wKeyArray = jindo.$A(keyArray);
+		var wKeyArray = keyArray;
 		
 		var returnVal = "";
 		
-		returnVal += wKeyArray.has("alt")?"1":"0";
-		returnVal += wKeyArray.has("ctrl")?"1":"0";
-		returnVal += wKeyArray.has("meta")?"1":"0";
-		returnVal += wKeyArray.has("shift")?"1":"0";
+		returnVal += wKeyArray.includes("alt")?"1":"0";
+		returnVal += wKeyArray.includes("ctrl")?"1":"0";
+		returnVal += wKeyArray.includes("meta")?"1":"0";
+		returnVal += wKeyArray.includes("shift")?"1":"0";
 		
 		wKeyArray = wKeyArray.filter(function(v){
 			return !(v=="alt"||v=="ctrl"||v=="meta"||v=="shift")
 		});
-		var key = wKeyArray.$value()[0];
+		var key = wKeyArray[0];
 		
 		if(key){
 			

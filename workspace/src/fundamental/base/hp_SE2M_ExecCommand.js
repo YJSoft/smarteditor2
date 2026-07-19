@@ -477,7 +477,7 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 			return;
 		}
 		
-		var waBeforeBRs = jindo.$A(this.aBeforeBRs),
+		var waBeforeBRs = this.aBeforeBRs,
 			i, iLen = this.aBRs.length;
 		
 		for(i=iLen-1; i>=0; i--){
@@ -858,13 +858,13 @@ nhn.husky.SE2M_ExecCommand = nhn.husky.createClass({
 			return;
 		}
 
-		aChildImg = jindo.$A(oStartContainer.childNodes).filter(function(value){
+		aChildImg = Array.from(oStartContainer.childNodes).filter(function(value){
 			return (value.nodeType === 1 && value.tagName === "IMG");
-		}).$value();
+		});
 		
-		aSelectedImg = jindo.$A(oSelection.getNodes()).filter(function(value){
+		aSelectedImg = oSelection.getNodes().filter(function(value){
 			return (value.nodeType === 1 && value.tagName === "IMG");
-		}).$value();
+		});
 		
 		if(aChildImg.length <= aSelectedImg.length){
 			return;

@@ -33,7 +33,7 @@ nhn.husky.SE2M_FontSizeWithLayerUI = nhn.husky.createClass({
 
 		//@ec[
 		this.elFontSizeLabel = jindo.$$.getSingle("SPAN.husky_se2m_current_fontSize", elAppContainer);
-		this.aLIFontSizes = jindo.$A(jindo.$$("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild != null);})._array;
+		this.aLIFontSizes = Array.from(jindo.$$("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild != null);});
 		//@ec]
 		
 		this.sDefaultText = this.elFontSizeLabel.innerHTML;

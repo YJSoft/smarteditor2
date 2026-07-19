@@ -78,10 +78,10 @@ nhn.husky.PopUpManager.getInstance = function(oApp) {
 		
 		this._instance = new (function(){
 			
-			this._whtPluginWin = new jindo.$H();
-			this._whtPlugin = new jindo.$H();
+			this._whtPluginWin = Object.create(null);
+			this._whtPlugin = Object.create(null);
 			this.addPlugin = function(sKey, vValue){
-				this._whtPlugin.add(sKey, vValue);
+				this._whtPlugin[sKey] = vValue;
 			};
 			
 			this.getPlugin = function() {
@@ -122,25 +122,27 @@ nhn.husky.PopUpManager.getInstance = function(oApp) {
 				}
 				
 				this.removePluginWin(win);
-				this._whtPluginWin.add(this.getCorrectKey(this._whtPlugin, op.oApp), win);
+				this._whtPluginWin[this.getCorrectKey(this._whtPlugin, op.oApp)] = win;
 
 				return win;
 			};
 			this.getCorrectKey = function(whtData, oCompare) {
 				var key = null;
-				whtData.forEach(function(v,k){
-					if (v == oCompare) { 
-						key = k; 
-						return; 
+				Object.keys(whtData).some(function(k){
+					if (whtData[k] == oCompare) {
+						key = k;
+						return true;
 					}
+					return false;
 				});
 				return key;
 			};
 			this.removePluginWin = function(vValue) {
-				var list = this._whtPluginWin.search(vValue);
-				if (list) {
-					this._whtPluginWin.remove(list);
-					this.removePluginWin(vValue);
+				var aKeys = Object.keys(this._whtPluginWin);
+				for(var i = 0; i < aKeys.length; i++) {
+					if(this._whtPluginWin[aKeys[i]] === vValue){
+						delete this._whtPluginWin[aKeys[i]];
+					}
 				}
 			}
 		})();
@@ -158,10 +160,10 @@ nhn.husky.PopUpManager.getInstance = function(oApp) {
  * @param {Object} oData	응답 데이타
  */
 nhn.husky.PopUpManager.setCallback = function(oOpenWin, sMsg, oData) {
-	if (this._instance.getPluginWin().hasValue(oOpenWin)) {
+	if (Object.keys(this._instance.getPluginWin()).some(function(sKey){return this._instance.getPluginWin()[sKey] === oOpenWin;}, this)) {
 		var key = this._instance.getCorrectKey(this._instance.getPluginWin(), oOpenWin);
 		if (key) {
-			this._instance.getPlugin().$(key).exec(sMsg, oData);
+			this._instance.getPlugin()[key].exec(sMsg, oData);
 		}
 	}
 };
@@ -171,11 +173,10 @@ nhn.husky.PopUpManager.setCallback = function(oOpenWin, sMsg, oData) {
  * @param 
  */
 nhn.husky.PopUpManager.getFunc = function(oOpenWin, sFunc) {
-	if (this._instance.getPluginWin().hasValue(oOpenWin)) {
+	if (Object.keys(this._instance.getPluginWin()).some(function(sKey){return this._instance.getPluginWin()[sKey] === oOpenWin;}, this)) {
 		var key = this._instance.getCorrectKey(this._instance.getPluginWin(), oOpenWin);
 		if (key) {
-			return this._instance.getPlugin().$(key)[sFunc]();
+			return this._instance.getPlugin()[key][sFunc]();
 		}
 	}
 };
-

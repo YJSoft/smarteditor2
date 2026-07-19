@@ -485,11 +485,10 @@ ellipsisElementsToDesinatedWidth([jindo.$("c"), jindo.$("b"), jindo.$("a")], "..
 });
 	 */
 	ellipsisElementsToDesinatedWidth : function(aElement, sStringTail, aMinWidth, fCondition) {
-		jindo.$A(aElement).forEach(function(el, i){
-			if (!el) {
-				jindo.$A.Continue();
+		Array.from(aElement).forEach(function(el, i){
+			if (el) {
+				nhn.husky.SE2M_Utils.ellipsisByPixel(el, sStringTail, aMinWidth[i], fCondition);
 			}
-			nhn.husky.SE2M_Utils.ellipsisByPixel(el, sStringTail, aMinWidth[i], fCondition);
 		});
 	},
 	
@@ -588,14 +587,14 @@ getFilteredHashTable({
 			return arguments.callee.call(this, htUnfiltered, [ vKey ]);
 		}
 		
-		var waKey = jindo.$A(vKey);
-		return jindo.$H(htUnfiltered).filter(function(vValue, sKey){
-			if (waKey.has(sKey) && vValue) {
-				return true;
-			} else {
-				return false;
+		var oFiltered = {};
+		var aKeys = vKey;
+		Object.keys(htUnfiltered).forEach(function(sKey){
+			if (aKeys.indexOf(sKey) !== -1 && htUnfiltered[sKey]) {
+				oFiltered[sKey] = htUnfiltered[sKey];
 			}
-		}).$value();
+		});
+		return oFiltered;
 	},
 	
 	isBlankNode : function(elNode){

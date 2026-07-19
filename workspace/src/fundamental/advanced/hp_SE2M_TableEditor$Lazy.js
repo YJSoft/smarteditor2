@@ -913,7 +913,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 
 			//var elTRInsertTo = elCurCell.parentNode;
 			//for(var ii=0; ii<nNewSpan; ii++) elTRInsertTo = elTRInsertTo.nextSibling;
-			var nTRIdx = jindo.$A(aTR).indexOf(elCurCell.parentNode);
+			var nTRIdx = Array.from(aTR).indexOf(elCurCell.parentNode);
 			var nNextTRIdx = parseInt(nTRIdx, 10)+parseInt(nNewSpan, 10);
 			var elTRInsertTo = aTR[nNextTRIdx];
 
@@ -2095,7 +2095,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 	},
 
 	_updateSelection : function(){
-		this.aSelectedCells = jindo.$A(this.aSelectedCells).filter(function(v){return (v.parentNode!==null && v.parentNode.parentNode!==null);}).$value();
+		this.aSelectedCells = this.aSelectedCells.filter(function(v){return (v.parentNode!==null && v.parentNode.parentNode!==null);});
 	},
 	
 	_startCellSelection : function(){
@@ -2429,7 +2429,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_TableEditor, {
 
 		for(var y = y1; y <= y2; y++){
 			for(var x = x1; x <= x2; x++){
-				if(jindo.$A(aResult).has(this.htMap[x][y])){
+				if(aResult.includes(this.htMap[x][y])){
 					continue;
 				}
 				aResult[aResult.length] = this.htMap[x][y];

@@ -204,7 +204,7 @@ jQuery Event의 대응값은 `target`, `currentTarget`, `relatedTarget`, `pageX`
 
 현재 HuskyCore에는 editor 전체를 폐기하는 destroy lifecycle이 없다. 따라서 기존 lifetime을 유지하면서 등록별 `detach()` 핸들만 제공한다. 향후 destroy API를 추가할 때는 이 핸들을 core가 수집해 일괄 해제하는 방식으로 확장하고, 전역 event registry는 만들지 않는다.
 
-MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로, 중앙 경계 밖 browser event는 `HuskyEvent.createHandler()`와 jQuery `.on()`/`.off()`로 전환했다. attach와 detach가 같은 handler reference를 사용하도록 정리했으며, 지원하지 않는 IE 전용 direct event 경로는 제거했다. MIG-025에서는 browser·OS capability를 [`BrowserCapabilities.js`](../../src/husky_framework/BrowserCapabilities.js)로 중앙화해 `$Agent` 호출을 제거했다. 활성 runtime source와 service의 `jindo.$Fn`, `jindo.$Agent` 참조는 0개이고 migration guard가 재도입을 금지한다.
+MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`로, 중앙 경계 밖 browser event는 `HuskyEvent.createHandler()`와 jQuery `.on()`/`.off()`로 전환했다. attach와 detach가 같은 handler reference를 사용하도록 정리했으며, 지원하지 않는 IE 전용 direct event 경로는 제거했다. MIG-025에서는 browser·OS capability를 [`BrowserCapabilities.js`](../../src/husky_framework/BrowserCapabilities.js)로 중앙화해 `$Agent` 호출을 제거했다. MIG-035/036에서는 Array/Hash wrapper를 native Array와 `Object.create(null)` 자료구조로 전환했다. 활성 runtime source와 service의 `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H` 참조는 0개이고 migration guard가 재도입을 금지한다.
 
 ### 6.3 selector 차이
 
@@ -244,7 +244,7 @@ MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.proto
 
 ### 6.6 Array와 Hash wrapper
 
-`$A`는 native Array와 다른 다음 동작을 사용한다.
+MIG-035에서 `$A` 사용부는 native Array와 `Array.from()`으로 전환했다. 기존 코드가 의존하던 다음 동작은 전환 시 명시적인 흐름과 표준 메서드로 대체했다.
 
 - `$A.Break()`와 `$A.Continue()`
 - `.refuse()`
@@ -253,7 +253,7 @@ MIG-024에서 event가 아닌 callback의 `$Fn.bind()`는 native `Function.proto
 - `._array` 직접 접근
 - filter 결과에서 `$value()` 호출
 
-`$H`는 object iteration 외에 `add`, `search`, `remove`, `hasValue`, `$(key)`를 사용한다. 특히 [`hp_PopupManager.js`](../../src/util/hp_PopupManager.js)는 value에서 key를 역검색한다. 기계적인 `Object` 치환보다 자료구조별 의도를 먼저 정리해야 한다.
+MIG-036에서 `$H`는 제거했다. Shortcut은 `Object.keys()` 순회로, [`hp_PopupManager.js`](../../src/util/hp_PopupManager.js)의 plugin/window registry는 prototype 없는 plain object와 명시적인 value-to-key 검색으로 전환했다.
 
 ### 6.7 Ajax와 JSONP
 

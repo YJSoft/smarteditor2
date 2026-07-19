@@ -1154,7 +1154,7 @@ nhn.husky.SE_EditingArea_WYSIWYG = nhn.husky.createClass({
 		
 		var aEl = jindo.$$("p:empty()", this.oApp.getWYSIWYGDocument().body, { oneTimeOffCache:true });
 		
-		jindo.$A(aEl).forEach(function(value) {
+		Array.from(aEl).forEach(function(value) {
 			value.innerHTML = "&nbsp;";
 		});
 	},

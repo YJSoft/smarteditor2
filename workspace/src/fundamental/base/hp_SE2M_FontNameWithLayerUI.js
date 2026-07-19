@@ -128,7 +128,7 @@ nhn.husky.SE2M_FontNameWithLayerUI = nhn.husky.createClass({
 		this.elInnerLayer = this.elFontNameList.parentNode;
 		this.aelFontInMarkup = jindo.$$("LI", this.oDropdownLayer);	// 마크업에 있는 LI
 		this.elFontItemTemplate = this.aelFontInMarkup.shift();		// 맨앞에 있는 LI 는 템플릿
-		this.aLIFontNames = jindo.$A(jindo.$$("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild !== null);})._array;
+		this.aLIFontNames = Array.from(jindo.$$("LI", this.oDropdownLayer)).filter(function(v){return (v.firstChild !== null);});
 		//@ec]
 		
 		this.sDefaultText = this.elFontNameLabel.innerHTML;

@@ -28,14 +28,14 @@ nhn.husky.HuskyCore.mixin(nhn.husky.DialogLayerManager, {
 		
 		if(!elLayer){return;}
 
-		if(jindo.$A(this.aOpenedLayers).has(elLayer)){return;}
+		if(this.aOpenedLayers.includes(elLayer)){return;}
 
 		this.oApp.exec("POSITION_DIALOG_LAYER", [elLayer]);
 		
 		this.aOpenedLayers[this.aOpenedLayers.length] = elLayer;
 
 		var oDraggableLayer;
-		var nIdx = jindo.$A(this.aMadeDraggable).indexOf(elLayer);
+		var nIdx = this.aMadeDraggable.indexOf(elLayer);
 
 		if(nIdx == -1){
 			oDraggableLayer = new nhn.DraggableLayer(elLayer, htOptions);
@@ -68,11 +68,11 @@ nhn.husky.HuskyCore.mixin(nhn.husky.DialogLayerManager, {
 		elLayer = jindo.$(elLayer);
 
 		if(elLayer){elLayer.style.display = "none";}
-		this.aOpenedLayers = jindo.$A(this.aOpenedLayers).refuse(elLayer).$value();
+		this.aOpenedLayers = this.aOpenedLayers.filter(function(elOpenedLayer){return elOpenedLayer !== elLayer;});
 	},
 
 	$ON_TOGGLE_DIALOG_LAYER : function(elLayer, htOptions){
-		if(jindo.$A(this.aOpenedLayers).indexOf(elLayer)){
+		if(this.aOpenedLayers.includes(elLayer)){
 			this.oApp.exec("SHOW_DIALOG_LAYER", [elLayer, htOptions]);
 		}else{
 			this.oApp.exec("HIDE_DIALOG_LAYER", [elLayer]);

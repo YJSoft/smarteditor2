@@ -144,8 +144,8 @@ nhn.husky.SE2M_Hyperlink = nhn.husky.createClass({
 		var oTmpRange = this.oApp.getEmptySelection();
 		var elFirstNode = oTmpRange._getFirstRealChild(oCopyNode);
 		var elLastNode = oTmpRange._getLastRealChild(oCopyNode);
-		var waAllNodes = jindo.$A(oTmpRange._getNodesBetween(elFirstNode, elLastNode));
-		var aAllTextNodes = waAllNodes.filter(function(elNode){return (elNode && elNode.nodeType === 3);}).$value();
+		var waAllNodes = oTmpRange._getNodesBetween(elFirstNode, elLastNode);
+		var aAllTextNodes = waAllNodes.filter(function(elNode){return (elNode && elNode.nodeType === 3);});
 		var a = aAllTextNodes;
 		
 		/*

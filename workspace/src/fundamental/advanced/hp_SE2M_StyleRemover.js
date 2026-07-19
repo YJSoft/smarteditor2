@@ -208,7 +208,7 @@ nhn.husky.SE2M_StyleRemover = nhn.husky.createClass({
 	},
 	
 	_removeStyle : function(aNodes){
-		var arNodes = jindo.$A(aNodes);
+		var arNodes = Array.from(aNodes);
 		for(var i=0; i<aNodes.length; i++){
 			var oNode = aNodes[i];
 

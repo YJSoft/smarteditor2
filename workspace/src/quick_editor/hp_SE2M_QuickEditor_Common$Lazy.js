@@ -52,12 +52,12 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	 * @param {String} sType(img|table|review)
 	 */
 	$ON_OPEN_QE_LAYER : function(oEle,oLayer,sType){
-		if(this.waHotkeys.length() > 0 && !this.waHotkeyLayers.has(oLayer)){
+		if(this.waHotkeys.length > 0 && !this.waHotkeyLayers.includes(oLayer)){
 			this.waHotkeyLayers.push(oLayer);
 			
 			var aParam;
-			for(var i=0, nLen=this.waHotkeys.length(); i<nLen; i++){
-				aParam = this.waHotkeys.get(i);
+			for(var i=0, nLen=this.waHotkeys.length; i<nLen; i++){
+				aParam = this.waHotkeys[i];
 				this.oApp.exec("ADD_HOTKEY", [aParam[0], aParam[1], aParam[2], oLayer]);
 			}
 		}
@@ -236,7 +236,7 @@ nhn.husky.HuskyCore.mixin(nhn.husky.SE2M_QuickEditor_Common, {
 	get_type : function(oEle){
 		var tagName = oEle.tagName.toLowerCase();
 		
-		if(this.waTableTagNames.has(tagName)){
+		if(this.waTableTagNames.includes(tagName)){
 			return "table";
 		}else if(tagName=="img"){
 			return "img";

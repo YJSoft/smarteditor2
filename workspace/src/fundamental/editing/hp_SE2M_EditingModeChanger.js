@@ -111,9 +111,9 @@ nhn.husky.SE2M_EditingModeChanger = nhn.husky.createClass({
 	
 	$ON_DISABLE_ALL_UI : function(htOptions){
 		htOptions = htOptions || {};
-		var waExceptions = jindo.$A(htOptions.aExceptions || []);
+		var waExceptions = htOptions.aExceptions || [];
 
-		if(waExceptions.has("mode_switcher")){
+		if(waExceptions.includes("mode_switcher")){
 			return;
 		}
 		if(this.oApp.getEditingMode() == "WYSIWYG"){

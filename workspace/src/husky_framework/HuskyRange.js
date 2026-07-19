@@ -1685,7 +1685,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 
 		var oNode, oSpan;
 		var nInitialLength = aAllNodes.length;
-		var arAllBottomNodes = jindo.$A(aAllNodes).filter(function(v){return (!v.firstChild || (bIncludeLI && v.tagName=="LI"));});
+		var arAllBottomNodes = aAllNodes.filter(function(v){return (!v.firstChild || (bIncludeLI && v.tagName=="LI"));});
 
 		// [COM-1051] 본문내용을 한 줄만 입력하고 번호 매긴 상태에서 글자크기를 변경하면 번호크기는 변하지 않는 문제
 		// 부모 노드 중 LI 가 있고, 해당 LI 의 모든 자식 노드가 선택된 상태라면 LI에도 스타일을 적용하도록 처리함
@@ -1781,7 +1781,7 @@ nhn.HuskyRange = nhn.husky.createClass({
 	 * 컨테이너 엘리먼트(elContainer)의 모든 자식노드가 노드 배열(waAllNodes)에 속하는지 확인한다
 	 * 첫 번째 자식 노드와 마지막 자식 노드가 노드 배열에 속하는지를 확인한다
 	 * @param {Element}		elContainer	컨테이너 엘리먼트
-	 * @param {jindo.$A}	waAllNodes	Node 의 $A 배열
+	 * @param {Array}		waAllNodes	Node 배열
 	 * @param {Node}		[oNode] 성능을 위한 옵션 노드로 컨테이너의 첫 번째 혹은 마지막 자식 노드와 같으면 indexOf 함수 사용을 줄일 수 있음
 	 * @return {Array}	Style 을 적용할 노드 배열
 	 */

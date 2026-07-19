@@ -48,7 +48,7 @@ nhn.husky.SE2B_CSSLoader = nhn.husky.createClass({
 				var sMsg = this.aDelayedLoadTrigger[i];
 
 				this["$BEFORE_"+this.aDelayedLoadTrigger[i]] = (function(sMsg){
-					var aArgs = jindo.$A(arguments).$value();
+					var aArgs = Array.from(arguments);
 					aArgs = aArgs.splice(1, aArgs.length-1);
 					return this.loadSE2CSS(sMsg, aArgs);
 				}).bind(this, sMsg);

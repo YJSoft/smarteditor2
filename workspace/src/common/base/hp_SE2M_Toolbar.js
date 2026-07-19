@@ -269,10 +269,10 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 	
 		var sUIName;
 		htOptions = htOptions || {};
-		var waExceptions = jindo.$A(htOptions.aExceptions || []);
+		var waExceptions = htOptions.aExceptions || [];
 
 		for(sUIName in this.htUIList){
-			if(sUIName && !waExceptions.has(sUIName)){
+			if(sUIName && !waExceptions.includes(sUIName)){
 				this._enableUI(sUIName);
 			}
 //			if(sUIName) this.oApp.exec("ENABLE_UI", [sUIName]);
@@ -289,7 +289,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 		
 		var sUIName;
 		htOptions = htOptions || {};
-		var waExceptions = jindo.$A(htOptions.aExceptions || []);
+		var waExceptions = htOptions.aExceptions || [];
 		var bLeavlActiveLayer = htOptions.bLeaveActiveLayer || false;
 
 		if(!bLeavlActiveLayer){
@@ -297,7 +297,7 @@ nhn.husky.SE2M_Toolbar = nhn.husky.createClass({
 		}
 
 		for(sUIName in this.htUIList){
-			if(sUIName && !waExceptions.has(sUIName)){
+			if(sUIName && !waExceptions.includes(sUIName)){
 				this._disableUI(sUIName);
 			}
 //			if(sUIName) this.oApp.exec("DISABLE_UI", [sUIName]);

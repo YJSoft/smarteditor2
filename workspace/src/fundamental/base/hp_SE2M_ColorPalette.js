@@ -282,16 +282,9 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 	},
 	
 	_addRecentColor : function(sRGBCode){
-		var waRecentColor = jindo.$A(this.aRecentColor);
-				
-		waRecentColor = waRecentColor.refuse(sRGBCode);
+		var waRecentColor = this.aRecentColor.filter(function(sColorCode){return sColorCode !== sRGBCode;});
 		waRecentColor.unshift(sRGBCode);
-		
-		if(waRecentColor.length() > this.nLimitRecentColor){
-			waRecentColor.length(this.nLimitRecentColor);
-		}
-		
-		this.aRecentColor = waRecentColor.$value();
+		this.aRecentColor = waRecentColor.slice(0, this.nLimitRecentColor);
 	},
 	
 	_redrawRecentColorElement : function(){
@@ -362,13 +355,8 @@ nhn.husky.SE2M_ColorPalette = nhn.husky.createClass({
 			return;
 		}
 		
-		waColorList = jindo.$A(aColorList).filter(this._verifyColorCode, this);
-		
-		if(waColorList.length() > this.nLimitRecentColor){
-			waColorList.length(this.nLimitRecentColor);
-		}
-		
-		aColorList = waColorList.reverse().$value();
+		waColorList = aColorList.filter(this._verifyColorCode, this);
+		aColorList = waColorList.slice(0, this.nLimitRecentColor).reverse();
 
 		for(i = 0, nLen = aColorList.length; i < nLen; i++){
 			this._addRecentColor(this._getHexColorCode(aColorList[i]));

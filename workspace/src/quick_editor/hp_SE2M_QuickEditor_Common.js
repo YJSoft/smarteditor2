@@ -61,8 +61,8 @@ nhn.husky.SE2M_QuickEditor_Common = nhn.husky.createClass({
 	 * 초기 인스턴스 생성 실행되는 함수.
 	 */
 	$init : function() {
-		this.waHotkeys = new jindo.$A([]);
-		this.waHotkeyLayers = new jindo.$A([]);
+		this.waHotkeys = [];
+		this.waHotkeyLayers = [];
 	},
 	
 	$ON_MSG_APP_READY : function() {
@@ -161,7 +161,7 @@ nhn.husky.SE2M_QuickEditor_Common = nhn.husky.createClass({
 		};
 		
 		
-		this.waTableTagNames =jindo.$A(["table","tbody","td","tfoot","th","thead","tr"]);
+		this.waTableTagNames =["table","tbody","td","tfoot","th","thead","tr"];
 	},
 	
 	/**

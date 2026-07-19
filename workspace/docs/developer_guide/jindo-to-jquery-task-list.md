@@ -99,7 +99,7 @@
 - [ ] 최종 단계에서는 허용 수를 0으로 변경한다.
 - [ ] CHANGELOG의 역사적 문구는 runtime guard 대상에서 제외한다.
 
-현재 AST 기준 허용 상한은 `workspace/src` 440개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계와 browser capability 전환으로 306개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`는 한 건이라도 다시 추가되면 검사가 실패한다.
+현재 AST 기준 허용 상한은 `workspace/src` 390개, `workspace/static/js/service` 6개다. 분석 당시 source 기준 746개에서 IE8 경로, 53개 class 생성 지점, 중앙·직접 event 경계, browser capability와 Array/Hash 전환으로 356개가 감소했다. 총량 guard와 별도로 제거가 끝난 `jindo.$Class`, `jindo.$Event`, `jindo.$Fn`, `jindo.$Agent`, `jindo.$A`, `jindo.$H`는 한 건이라도 다시 추가되면 검사가 실패한다.
 
 권장 검사 범위:
 
@@ -309,13 +309,13 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-035 `$A` 제거
 
-- [ ] `forEach`, `filter`, `some`, `indexOf`를 native Array로 변경한다.
-- [ ] `$A.Break/Continue`를 `some`, loop, return 등 명시적인 흐름으로 변경한다.
-- [ ] `refuse`를 `filter`로 변경한다.
-- [ ] `has`를 `includes` 또는 `indexOf`로 변경한다.
-- [ ] `.length(newLength)`를 native length 대입으로 변경한다.
-- [ ] `._array`, `$value()` 접근을 제거한다.
-- [ ] array-like NodeList/arguments를 `Array.from` 또는 slice로 변환한다.
+- [x] `forEach`, `filter`, `some`, `indexOf`를 native Array로 변경한다.
+- [x] `$A.Break/Continue`를 `some`, loop, return 등 명시적인 흐름으로 변경한다.
+- [x] `refuse`를 `filter`로 변경한다.
+- [x] `has`를 `includes` 또는 `indexOf`로 변경한다.
+- [x] `.length(newLength)`를 native length 대입 또는 `slice`로 변경한다.
+- [x] `._array`, `$value()` 접근을 제거한다.
+- [x] array-like NodeList/arguments를 `Array.from` 또는 slice로 변환한다.
 
 완료 기준:
 
@@ -324,10 +324,10 @@ event가 아닌 callback의 `$Fn.bind()`는 native `Function.prototype.bind()`�
 
 ### MIG-036 `$H` 제거
 
-- [ ] Shortcut hash iteration을 native Object loop로 변경한다.
-- [ ] PopupManager의 value-to-key 역검색 자료구조를 정리한다.
-- [ ] `add`, `remove`, `search`, `hasValue`, `$(key)`를 제거한다.
-- [ ] Object와 `Map` 중 직렬화·키 타입에 맞는 자료구조를 선택한다.
+- [x] Shortcut hash iteration을 native Object loop로 변경한다.
+- [x] PopupManager의 value-to-key 역검색 자료구조를 plain object로 정리한다.
+- [x] `add`, `remove`, `search`, `hasValue`, `$(key)`를 제거한다.
+- [x] Object와 `Map` 중 직렬화·키 타입에 맞는 자료구조를 선택한다.
 
 완료 기준:
 
